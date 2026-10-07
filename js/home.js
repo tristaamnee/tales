@@ -18,8 +18,6 @@ loadTeam()
     // Xáo thứ tự ngẫu nhiên mỗi lần mở trang (bật bằng "shuffle": true trong content/team.json).
     const members = TEAM.shuffle ? shuffled(TEAM.members) : TEAM.members;
 
-    document.getElementById("team-count").textContent = `${TEAM.members.length} thành viên`;
-
     roster.innerHTML = members
       .map(
         (m, i) => `
