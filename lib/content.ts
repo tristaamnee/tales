@@ -40,6 +40,7 @@ export type Member = {
   role: string;
   color: string;
   tagline?: string;
+  quote?: string;
   photo?: string;
   style?: "default" | "finance" | "developer";
   draft?: boolean;

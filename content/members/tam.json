@@ -4,11 +4,11 @@
   "name": "Đặng Trí Tâm",
   "role": "Backend Developer",
   "tagline": "Thợ đụng chính hiệu: đụng gì làm nấy.",
+  "quote": "Đâu, vướng gì, nói đi.",
   "color": "#8cc9a0",
   "style": "developer",
   "bio": [
-    "Lập trình viên backend làm chính với Go, hiện tự làm các dự án cá nhân và đang học năm 2 tại UIT (hệ vừa học vừa làm).",
-    "“Đâu, vướng gì, nói đi.”"
+    "Lập trình viên backend làm chính với Go, hiện tự làm các dự án cá nhân và đang học năm 2 tại UIT (hệ vừa học vừa làm)."
   ],
   "education": [
     {

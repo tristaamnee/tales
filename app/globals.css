@@ -14,6 +14,7 @@
   --muted: #6e6e73;
   --hair: #d2d2d7;
   --tile: #1d1d1f;
+  --on-tile: #f5f5f7; /* chữ đặt trên ô ảnh (ô ảnh luôn tối) */
   --link: #0066cc;
   --bar: rgba(255, 255, 255, 0.8);
   --bar-line: rgba(0, 0, 0, 0.06);
@@ -40,6 +41,7 @@
     --muted: #98989d;
     --hair: #38383c;
     --tile: #1d1d1f;
+    --on-tile: #f5f5f7;
     --link: #2997ff;
     --bar: rgba(16, 16, 18, 0.72);
     --bar-line: rgba(255, 255, 255, 0.08);
@@ -57,6 +59,7 @@
   --muted: #98989d;
   --hair: #38383c;
   --tile: #1d1d1f;
+  --on-tile: #f5f5f7;
   --link: #2997ff;
   --bar: rgba(16, 16, 18, 0.72);
   --bar-line: rgba(255, 255, 255, 0.08);
@@ -312,6 +315,39 @@ img {
   transform: scale(1.03);
 }
 
+/* Câu nói của người đó hiện lên ở chân ảnh khi sáng lên; chân ảnh tối dần để chữ luôn đọc được (kể cả áo trắng) */
+.card-tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, color-mix(in srgb, var(--tile) 88%, transparent) 0%, transparent 38%);
+  opacity: 0;
+  transition: opacity 0.45s var(--ease);
+}
+
+.card.is-active .card-tile::after {
+  opacity: 1;
+}
+
+.card-quote {
+  position: absolute;
+  z-index: 1;
+  inset: auto 18px 16px;
+  color: var(--on-tile);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.4;
+  text-wrap: balance;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.45s var(--ease), transform 0.6s var(--ease);
+}
+
+.card.is-active .card-quote {
+  opacity: 1;
+  transform: none;
+}
+
 .roster.has-active .card:not(.is-active) .card-name {
   color: var(--muted);
 }
@@ -364,6 +400,11 @@ img {
 
   .card-role {
     font-size: 15px;
+  }
+
+  .card-quote {
+    inset: auto 22px 20px;
+    font-size: 17px;
   }
 }
 

@@ -107,6 +107,10 @@ export default function Roster({ members, ready, intro }: { members: MemberView[
             <span className="card-tile">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={m.photoSrc} alt="" width={900} height={1200} fetchPriority="high" />
+              {/* Câu nói hiện khi sáng lên; ai chưa có câu nói thì dùng slogan */}
+              {(m.quote || m.tagline) && (
+                <span className="card-quote">{m.quote ? `“${m.quote}”` : m.tagline}</span>
+              )}
             </span>
             <span className="card-name" title={m.name}>
               {m.name}
