@@ -18,6 +18,8 @@
   --bar: rgba(255, 255, 255, 0.8);
   --bar-line: rgba(0, 0, 0, 0.06);
   --accent: #ffffff;
+  --fin-ink: #173a63;
+  --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
 
   --font: "Be Vietnam Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
   --gutter: clamp(16px, 4vw, 48px);
@@ -39,6 +41,7 @@
     --link: #2997ff;
     --bar: rgba(16, 16, 18, 0.72);
     --bar-line: rgba(255, 255, 255, 0.08);
+    --fin-ink: #a9c3e8;
   }
 }
 
@@ -54,6 +57,7 @@
   --link: #2997ff;
   --bar: rgba(16, 16, 18, 0.72);
   --bar-line: rgba(255, 255, 255, 0.08);
+  --fin-ink: #a9c3e8;
 }
 
 *,
@@ -530,6 +534,8 @@ img {
 .stat {
   display: flex;
   flex-direction: column-reverse;
+  /* column-reverse: flex-end là phía trên, để các con số luôn thẳng hàng dù nhãn dài ngắn khác nhau */
+  justify-content: flex-end;
   gap: 4px;
 }
 
@@ -661,6 +667,323 @@ img {
 
   .work-date {
     padding-top: 0;
+  }
+}
+
+/* =========================================================
+   Các mục CV (dùng chung cho mọi người; mục nào có dữ liệu mới hiện)
+   ========================================================= */
+.draft-note {
+  width: var(--page);
+  margin: 20px auto 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.location {
+  color: var(--muted);
+}
+
+.contact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 28px;
+  margin-top: 24px;
+}
+
+.contact .socials {
+  margin: 0;
+}
+
+.cv-download {
+  display: inline-block;
+  padding: 8px 18px;
+  border-radius: 980px;
+  background: var(--link);
+  color: #fff;
+  font-size: 14px;
+  text-decoration: none;
+  transition: transform 0.2s var(--ease), opacity 0.2s var(--ease);
+}
+
+.cv-download:hover {
+  opacity: 0.88;
+}
+
+.cv-download:active {
+  transform: scale(0.97);
+}
+
+.cv {
+  width: var(--page);
+  margin: 0 auto;
+  padding-bottom: clamp(56px, 10vh, 112px);
+}
+
+.cv-section {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
+  gap: 16px 40px;
+  padding-block: 40px;
+  border-top: 1px solid var(--hair);
+}
+
+.cv-title {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.cv-body {
+  min-width: 0;
+}
+
+.entries {
+  display: grid;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.entry {
+  display: grid;
+  grid-template-columns: 11rem minmax(0, 1fr);
+  gap: 4px 28px;
+}
+
+.entry-when {
+  margin: 0;
+  padding-top: 0.15em;
+  font-size: 14px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.entry-sub {
+  display: block;
+  font-size: 13px;
+}
+
+.entry-body {
+  min-width: 0;
+  max-width: 66ch;
+}
+
+.entry-title {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+}
+
+.entry-org {
+  margin: 2px 0 0;
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+.entry-note {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.entry-points {
+  margin: 12px 0 0;
+  padding-left: 1.1em;
+  color: var(--ink-2);
+}
+
+.entry-points li {
+  margin-bottom: 6px;
+}
+
+.entry-points li::marker {
+  color: var(--muted);
+}
+
+.certs {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cert {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 2fr) 6rem;
+  gap: 4px 24px;
+  align-items: baseline;
+  padding-block: 12px;
+  border-bottom: 1px solid var(--hair);
+}
+
+.cert:first-child {
+  padding-top: 0;
+}
+
+.cert-name {
+  font-weight: 600;
+}
+
+.cert-issuer {
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+.cert-date {
+  font-size: 14px;
+  color: var(--muted);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.skill-groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 28px 40px;
+}
+
+.skill-group h3 {
+  margin: 0 0 6px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.skill-group ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.skill-group li {
+  padding-block: 7px;
+  border-bottom: 1px solid var(--hair);
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+@media (max-width: 860px) {
+  .cv-section {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .entry,
+  .cert {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cert-date {
+    text-align: left;
+  }
+}
+
+/* =========================================================
+   Phong cách theo ngành — Tài chính (data-style="finance")
+   Kiểu báo cáo thường niên: chữ có chân cho tiêu đề và số, xanh navy, đường kẻ mảnh,
+   ảnh hồ sơ nhỏ gọn, số liệu thẳng cột.
+   ========================================================= */
+[data-style="finance"] .profile-hero {
+  grid-template-columns: minmax(0, 3fr) minmax(0, 8fr);
+  align-items: start;
+  margin-top: clamp(24px, 5vh, 56px);
+  padding-top: clamp(28px, 4vh, 44px);
+  border-top: 3px solid var(--fin-ink);
+}
+
+[data-style="finance"] .portrait {
+  max-width: 300px;
+  border-radius: 8px;
+}
+
+[data-style="finance"] .role {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--fin-ink);
+}
+
+[data-style="finance"] .role .location {
+  font-weight: 400;
+}
+
+[data-style="finance"] .name,
+[data-style="finance"] .cv-title,
+[data-style="finance"] .stat dd,
+[data-style="finance"] .works h2 {
+  font-family: var(--serif);
+  letter-spacing: -0.01em;
+}
+
+[data-style="finance"] .name {
+  font-size: clamp(38px, 4.6vw, 60px);
+  font-weight: 600;
+  line-height: 1.12;
+}
+
+[data-style="finance"] .tagline {
+  max-width: 44ch;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(19px, 1.7vw, 22px);
+}
+
+[data-style="finance"] .cv-title {
+  font-size: 24px;
+  color: var(--fin-ink);
+}
+
+[data-style="finance"] .stats-band {
+  padding-block: 0 48px;
+  border-top: 0;
+}
+
+[data-style="finance"] .stats {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0 32px;
+}
+
+[data-style="finance"] .stat {
+  padding-top: 16px;
+  border-top: 1px solid var(--fin-ink);
+}
+
+[data-style="finance"] .stat dd {
+  font-size: clamp(34px, 3.4vw, 44px);
+  font-weight: 600;
+  color: var(--fin-ink);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+[data-style="finance"] .cv-download {
+  background: var(--fin-ink);
+  color: var(--canvas);
+}
+
+@media (max-width: 860px) {
+  [data-style="finance"] .profile-hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  [data-style="finance"] .portrait {
+    width: min(100%, 260px);
+  }
+}
+
+@media (max-width: 560px) {
+  [data-style="finance"] .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 20px;
+  }
+
+  [data-style="finance"] .stat dt {
+    font-size: 13px;
   }
 }
 

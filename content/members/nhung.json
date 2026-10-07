@@ -2,8 +2,87 @@
   "$schema": "../schema/member.schema.json",
   "id": "nhung",
   "name": "Trương Thị Hồng Nhung",
-  "role": "Kế toán",
+  "role": "Kế toán tổng hợp",
   "tagline": "Đang trên đường từ kế toán đến tài chính doanh nghiệp.",
   "color": "#86aee8",
-  "skills": ["Kế toán", "Tài chính doanh nghiệp"]
+  "style": "finance",
+  "draft": true,
+  "location": "TP. Hồ Chí Minh",
+  "bio": [
+    "Kế toán tổng hợp với hơn 4 năm kinh nghiệm tại doanh nghiệp sản xuất và công ty dịch vụ kế toán: lập báo cáo tài chính theo VAS, quyết toán thuế và chuẩn hoá quy trình đóng sổ.",
+    "Đang mở rộng sang tài chính doanh nghiệp: lập ngân sách, dự báo dòng tiền và phân tích hiệu quả chi phí để hỗ trợ ban giám đốc ra quyết định."
+  ],
+  "stats": [
+    { "value": "4+", "label": "Năm kinh nghiệm" },
+    { "value": "12", "label": "Doanh nghiệp đã phụ trách sổ sách" },
+    { "value": "6 ngày", "label": "Đóng sổ cuối tháng (trước đây 10 ngày)" },
+    { "value": "0", "label": "Sai sót trọng yếu qua các kỳ kiểm toán" }
+  ],
+  "experience": [
+    {
+      "company": "Công ty TNHH Sản xuất (mẫu)",
+      "title": "Kế toán tổng hợp",
+      "start": "2023-03",
+      "location": "TP. Hồ Chí Minh",
+      "highlights": [
+        "Lập báo cáo tài chính tháng, quý, năm theo VAS và báo cáo quản trị cho ban giám đốc.",
+        "Chuẩn hoá quy trình đóng sổ, rút thời gian từ 10 xuống 6 ngày làm việc.",
+        "Phụ trách quyết toán thuế TNDN, TNCN và làm việc với kiểm toán độc lập."
+      ]
+    },
+    {
+      "company": "Công ty Dịch vụ Kế toán (mẫu)",
+      "title": "Kế toán viên",
+      "start": "2021-07",
+      "end": "2023-02",
+      "location": "TP. Hồ Chí Minh",
+      "highlights": [
+        "Quản lý sổ sách và kê khai thuế định kỳ cho 12 doanh nghiệp vừa và nhỏ.",
+        "Đối chiếu công nợ, ngân hàng và hàng tồn kho hằng tháng."
+      ]
+    },
+    {
+      "company": "Công ty Kiểm toán (mẫu)",
+      "title": "Trợ lý kiểm toán (thực tập)",
+      "start": "2021-01",
+      "end": "2021-06",
+      "highlights": ["Hỗ trợ kiểm tra chi tiết khoản mục doanh thu, chi phí cho 5 khách hàng."]
+    }
+  ],
+  "education": [
+    {
+      "school": "Trường Đại học Kinh tế (mẫu)",
+      "degree": "Cử nhân Kế toán – Kiểm toán",
+      "start": "2017",
+      "end": "2021",
+      "note": "Tốt nghiệp loại Giỏi"
+    }
+  ],
+  "certifications": [
+    { "name": "ACCA", "issuer": "Hiệp hội Kế toán Công chứng Anh quốc", "status": "in-progress", "note": "Đã hoàn thành 6/13 môn" },
+    { "name": "Chứng chỉ Kế toán trưởng", "issuer": "Bộ Tài chính", "date": "2024", "status": "done" },
+    { "name": "IELTS 7.0", "issuer": "IDP", "date": "2022", "status": "done" }
+  ],
+  "skillGroups": [
+    {
+      "label": "Chuyên môn",
+      "items": [
+        "Lập báo cáo tài chính (VAS)",
+        "Quyết toán thuế TNDN, TNCN",
+        "Kê khai thuế GTGT",
+        "Lập ngân sách & dự báo dòng tiền",
+        "Phân tích biến động chi phí",
+        "Kiểm soát nội bộ"
+      ]
+    },
+    {
+      "label": "Phần mềm",
+      "items": ["Excel nâng cao (Power Query, PivotTable)", "MISA SME", "SAP Business One", "Power BI (cơ bản)"]
+    }
+  ],
+  "languages": [{ "name": "Tiếng Anh", "level": "Đọc hiểu báo cáo tài chính, giao tiếp công việc" }],
+  "socials": [
+    { "platform": "email", "url": "mailto:hongnhung@example.com" },
+    { "platform": "linkedin", "url": "https://www.linkedin.com/" }
+  ]
 }

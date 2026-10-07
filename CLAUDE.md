@@ -36,6 +36,12 @@ Mỗi lần sửa `content/` hoặc thêm ảnh: chạy validate trước khi co
 - Có chế độ ban đêm: mặc định theo máy, nút "Tự động / Sáng / Tối" lưu lựa chọn vào localStorage (`tales-theme`).
   Mọi màu phải lấy từ token trong `:root` (bản sáng) và được định nghĩa lại cho tối trong cả
   `@media (prefers-color-scheme: dark) :root:not([data-theme="light"])` lẫn `:root[data-theme="dark"]`.
+- Trang cá nhân có thể đổi phong cách theo ngành bằng `"style"` trong JSON (gắn `data-style` lên `<body>`):
+  `finance` = kiểu báo cáo thường niên/CV tài chính (chữ có chân Source Serif 4 cho tiêu đề và số, xanh navy
+  `--fin-ink`, đường kẻ mảnh, ảnh hồ sơ nhỏ). Phong cách mới: thêm vào enum `style` trong schema và một khối
+  `[data-style="…"]` trong CSS; chỉ ghi đè trình bày, không đổi cấu trúc dữ liệu.
+- Các mục CV (`experience`, `education`, `certifications`, `skillGroups`, `languages`, `cv`) dùng chung cho mọi người.
+  `"draft": true` = dữ liệu mẫu, trang hiện dòng "Nội dung mẫu…"; bỏ cờ này khi đã có thông tin thật.
 - Dấu chồng tiếng Việt (Ồ, Ấ, Ữ…) không được bị cắt: kiểm tra `line-height` khi đổi cỡ chữ tên nhiều dòng.
 - Màu mỗi thành viên: dịu, khác nhau rõ ràng. Không dùng mã màu Tailwind mặc định.
 - Ảnh gốc người dùng gửi trong chat nằm ở thư mục ảnh của phiên; copy vào `photos/<id>.jpg` rồi chạy `process_photos.py`.
