@@ -78,6 +78,12 @@ body {
   margin: 0;
 }
 
+/* Bỏ ô màu xanh trình duyệt điện thoại tô lên link khi vừa chạm (kể cả lúc chạm để cuộn);
+   thẻ đã tự sáng lên khi chạm, còn bàn phím vẫn có viền :focus-visible. */
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
 body {
   min-height: 100dvh;
   background: var(--canvas);
@@ -1044,8 +1050,10 @@ img {
     grid-template-columns: minmax(0, 1fr);
   }
 
+  /* Màn hẹp: ảnh xếp trên chữ nên cho rộng như các trang khác (điện thoại: hết chiều ngang) */
   [data-style="finance"] .portrait {
-    width: min(100%, 260px);
+    width: min(100%, 440px);
+    max-width: none;
   }
 }
 
