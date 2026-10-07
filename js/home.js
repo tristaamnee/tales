@@ -25,22 +25,59 @@
 
   const cards = [...roster.querySelectorAll(".card")];
 
+  let current = null;
+
   function activate(card) {
+    if (card === current) return;
+    current = card;
     cards.forEach((c) => c.classList.toggle("is-active", c === card));
     roster.classList.toggle("has-active", Boolean(card));
     document.body.style.setProperty("--glow", card ? card.style.getPropertyValue("--accent") : "transparent");
   }
 
-  // Chuột: hover để sáng, click để vào trang.
-  // Cảm ứng: chạm lần 1 để sáng, chạm lần 2 để vào trang.
+  // Màn hình hẹp (điện thoại): thẻ xếp dọc, cuộn tới thẻ nào thì thẻ đó sáng.
+  const stacked = window.matchMedia("(max-width: 760px)");
+
+  function lightCardAtCenter() {
+    const mid = window.innerHeight / 2;
+    let best = null;
+    let bestDist = Infinity;
+    for (const card of cards) {
+      const r = card.getBoundingClientRect();
+      const dist = Math.abs(r.top + r.height / 2 - mid);
+      if (dist < bestDist) {
+        bestDist = dist;
+        best = card;
+      }
+    }
+    activate(best);
+  }
+
+  let ticking = false;
+  function onScroll() {
+    if (!stacked.matches || ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      ticking = false;
+      lightCardAtCenter();
+    });
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  stacked.addEventListener("change", () => (stacked.matches ? lightCardAtCenter() : activate(null)));
+  if (stacked.matches) lightCardAtCenter();
+
+  // Màn hình rộng: hover chuột để sáng, click để vào trang.
+  // Màn hình rộng nhưng cảm ứng (tablet): chạm lần 1 để sáng, chạm lần 2 để vào trang.
   let firstTouch = false;
 
   cards.forEach((card) => {
     card.addEventListener("pointerenter", (e) => {
-      if (e.pointerType === "mouse") activate(card);
+      if (e.pointerType === "mouse" && !stacked.matches) activate(card);
     });
     card.addEventListener("pointerdown", (e) => {
-      firstTouch = e.pointerType !== "mouse" && !card.classList.contains("is-active");
+      firstTouch = e.pointerType !== "mouse" && !stacked.matches && !card.classList.contains("is-active");
     });
     card.addEventListener("focus", () => activate(card));
     card.addEventListener("click", (e) => {
@@ -55,9 +92,9 @@
   });
 
   roster.addEventListener("pointerleave", (e) => {
-    if (e.pointerType === "mouse") activate(null);
+    if (e.pointerType === "mouse" && !stacked.matches) activate(null);
   });
   roster.addEventListener("focusout", (e) => {
-    if (!roster.contains(e.relatedTarget)) activate(null);
+    if (!stacked.matches && !roster.contains(e.relatedTarget)) activate(null);
   });
 })();

@@ -300,34 +300,66 @@ img {
   opacity: 0.2;
 }
 
-/* ---- Mobile: xếp dọc ---- */
+/* ---- Mobile: xếp dọc, cuộn tới ai thì người đó sáng ---- */
+.hint-mobile {
+  display: none;
+}
+
 @media (max-width: 760px) {
   .page-home {
     height: auto;
     min-height: 100dvh;
-    overflow: auto;
+    overflow: visible;
+  }
+
+  :root:has(.page-home) {
+    scroll-snap-type: y proximity;
   }
 
   .roster {
     flex-direction: column;
-    padding: 24px 16px;
+    gap: 16px;
+    padding: 24px 16px 20vh;
   }
 
   .card {
     --skew: 0deg;
     flex: none;
-    height: 22vh;
-    min-height: 140px;
-    transition: height 0.6s var(--ease), border-color 0.5s var(--ease), box-shadow 0.5s var(--ease);
+    height: 62vh;
+    height: 62svh;
+    min-height: 320px;
+    scroll-snap-align: center;
   }
 
   .card.is-active {
     flex-grow: 0;
-    height: 42vh;
   }
 
   .card-media {
     inset: 0;
+  }
+
+  .card-info {
+    bottom: 22px;
+  }
+
+  .card-name {
+    font-size: 28px;
+  }
+
+  .home-hint {
+    position: sticky;
+    bottom: 0;
+    padding-top: 24px;
+    background: linear-gradient(to top, var(--bg) 40%, transparent);
+  }
+
+  .hint-desktop {
+    display: none;
+  }
+
+  .hint-mobile {
+    display: inline;
   }
 }
 

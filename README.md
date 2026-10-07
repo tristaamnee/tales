@@ -3,7 +3,7 @@
 Landing page giới thiệu team 5 người. Site tĩnh, chỉ có HTML/CSS/JS thuần, không cần cài gì hay build gì.
 
 - **Trang chủ** (`index.html`): 5 thẻ nhân vật, mặc định tối đen. Di chuột vào ai thì người đó sáng lên với màu riêng, thẻ nở rộng ra; bấm vào để mở trang cá nhân.
-  - Trên điện thoại: chạm lần 1 để sáng, chạm lần 2 để vào trang.
+  - Trên điện thoại: các thẻ xếp dọc, cuộn tới ai (thẻ nằm giữa màn hình) thì người đó sáng lên; chạm để vào trang.
 - **Trang cá nhân** (`member.html?id=...`): ảnh, chức danh, giới thiệu, số liệu, kỹ năng, mạng xã hội, danh sách "Những thứ đã làm được", và nút chuyển sang người trước/sau.
 
 ## Chạy thử
