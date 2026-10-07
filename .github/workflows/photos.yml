@@ -1,5 +1,5 @@
 # Tự tách nền ảnh thành viên: push ảnh vào photos/ là xong,
-# workflow sẽ tạo images/members/<id>.webp rồi tự commit lại vào branch.
+# workflow sẽ tạo public/images/members/<id>.webp rồi tự commit lại vào branch.
 name: Tách nền ảnh thành viên
 
 on:
@@ -45,7 +45,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add images/members
+          git add public/images/members
           if git diff --cached --quiet; then
             echo "Không có ảnh mới."
           else

@@ -20,10 +20,10 @@
   --accent: #ffffff;
   --fin-ink: #173a63;
   --dev-ink: #00799a;
-  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --mono: var(--font-mono), "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --serif: var(--font-serif), "Source Serif 4", Georgia, "Times New Roman", serif;
 
-  --font: "Be Vietnam Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --font: var(--font-sans), "Be Vietnam Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
   --gutter: clamp(16px, 4vw, 48px);
   --page: min(1280px, 100% - 2 * var(--gutter));
   --ease: cubic-bezier(0.28, 0.11, 0.32, 1);
@@ -85,12 +85,16 @@ body {
   letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
   touch-action: manipulation;
-  animation: page-in 0.5s var(--ease) both;
   transition: opacity 0.35s var(--ease), background-color 0.35s var(--ease), color 0.35s var(--ease);
 }
 
 body.is-leaving {
   opacity: 0;
+}
+
+/* Mỗi trang hiện dần lên khi mở (app/template.tsx) */
+.page-fade {
+  animation: page-in 0.5s var(--ease) both;
 }
 
 @keyframes page-in {
@@ -172,6 +176,7 @@ img {
 .page-home {
   display: flex;
   flex-direction: column;
+  min-height: 100dvh;
 }
 
 .page-home main {
@@ -233,6 +238,12 @@ img {
     opacity: 0;
     transform: translateY(16px);
   }
+}
+
+/* Chờ xáo thứ tự xong mới cho thẻ hiện lên, tránh thấy thẻ đổi chỗ */
+.roster[data-ready="false"] .card {
+  opacity: 0;
+  animation-play-state: paused;
 }
 
 .card-tile {
@@ -1171,22 +1182,25 @@ img {
   background: var(--dev-ink);
 }
 
-/* ---- Lỗi tải dữ liệu ---- */
-.load-error {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  z-index: 200;
-  width: min(520px, calc(100% - 32px));
-  padding: 24px;
-  transform: translate(-50%, -50%);
-  border-radius: 18px;
-  background: var(--parchment);
-  color: var(--ink);
+/* ---- Trang không tồn tại ---- */
+.not-found {
+  display: grid;
+  place-content: center;
+  gap: 8px;
+  min-height: 100dvh;
+  padding-inline: var(--gutter);
+  text-align: center;
 }
 
-.load-error p {
-  margin: 8px 0 0;
+.not-found h1 {
+  margin: 0;
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.not-found p {
+  margin: 0 0 8px;
   color: var(--ink-2);
 }
 

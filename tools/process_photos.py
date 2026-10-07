@@ -2,9 +2,9 @@
 """
 Tách nền ảnh thành viên và căn khung tự động.
 
-    photos/<id>.jpg  ──►  images/members/<id>.webp   (nền trong suốt, khung 3:4)
+    photos/<id>.jpg  ──►  public/images/members/<id>.webp   (nền trong suốt, khung 3:4)
 
-<id> là id của thành viên trong dữ liệu team, ví dụ photos/minh.jpg -> images/members/minh.webp.
+<id> là id của thành viên trong dữ liệu team, ví dụ photos/minh.jpg -> public/images/members/minh.webp.
 Ảnh đã xử lý rồi (cùng nội dung, cùng cài đặt) sẽ được bỏ qua, nên chạy lại bao nhiêu lần cũng được.
 
 Cách dùng:
@@ -27,7 +27,7 @@ from PIL import Image, ImageOps
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC_DIR = ROOT / "photos"
-OUT_DIR = ROOT / "images" / "members"
+OUT_DIR = ROOT / "public" / "images" / "members"
 MANIFEST = OUT_DIR / ".processed.json"
 
 EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}

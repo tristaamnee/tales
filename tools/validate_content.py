@@ -16,6 +16,7 @@ from jsonschema import Draft202012Validator
 
 ROOT = Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content"
+PUBLIC = ROOT / "public"
 SCHEMAS = CONTENT / "schema"
 
 errors: list[str] = []
@@ -59,14 +60,14 @@ def main() -> int:
 
         if not member.get("photo"):
             has_source = any((ROOT / "photos").glob(f"{member_id}.*"))
-            has_output = (ROOT / "images" / "members" / f"{member_id}.webp").exists()
+            has_output = (PUBLIC / "images" / "members" / f"{member_id}.webp").exists()
             if not has_source and not has_output:
                 warnings.append(f"{member_id}: chưa có ảnh — thêm photos/{member_id}.jpg (đang hiện bóng người)")
-        elif not (ROOT / member["photo"]).exists():
+        elif not (PUBLIC / member["photo"]).exists():
             errors.append(f"{path.relative_to(ROOT)} → photo: không tìm thấy {member['photo']}")
 
         for i, work in enumerate(member.get("works", [])):
-            if work.get("image") and not (ROOT / work["image"]).exists():
+            if work.get("image") and not (PUBLIC / work["image"]).exists():
                 warnings.append(f"{path.relative_to(ROOT)} → works/{i}/image: không tìm thấy {work['image']}")
 
         color = str(member.get("color", "")).lower()
