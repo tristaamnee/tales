@@ -2,13 +2,13 @@
   "$schema": "../schema/member.schema.json",
   "id": "tam",
   "name": "Đặng Trí Tâm",
-  "role": "Backend Developer · Golang",
+  "role": "Backend Developer",
   "tagline": "Thợ đụng chính hiệu: đụng gì làm nấy.",
   "color": "#8cc9a0",
   "style": "developer",
   "bio": [
     "Lập trình viên backend làm chính với Go, hiện tự làm các dự án cá nhân và đang học năm 2 tại UIT (hệ vừa học vừa làm).",
-    "Đưa một việc kèm hạn chót, miễn nó không đòi hỏi trình độ bậc thầy như vẽ một bức tranh hoàn mỹ hay thiết kế quy trình cho nhà máy điện hạt nhân, thì khả năng cao là việc đó sẽ xong."
+    "Cứ giao việc kèm hạn chót: trừ khi đó là vẽ một kiệt tác hay soạn quy trình vận hành nhà máy điện hạt nhân, còn lại nhiều khả năng sẽ xong."
   ],
   "education": [
     {
