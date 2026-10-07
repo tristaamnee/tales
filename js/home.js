@@ -28,8 +28,8 @@ loadTeam()
             <img src="${escapeHTML(memberPhoto(m))}" data-photo-color="${escapeHTML(m.color)}"
                  alt="" width="900" height="1200" fetchpriority="high" />
           </span>
-          <span class="card-name">${escapeHTML(m.name)}</span>
-          <span class="card-role">${escapeHTML(m.role)}</span>
+          <span class="card-name" title="${escapeHTML(m.name)}">${escapeHTML(m.name)}</span>
+          <span class="card-role" title="${escapeHTML(m.role)}">${escapeHTML(m.role)}</span>
         </a>`
       )
       .join("");

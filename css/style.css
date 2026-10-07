@@ -135,9 +135,10 @@ img {
 }
 
 .roster {
+  --gap: clamp(12px, 1.6vw, 24px);
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: clamp(12px, 1.6vw, 24px);
+  gap: var(--gap);
   width: var(--page);
   margin: 0 auto;
   padding-bottom: clamp(48px, 9vh, 104px);
@@ -197,6 +198,14 @@ img {
   transition: filter 0.6s var(--ease), transform 0.9s var(--ease);
 }
 
+/* Tên và vai trò luôn một dòng; tên quá dài thì hiện "…" (tên đầy đủ có trong tooltip và trang cá nhân) */
+.card-name,
+.card-role {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .card-name {
   font-size: 17px;
   font-weight: 600;
@@ -233,6 +242,20 @@ img {
 
 .foot p {
   margin: 0;
+}
+
+/* ---- Màn hình vừa: 5 cột quá hẹp cho tên → 3 ô trên, 2 ô dưới, căn giữa ---- */
+@media (min-width: 761px) and (max-width: 1199px) {
+  .roster {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 40px;
+  }
+
+  .card {
+    flex: 0 0 calc((100% - 2 * var(--gap)) / 3);
+  }
 }
 
 /* ---- Điện thoại: một cột, cuộn tới ai thì ảnh người đó sáng ---- */
