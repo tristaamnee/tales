@@ -40,6 +40,7 @@ export type Member = {
   role: string;
   color: string;
   tagline?: string;
+  quote?: string;
   photo?: string;
   style?: "default" | "finance" | "developer";
   draft?: boolean;
@@ -90,10 +91,17 @@ export function memberPhoto(m: Member): string | null {
   return fs.existsSync(path.join(PUBLIC, src)) ? src : null;
 }
 
+// Ảnh gốc (còn nền) cắt cùng khung với ảnh tách nền, làm lớp nền cho thẻ ở trang chủ.
+export function memberBackground(m: Member): string | null {
+  if (m.photo) return null; // ảnh tự chọn thì không có bản nền đi kèm
+  const src = `images/members/${m.id}-bg.webp`;
+  return fs.existsSync(path.join(PUBLIC, src)) ? src : null;
+}
+
 // Dữ liệu gửi xuống trình duyệt: cả team (5 người, vài KB) nạp một lần,
 // để chuyển giữa trang chủ và trang từng người chỉ là đổi state, không tải gì thêm.
 export type JobView = Job & { tenure: string };
-export type MemberView = Omit<Member, "experience"> & { photoSrc: string; experience?: JobView[] };
+export type MemberView = Omit<Member, "experience"> & { photoSrc: string; bgSrc?: string; experience?: JobView[] };
 export type TeamView = Omit<Team, "members"> & { members: MemberView[] };
 
 export function getTeamView(): TeamView {
@@ -105,6 +113,7 @@ export function getTeamView(): TeamView {
       return {
         ...m,
         photoSrc: photo ? asset(photo) : placeholderPhoto(m.color),
+        ...(photo && memberBackground(m) ? { bgSrc: asset(memberBackground(m)!) } : {}),
         // Tính sẵn lúc build; trình duyệt tính lại theo hôm nay (components/Tenure.tsx).
         experience: m.experience?.map((j) => ({ ...j, tenure: duration(j.start, j.end) })),
       };

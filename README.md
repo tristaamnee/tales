@@ -70,7 +70,8 @@ Các trường chính của một thành viên (chi tiết xem `content/schema/m
 Chỉ cần bỏ ảnh chụp bình thường vào thư mục `photos/`, **đặt tên file trùng `id`** của thành viên:
 
 ```
-photos/minh.jpg  ->  public/images/members/minh.webp   (nền trong suốt, tự căn khung 3:4)
+photos/minh.jpg  ->  public/images/members/minh.webp      (nền trong suốt, tự căn khung 3:4)
+                 +   public/images/members/minh-bg.webp   (ảnh gốc cùng khung: nền mờ phía sau khi hover)
 ```
 
 Trang web tự lấy `public/images/members/<id>.webp`, không cần sửa code hay dữ liệu. Ai chưa có ảnh thì hiện bóng người theo màu của người đó.

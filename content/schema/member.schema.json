@@ -34,6 +34,11 @@
       "description": "Một câu slogan ngắn.",
       "type": "string"
     },
+    "quote": {
+      "description": "Câu nói cửa miệng (không cần ngoặc kép). Hiện ở chân ảnh khi hover trên trang chủ và trong phần giới thiệu.",
+      "type": "string",
+      "maxLength": 90
+    },
     "color": {
       "description": "Màu chủ đạo dạng #rrggbb. Nên chọn màu sáng vì nền trang tối.",
       "type": "string",

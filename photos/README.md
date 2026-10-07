@@ -3,7 +3,8 @@
 Bỏ ảnh vào đây, đặt tên file **trùng với `id`** của thành viên:
 
 ```
-photos/minh.jpg   ->  images/members/minh.webp   (tự tách nền, căn khung 3:4)
+photos/minh.jpg   ->  images/members/minh.webp      (tự tách nền, căn khung 3:4)
+                  +   images/members/minh-bg.webp   (ảnh gốc cùng khung, làm nền mờ ở trang chủ)
 ```
 
 - Định dạng: `.jpg`, `.jpeg`, `.png`, `.webp`

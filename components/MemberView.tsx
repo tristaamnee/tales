@@ -68,11 +68,12 @@ export default function MemberView({ member: m, teamName }: { member: Member; te
             </p>
             <h1 className="name">{m.name}</h1>
             {m.tagline && <p className="tagline">{m.tagline}</p>}
-            {m.bio?.length ? (
+            {m.bio?.length || m.quote ? (
               <div className="bio">
-                {m.bio.map((p, i) => (
+                {m.bio?.map((p, i) => (
                   <p key={i}>{p}</p>
                 ))}
+                {m.quote && <p className="quote">“{m.quote}”</p>}
               </div>
             ) : null}
             {m.skills?.length && !groups.length ? (

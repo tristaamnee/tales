@@ -104,9 +104,18 @@ export default function Roster({ members, ready, intro }: { members: MemberView[
               go(path);
             }}
           >
-            <span className="card-tile">
+            <span className={`card-tile${m.bgSrc ? " has-bg" : ""}`}>
+              {/* Hai lớp cùng khung: ảnh gốc làm nền (mờ đi khi sáng lên) và người đã tách nền ở trên (luôn rõ) */}
+              {m.bgSrc && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img className="card-bg" src={m.bgSrc} alt="" width={900} height={1200} />
+              )}
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={m.photoSrc} alt="" width={900} height={1200} fetchPriority="high" />
+              <img className="card-person" src={m.photoSrc} alt="" width={900} height={1200} fetchPriority="high" />
+              {/* Câu nói hiện khi sáng lên; ai chưa có câu nói thì dùng slogan */}
+              {(m.quote || m.tagline) && (
+                <span className="card-quote">{m.quote ? `“${m.quote}”` : m.tagline}</span>
+              )}
             </span>
             <span className="card-name" title={m.name}>
               {m.name}
