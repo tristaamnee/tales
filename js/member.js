@@ -44,9 +44,6 @@ loadTeam()
     }
 
     const m = TEAM.members[index];
-    const total = TEAM.members.length;
-    const prev = TEAM.members[(index - 1 + total) % total];
-    const next = TEAM.members[(index + 1) % total];
 
     document.title = `${m.name} — ${TEAM.name}`;
     document.getElementById("topbar-team").textContent = TEAM.name;
@@ -120,15 +117,6 @@ loadTeam()
              </section>`
           : ""
       }
-
-      <nav class="member-nav" aria-label="Thành viên khác">
-        <a href="member.html#${encodeURIComponent(prev.id)}" data-transition>
-          <small>Trước</small><span>${escapeHTML(prev.name)}</span>
-        </a>
-        <a href="member.html#${encodeURIComponent(next.id)}" data-transition>
-          <small>Tiếp theo</small><span>${escapeHTML(next.name)}</span>
-        </a>
-      </nav>
     `;
 
     attachPhotoFallbacks(document.getElementById("profile"));

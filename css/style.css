@@ -478,6 +478,10 @@ img {
 }
 
 /* ---- Những thứ đã làm được ---- */
+#profile > :last-child:not(.works-band) {
+  padding-bottom: clamp(64px, 12vh, 128px);
+}
+
 .works-band {
   padding-block: clamp(56px, 10vh, 112px);
   background: var(--parchment);
@@ -567,46 +571,6 @@ img {
   margin: 12px 0 0;
 }
 
-/* ---- Sang người khác ---- */
-.member-nav {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  width: var(--page);
-  margin: 0 auto;
-  padding-block: 40px 64px;
-}
-
-.profile-hero + .member-nav {
-  border-top: 1px solid var(--hair);
-}
-
-.member-nav a {
-  display: grid;
-  gap: 2px;
-  text-decoration: none;
-}
-
-.member-nav a:last-child {
-  text-align: right;
-}
-
-.member-nav small {
-  font-size: 14px;
-  color: var(--muted);
-}
-
-.member-nav span {
-  font-size: 21px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  color: var(--link);
-}
-
-.member-nav a:hover span {
-  text-decoration: underline;
-}
-
 @media (max-width: 860px) {
   .profile-hero {
     grid-template-columns: minmax(0, 1fr);
@@ -627,14 +591,6 @@ img {
 
   .work-date {
     padding-top: 0;
-  }
-
-  .member-nav {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .member-nav a:last-child {
-    text-align: left;
   }
 }
 
