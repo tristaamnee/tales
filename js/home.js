@@ -7,7 +7,7 @@
   roster.innerHTML = TEAM.members
     .map(
       (m, i) => `
-      <a class="card" href="member.html?id=${encodeURIComponent(m.id)}"
+      <a class="card" href="member.html#${encodeURIComponent(m.id)}"
          style="--accent:${escapeHTML(m.color)}; --i:${i}"
          aria-label="${escapeHTML(m.name)} — ${escapeHTML(m.role)}">
         <div class="card-media">

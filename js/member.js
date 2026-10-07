@@ -1,6 +1,10 @@
 (function () {
-  const params = new URLSearchParams(window.location.search);
-  const index = TEAM.members.findIndex((m) => m.id === params.get("id"));
+  // Hỗ trợ cả member.html#id lẫn member.html?id=id
+  const id = decodeURIComponent(window.location.hash.slice(1)) || new URLSearchParams(window.location.search).get("id");
+  const index = TEAM.members.findIndex((m) => m.id === id);
+
+  // Bấm Trước/Tiếp chỉ đổi phần #id nên phải tự tải lại trang.
+  window.addEventListener("hashchange", () => window.location.reload());
 
   if (index === -1) {
     window.location.replace("index.html");
@@ -87,10 +91,10 @@
     }
 
     <nav class="member-nav" aria-label="Thành viên khác">
-      <a href="member.html?id=${encodeURIComponent(prev.id)}" data-transition style="--c:${escapeHTML(prev.color)}">
+      <a href="member.html#${encodeURIComponent(prev.id)}" data-transition style="--c:${escapeHTML(prev.color)}">
         <small>← Trước</small><span>${escapeHTML(prev.name)}</span>
       </a>
-      <a href="member.html?id=${encodeURIComponent(next.id)}" data-transition style="--c:${escapeHTML(next.color)}">
+      <a href="member.html#${encodeURIComponent(next.id)}" data-transition style="--c:${escapeHTML(next.color)}">
         <small>Tiếp →</small><span>${escapeHTML(next.name)}</span>
       </a>
     </nav>

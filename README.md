@@ -4,7 +4,7 @@ Landing page giới thiệu team 5 người. Site tĩnh, chỉ có HTML/CSS/JS t
 
 - **Trang chủ** (`index.html`): 5 thẻ nhân vật, mặc định tối đen. Di chuột vào ai thì người đó sáng lên với màu riêng, thẻ nở rộng ra; bấm vào để mở trang cá nhân.
   - Trên điện thoại: các thẻ xếp dọc, cuộn tới ai (thẻ nằm giữa màn hình) thì người đó sáng lên; chạm để vào trang.
-- **Trang cá nhân** (`member.html?id=...`): ảnh, chức danh, giới thiệu, số liệu, kỹ năng, mạng xã hội, danh sách "Những thứ đã làm được", và nút chuyển sang người trước/sau.
+- **Trang cá nhân** (`member.html#<id>`): ảnh, chức danh, giới thiệu, số liệu, kỹ năng, mạng xã hội, danh sách "Những thứ đã làm được", và nút chuyển sang người trước/sau.
 
 ## Chạy thử
 
@@ -21,7 +21,7 @@ Mọi nội dung nằm trong **`js/data.js`** — chỉ cần sửa file này:
 
 | Trường     | Ý nghĩa                                                         |
 |------------|-----------------------------------------------------------------|
-| `id`       | Dùng trên URL, viết liền không dấu (vd. `minh`)                 |
+| `id`       | Dùng trên URL (`member.html#minh`), viết liền không dấu (vd. `minh`)                 |
 | `name`     | Tên hiển thị                                                    |
 | `role`     | Vai trò trong team                                              |
 | `tagline`  | Câu slogan ngắn                                                 |

@@ -2,7 +2,7 @@
  * ===================================================================
  *  DỮ LIỆU CỦA TEAM — chỉ cần sửa file này là đủ.
  * ===================================================================
- *  - id:       dùng trên URL (member.html?id=...), viết liền, không dấu
+ *  - id:       dùng trên URL (member.html#...), viết liền, không dấu
  *  - color:    màu "chủ đạo" của từng người (glow khi hover, điểm nhấn trang cá nhân)
  *  - photo:    ảnh chân dung (nên dùng ảnh dọc tỉ lệ 3:4, nền tối hoặc đã tách nền)
  *  - projects: những thứ đã làm được; image và link là tuỳ chọn
