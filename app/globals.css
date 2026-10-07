@@ -1050,8 +1050,10 @@ img {
     grid-template-columns: minmax(0, 1fr);
   }
 
+  /* Màn hẹp: ảnh xếp trên chữ nên cho rộng như các trang khác (điện thoại: hết chiều ngang) */
   [data-style="finance"] .portrait {
-    width: min(100%, 260px);
+    width: min(100%, 440px);
+    max-width: none;
   }
 }
 
