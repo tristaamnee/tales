@@ -1,0 +1,64 @@
+{
+  "$schema": "../schema/member.schema.json",
+  "id": "member-3",
+  "name": "Lê Văn C",
+  "role": "Backend Engineer",
+  "tagline": "Những thứ bạn không thấy mới là thứ giữ mọi thứ chạy.",
+  "color": "#a3e635",
+  "bio": [
+    "Giới thiệu ngắn về bản thân: bạn là ai, bạn làm gì trong team, điều gì khiến bạn hứng thú với công việc này."
+  ],
+  "stats": [
+    {
+      "value": "5+",
+      "label": "Năm kinh nghiệm"
+    },
+    {
+      "value": "99.9%",
+      "label": "Uptime"
+    },
+    {
+      "value": "40",
+      "label": "API đã viết"
+    }
+  ],
+  "skills": [
+    "Node.js",
+    "Go",
+    "PostgreSQL",
+    "Docker"
+  ],
+  "works": [
+    {
+      "type": "project",
+      "title": "Hệ thống thanh toán",
+      "date": "2026",
+      "summary": "Mô tả ngắn: dự án là gì, bạn đã đóng góp gì, kết quả ra sao.",
+      "tags": [
+        "Go",
+        "Microservices"
+      ],
+      "featured": true
+    },
+    {
+      "type": "project",
+      "title": "Realtime chat server",
+      "date": "2025",
+      "summary": "Mô tả ngắn về dự án.",
+      "tags": [
+        "WebSocket",
+        "Redis"
+      ]
+    }
+  ],
+  "socials": [
+    {
+      "platform": "github",
+      "url": "https://github.com/"
+    },
+    {
+      "platform": "linkedin",
+      "url": "https://www.linkedin.com/"
+    }
+  ]
+}

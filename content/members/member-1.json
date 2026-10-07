@@ -1,0 +1,69 @@
+{
+  "$schema": "../schema/member.schema.json",
+  "id": "member-1",
+  "name": "Nguyễn Văn A",
+  "role": "Frontend Developer",
+  "tagline": "Biến pixel thành trải nghiệm.",
+  "color": "#22d3ee",
+  "bio": [
+    "Giới thiệu ngắn về bản thân: bạn là ai, bạn làm gì trong team, điều gì khiến bạn hứng thú với công việc này."
+  ],
+  "stats": [
+    {
+      "value": "4+",
+      "label": "Năm kinh nghiệm"
+    },
+    {
+      "value": "30",
+      "label": "Dự án"
+    },
+    {
+      "value": "∞",
+      "label": "Ly cà phê"
+    }
+  ],
+  "skills": [
+    "React",
+    "TypeScript",
+    "CSS Animation",
+    "Figma"
+  ],
+  "works": [
+    {
+      "type": "project",
+      "title": "Tên dự án nổi bật",
+      "date": "2026",
+      "summary": "Mô tả ngắn: dự án là gì, bạn đã đóng góp gì, kết quả ra sao.",
+      "tags": [
+        "React",
+        "Next.js"
+      ],
+      "featured": true
+    },
+    {
+      "type": "project",
+      "title": "Dự án thứ hai",
+      "date": "2025",
+      "summary": "Mô tả ngắn về dự án.",
+      "tags": [
+        "Vue"
+      ]
+    },
+    {
+      "type": "award",
+      "title": "Giải thưởng / thành tích",
+      "date": "2024",
+      "summary": "Ví dụ: Top 3 hackathon ABC."
+    }
+  ],
+  "socials": [
+    {
+      "platform": "github",
+      "url": "https://github.com/"
+    },
+    {
+      "platform": "facebook",
+      "url": "https://www.facebook.com/"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "./schema/team.schema.json",
+  "name": "TALES",
+  "tagline": "Năm con người · Năm thế giới · Một câu chuyện",
+  "description": "Landing page giới thiệu 5 thành viên của team TALES.",
+  "members": [
+    "member-1",
+    "member-2",
+    "member-3",
+    "member-4",
+    "member-5"
+  ]
+}

@@ -6,32 +6,55 @@ Landing page giới thiệu team 5 người. Site tĩnh, chỉ có HTML/CSS/JS t
   - Trên điện thoại: các thẻ xếp dọc, cuộn tới ai (thẻ nằm giữa màn hình) thì người đó sáng lên; chạm để vào trang.
 - **Trang cá nhân** (`member.html#<id>`): ảnh, chức danh, giới thiệu, số liệu, kỹ năng, mạng xã hội, danh sách "Những thứ đã làm được", và nút chuyển sang người trước/sau.
 
-## Chạy thử
+## Chạy thử trên máy
 
-Mở thẳng file `index.html` bằng trình duyệt là được. Hoặc chạy server local:
+Trang đọc dữ liệu từ file JSON nên cần chạy qua server (mở thẳng file `index.html` sẽ báo lỗi):
 
 ```bash
 python3 -m http.server 8000
 # mở http://localhost:8000
 ```
 
-## Sửa thông tin team
+## Nội dung (profile)
 
-Mọi nội dung nằm trong **`js/data.js`** — chỉ cần sửa file này:
+Toàn bộ nội dung nằm trong `content/`, không có trong code:
 
-| Trường     | Ý nghĩa                                                         |
-|------------|-----------------------------------------------------------------|
-| `id`       | Dùng trên URL (`member.html#minh`), viết liền không dấu (vd. `minh`)                 |
-| `name`     | Tên hiển thị                                                    |
-| `role`     | Vai trò trong team                                              |
-| `tagline`  | Câu slogan ngắn                                                 |
-| `color`    | Màu chủ đạo (mã hex) — dùng cho glow và điểm nhấn               |
-| `photo`    | Không bắt buộc — mặc định dùng `images/members/<id>.webp`         |
-| `bio`      | Đoạn giới thiệu                                                 |
-| `stats`    | Các con số nổi bật `{ value, label }`                            |
-| `skills`   | Danh sách kỹ năng                                               |
-| `projects` | Những thứ đã làm `{ title, year, description, tags, link?, image? }` |
-| `socials`  | Link mạng xã hội `{ label, url }`                                |
+```
+content/
+  team.json              Tên team, tagline, và THỨ TỰ thành viên (danh sách id)
+  members/<id>.json      Hồ sơ từng người
+  members/_template.json File mẫu để copy khi thêm người mới
+  schema/                Mô tả cấu trúc: VS Code tự gợi ý trường và gạch đỏ chỗ sai
+photos/<id>.jpg          Ảnh gốc (tự tách nền)
+```
+
+**Thêm người mới:** copy `content/members/_template.json` thành `content/members/<id>.json`, điền thông tin,
+thêm `<id>` vào `members` trong `content/team.json`, bỏ ảnh vào `photos/<id>.jpg`.
+
+**Sửa profile:** sửa `content/members/<id>.json` (sửa ngay trên GitHub bằng nút ✏️ cũng được) → Commit.
+**Đổi ảnh:** upload đè `photos/<id>.jpg`. **Đổi thứ tự / ẩn một người:** sửa danh sách `members` trong `content/team.json`.
+
+Mỗi lần push, GitHub Actions chạy `tools/validate_content.py` để kiểm tra (tab **Actions**; ❌ đỏ là có lỗi, bấm vào xem lỗi ở file nào, dòng nào). Chạy trên máy:
+
+```bash
+pip install jsonschema
+python tools/validate_content.py
+```
+
+Các trường chính của một thành viên (chi tiết xem `content/schema/member.schema.json`):
+
+| Trường    | Bắt buộc | Ghi chú |
+|-----------|:--:|---|
+| `id`      | ✓ | Viết thường, không dấu, nối bằng `-`. Trùng tên file và tên ảnh. |
+| `name`    | ✓ | Tên hiển thị |
+| `role`    | ✓ | Vai trò |
+| `color`   | ✓ | `#rrggbb`, nên là màu sáng |
+| `tagline` |   | Câu slogan |
+| `bio`     |   | Mảng các đoạn văn |
+| `stats`   |   | Tối đa 4 `{ "value", "label" }` |
+| `skills`  |   | Mảng chữ |
+| `works`   |   | `{ type, title, date, role, summary, tags, image, links, featured }` — `type`: `project`, `award`, `talk`, `cert`, `article`, `other`; `date`: `"2026"` hoặc `"2026-03"` |
+| `socials` |   | `{ platform, url }` — `platform`: `github`, `linkedin`, `facebook`, `instagram`, `tiktok`, `youtube`, `x`, `behance`, `dribbble`, `website`, `email`… |
 
 ## Ảnh thành viên (tự tách nền)
 
@@ -70,15 +93,16 @@ Settings → Pages → Source: *Deploy from a branch* → chọn branch và thư
 ## Cấu trúc
 
 ```
+content/            ← NỘI DUNG (JSON)
 index.html          Trang chủ
 member.html         Trang cá nhân (dùng chung cho cả 5 người)
 css/style.css       Toàn bộ giao diện
-js/data.js          ← DỮ LIỆU CỦA TEAM
+js/content.js       Tải dữ liệu từ content/
 js/common.js        Tiện ích + hiệu ứng chuyển trang
 js/home.js          Logic trang chủ (hover / sáng / click)
 js/member.js        Render trang cá nhân
 photos/             Ảnh gốc (bỏ ảnh vào đây)
 images/members/     Ảnh đã tách nền (tự sinh)
-tools/              Script tách nền
-.github/workflows/  Tự tách nền khi push ảnh
+tools/              Script tách nền + kiểm tra nội dung
+.github/workflows/  Tự tách nền + tự kiểm tra khi push
 ```

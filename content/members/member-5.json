@@ -1,0 +1,58 @@
+{
+  "$schema": "../schema/member.schema.json",
+  "id": "member-5",
+  "name": "Hoàng Văn E",
+  "role": "Project Manager",
+  "tagline": "Giữ con tàu đi đúng hướng.",
+  "color": "#a78bfa",
+  "bio": [
+    "Giới thiệu ngắn về bản thân: bạn là ai, bạn làm gì trong team, điều gì khiến bạn hứng thú với công việc này."
+  ],
+  "stats": [
+    {
+      "value": "6+",
+      "label": "Năm kinh nghiệm"
+    },
+    {
+      "value": "25",
+      "label": "Dự án đã giao"
+    },
+    {
+      "value": "0",
+      "label": "Deadline trễ*"
+    }
+  ],
+  "skills": [
+    "Agile",
+    "Scrum",
+    "Roadmap",
+    "Leadership"
+  ],
+  "works": [
+    {
+      "type": "project",
+      "title": "Điều phối dự án ABC",
+      "date": "2026",
+      "summary": "Mô tả ngắn: dự án là gì, bạn đã đóng góp gì, kết quả ra sao.",
+      "tags": [
+        "Management"
+      ],
+      "featured": true
+    },
+    {
+      "type": "project",
+      "title": "Xây dựng quy trình làm việc",
+      "date": "2025",
+      "summary": "Mô tả ngắn về dự án.",
+      "tags": [
+        "Process"
+      ]
+    }
+  ],
+  "socials": [
+    {
+      "platform": "linkedin",
+      "url": "https://www.linkedin.com/"
+    }
+  ]
+}

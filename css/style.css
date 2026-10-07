@@ -526,7 +526,7 @@ img {
 }
 
 .hero-bio {
-  margin: 20px 0 0;
+  margin: 12px 0 0;
   max-width: 60ch;
   color: var(--muted);
   font-weight: 300;
@@ -669,8 +669,36 @@ img {
   color: var(--muted);
 }
 
-.project-no {
+.project-type {
   color: var(--accent);
+  text-transform: uppercase;
+}
+
+.project.is-featured {
+  grid-column: span 2;
+  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+.project.is-featured .project-title {
+  font-size: 28px;
+}
+
+@media (max-width: 680px) {
+  .project.is-featured {
+    grid-column: auto;
+  }
+}
+
+.project-role {
+  margin: -4px 0 8px;
+  font-size: 13px;
+  color: #d4d4d8;
+}
+
+.project-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .project-title {
@@ -808,6 +836,29 @@ img {
   .member-nav a:last-child {
     text-align: left;
   }
+}
+
+/* ---- Lỗi tải dữ liệu ---- */
+.load-error {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  z-index: 200;
+  width: min(520px, calc(100% - 32px));
+  padding: 24px;
+  transform: translate(-50%, -50%);
+  border: 1px solid #f87171;
+  background: #140b0d;
+  color: var(--fg);
+}
+
+.load-error p {
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+
+.load-error code {
+  color: var(--fg);
 }
 
 /* =========================================================

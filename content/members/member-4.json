@@ -1,0 +1,63 @@
+{
+  "$schema": "../schema/member.schema.json",
+  "id": "member-4",
+  "name": "Phạm Thị D",
+  "role": "Content & Marketing",
+  "tagline": "Câu chuyện hay cần người kể hay.",
+  "color": "#fbbf24",
+  "bio": [
+    "Giới thiệu ngắn về bản thân: bạn là ai, bạn làm gì trong team, điều gì khiến bạn hứng thú với công việc này."
+  ],
+  "stats": [
+    {
+      "value": "1M+",
+      "label": "Lượt tiếp cận"
+    },
+    {
+      "value": "200",
+      "label": "Bài viết"
+    },
+    {
+      "value": "15",
+      "label": "Chiến dịch"
+    }
+  ],
+  "skills": [
+    "Copywriting",
+    "SEO",
+    "Social Media",
+    "Video"
+  ],
+  "works": [
+    {
+      "type": "project",
+      "title": "Chiến dịch ra mắt sản phẩm",
+      "date": "2026",
+      "summary": "Mô tả ngắn: dự án là gì, bạn đã đóng góp gì, kết quả ra sao.",
+      "tags": [
+        "Campaign"
+      ],
+      "featured": true
+    },
+    {
+      "type": "project",
+      "title": "Kênh TikTok của team",
+      "date": "2025",
+      "summary": "Mô tả ngắn về dự án.",
+      "tags": [
+        "Video",
+        "Social"
+      ]
+    }
+  ],
+  "socials": [
+    {
+      "platform": "tiktok",
+      "url": "https://www.tiktok.com/"
+    },
+    {
+      "platform": "instagram",
+      "url": "https://www.instagram.com/"
+    }
+  ]
+}
