@@ -3,36 +3,31 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#0b0c0f" />
+  <meta name="theme-color" content="#ffffff" />
   <title>TALES — Our Team</title>
   <meta name="description" content="Gặp gỡ 5 thành viên của team." />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2212%22 fill=%22%23060608%22/%3E%3Cpath d=%22M16 16h32v8H36v26h-8V24H16z%22 fill=%22none%22 stroke=%22%23f4f4f5%22 stroke-width=%222.5%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2212%22 fill=%22%231d1d1f%22/%3E%3Cpath d=%22M16 16h32v8H36v26h-8V24H16z%22 fill=%22none%22 stroke=%22%23ffffff%22 stroke-width=%222.5%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body class="page-home">
   <a class="skip-link" href="#roster">Bỏ qua tới danh sách thành viên</a>
-  <div class="grain" aria-hidden="true"></div>
 
-  <header class="masthead">
-    <div class="masthead-title">
-      <h1 class="home-title" id="team-name" translate="no">TALES</h1>
-      <p class="home-tagline" id="team-tagline"></p>
+  <main>
+    <header class="hero">
+      <h1 class="hero-title" id="team-name" translate="no">TALES</h1>
+      <p class="hero-tagline" id="team-tagline"></p>
+    </header>
+
+    <div class="roster" id="roster" aria-label="Thành viên" tabindex="-1">
+      <!-- Các thành viên được render từ content/*.json -->
     </div>
-    <p class="masthead-meta" id="team-count"></p>
-  </header>
-
-  <main class="roster" id="roster" aria-label="Thành viên" tabindex="-1">
-    <!-- Các thẻ thành viên được render từ content/*.json -->
   </main>
 
-  <footer class="home-foot">
-    <p class="hint">
-      <span class="hint-desktop">Rê chuột vào một người để xem, bấm để mở hồ sơ.</span>
-      <span class="hint-mobile">Cuộn để xem từng người, chạm để mở hồ sơ.</span>
-    </p>
+  <footer class="foot">
+    <p><span translate="no">TALES</span> · <span id="team-count"></span></p>
   </footer>
 
   <script src="js/common.js"></script>

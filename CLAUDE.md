@@ -27,13 +27,14 @@ Mỗi lần sửa `content/` hoặc thêm ảnh: chạy validate trước khi co
 
 - Thêm/sửa thành viên = sửa JSON, không sửa code. Trường mới → cập nhật cả schema, renderer và `_template.json`.
 - Mọi chuỗi từ JSON đưa vào HTML phải qua `escapeHTML()`.
-- Hướng thiết kế: TALES = những câu chuyện. Trang chủ là kệ sách (mỗi người một gáy sách, tên in dọc, rê chuột thì
-  sách mở ra và người đó sáng lên); trang cá nhân trình bày như một chương sách. Tránh lại các kiểu "AI": chữ HOA giãn
-  rộng, chữ viền rỗng, số thứ tự trang trí, thẻ có viền + đổ bóng + glow, chip viền, màu Tailwind mặc định.
-- Font: Newsreader (chữ có chân, tiêu đề/tên) + Be Vietnam Pro (nội dung); cả hai đủ dấu tiếng Việt. Font mới phải hỗ trợ tiếng Việt.
-  Viết thường như câu bình thường, không `text-transform: uppercase`. Dấu chồng (Ồ, Ấ, Ữ…) không được bị cắt: kiểm tra
-  `line-height` khi đổi cỡ chữ.
-- Màu mỗi thành viên: dịu (độ bão hoà vừa phải), khác nhau rõ ràng, đủ sáng trên nền tối. Không dùng mã màu Tailwind.
+- Hướng thiết kế (người dùng đã chọn): **tối giản sang trọng kiểu Apple/Tesla**. Ảnh là nhân vật chính, giao diện lùi
+  về sau: nền trắng `#fff` / xám nhạt `#f5f5f7`, chữ `#1d1d1f`, đúng một màu xanh `#0066cc` cho link; một họ font
+  Be Vietnam Pro (300/400/600), tiêu đề đậm 600 và khít chữ (letter-spacing âm), nội dung 17px; bo góc 18–22px cho ô ảnh;
+  không viền trang trí, không bóng đổ, không gradient trang trí, không chữ HOA giãn rộng, không số thứ tự trang trí.
+  Ô ảnh nền tối; ảnh mặc định xám tối, người được hover/cuộn tới thì ảnh sáng lên đủ màu kèm ánh sáng dịu màu riêng.
+  Màu riêng của thành viên chỉ dùng cho ánh sáng sau ảnh, không dùng cho chữ hay viền.
+- Dấu chồng tiếng Việt (Ồ, Ấ, Ữ…) không được bị cắt: kiểm tra `line-height` khi đổi cỡ chữ tên nhiều dòng.
+- Màu mỗi thành viên: dịu, khác nhau rõ ràng. Không dùng mã màu Tailwind mặc định.
 - Ảnh gốc người dùng gửi trong chat nằm ở thư mục ảnh của phiên; copy vào `photos/<id>.jpg` rồi chạy `process_photos.py`.
   Kiểm tra ảnh không chứa GPS trong EXIF trước khi commit.
 
