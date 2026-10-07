@@ -78,6 +78,12 @@ body {
   margin: 0;
 }
 
+/* Bỏ ô màu xanh trình duyệt điện thoại tô lên link khi vừa chạm (kể cả lúc chạm để cuộn);
+   thẻ đã tự sáng lên khi chạm, còn bàn phím vẫn có viền :focus-visible. */
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
 body {
   min-height: 100dvh;
   background: var(--canvas);
