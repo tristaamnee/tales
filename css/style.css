@@ -232,6 +232,18 @@ img {
   color: var(--muted);
 }
 
+.foot {
+  padding: 20px var(--gutter) 28px;
+  background: var(--parchment);
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.foot p {
+  margin: 0;
+}
+
 /* ---- Màn hình vừa: 5 cột quá hẹp cho tên → 3 ô trên, 2 ô dưới, căn giữa ---- */
 @media (min-width: 761px) and (max-width: 1199px) {
   .roster {
