@@ -319,14 +319,15 @@ img {
    Hai lớp cùng khung, cùng phóng to nên luôn khớp nhau. */
 .card-tile .card-bg {
   z-index: -2;
-  filter: grayscale(1) brightness(0.3);
+  /* Hai trạng thái dùng cùng một dãy hàm filter để trình duyệt chuyển mượt (khác dãy là đổi phắt) */
+  filter: blur(0) grayscale(1) brightness(0.3) saturate(1);
   -webkit-mask-image: none;
   mask-image: none;
-  transition: filter 0.6s var(--ease), transform 0.9s var(--ease);
+  transition: filter 0.8s var(--ease), transform 0.9s var(--ease);
 }
 
 .card.is-active .card-tile .card-bg {
-  filter: blur(7px) brightness(0.6) saturate(0.85);
+  filter: blur(7px) grayscale(0) brightness(0.6) saturate(0.85);
 }
 
 .card-tile.has-bg::before {
