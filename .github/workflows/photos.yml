@@ -1,5 +1,5 @@
 # Tự tách nền ảnh thành viên: push ảnh vào photos/ là xong,
-# workflow sẽ tạo public/images/members/<id>.webp rồi tự commit lại vào branch.
+# workflow sẽ tạo public/images/members/<id>.webp (+ <id>-bg.webp) rồi tự commit lại vào branch.
 name: Tách nền ảnh thành viên
 
 on:

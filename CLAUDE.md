@@ -20,6 +20,7 @@ nội dung giao diện bằng tiếng Việt.
   ảnh + font chỉ dùng ở trang cá nhân. Hiệu ứng đổi màn hình chỉ là `.view` hiện dần 0,2s.
 - `app/globals.css` — toàn bộ giao diện (token ở `:root`); font qua `next/font` (biến `--font-sans/serif/mono`)
 - `photos/<id>.jpg` — ảnh gốc → `tools/process_photos.py` tách nền ra `public/images/members/<id>.webp`
+  kèm `<id>-bg.webp` (ảnh gốc cắt cùng khung, làm lớp nền cho thẻ trang chủ)
 - `public/member.html` — chuyển link cũ `member.html#<id>` sang `/thanh-vien/<id>/`
 
 ## Lệnh
@@ -45,7 +46,8 @@ Site có thể nằm ở thư mục con: đường dẫn file trong `public/` ph
   về sau: nền trắng `#fff` / xám nhạt `#f5f5f7`, chữ `#1d1d1f`, đúng một màu xanh `#0066cc` cho link; một họ font
   Be Vietnam Pro (300/400/600), tiêu đề đậm 600 và khít chữ (letter-spacing âm), nội dung 17px; bo góc 18–22px cho ô ảnh;
   không viền trang trí, không bóng đổ, không gradient trang trí, không chữ HOA giãn rộng, không số thứ tự trang trí.
-  Ô ảnh nền tối; ảnh mặc định xám tối, người được hover/cuộn tới thì ảnh sáng lên đủ màu kèm ánh sáng dịu màu riêng.
+  Ô ảnh nền tối; thẻ trang chủ gồm hai lớp cùng khung (ảnh gốc ở dưới, người đã tách nền ở trên), mặc định cả hai
+  xám tối; người được hover/cuộn tới thì nền mờ đi và tối lại, người rõ nét đủ màu kèm ánh sáng dịu màu riêng.
   Màu riêng của thành viên chỉ dùng cho ánh sáng sau ảnh, không dùng cho chữ hay viền.
 - Có chế độ ban đêm: mặc định theo máy, nút "Tự động / Sáng / Tối" lưu lựa chọn vào localStorage (`tales-theme`).
   Mọi màu phải lấy từ token trong `:root` (bản sáng) và được định nghĩa lại cho tối trong cả

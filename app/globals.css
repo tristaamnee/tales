@@ -315,6 +315,28 @@ img {
   transform: scale(1.03);
 }
 
+/* Thẻ có ảnh gốc làm nền: cả ảnh tối như một tấm; khi sáng lên, nền mờ và tối đi, người rõ nét đủ màu.
+   Hai lớp cùng khung, cùng phóng to nên luôn khớp nhau. */
+.card-tile .card-bg {
+  z-index: -2;
+  filter: grayscale(1) brightness(0.3);
+  -webkit-mask-image: none;
+  mask-image: none;
+  transition: filter 0.6s var(--ease), transform 0.9s var(--ease);
+}
+
+.card.is-active .card-tile .card-bg {
+  filter: blur(7px) brightness(0.6) saturate(0.85);
+}
+
+.card-tile.has-bg::before {
+  opacity: 0;
+}
+
+.card.is-active .card-tile.has-bg::before {
+  opacity: 0.55;
+}
+
 /* Câu nói của người đó hiện lên ở chân ảnh khi sáng lên; chân ảnh tối dần để chữ luôn đọc được (kể cả áo trắng) */
 .card-tile::after {
   content: "";

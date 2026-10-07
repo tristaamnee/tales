@@ -2,7 +2,8 @@
 """
 Tách nền ảnh thành viên và căn khung tự động.
 
-    photos/<id>.jpg  ──►  public/images/members/<id>.webp   (nền trong suốt, khung 3:4)
+    photos/<id>.jpg  ──►  public/images/members/<id>.webp      (nền trong suốt, khung 3:4)
+                     └─►  public/images/members/<id>-bg.webp   (ảnh gốc cùng khung, làm lớp nền ở trang chủ)
 
 <id> là id của thành viên trong dữ liệu team, ví dụ photos/minh.jpg -> public/images/members/minh.webp.
 Ảnh đã xử lý rồi (cùng nội dung, cùng cài đặt) sẽ được bỏ qua, nên chạy lại bao nhiêu lần cũng được.
@@ -37,11 +38,16 @@ MODEL = os.environ.get("REMBG_MODEL", "birefnet-portrait")
 WIDTH, HEIGHT = 900, 1200
 HEADROOM = 0.08     # khoảng trống phía trên đầu (tỉ lệ chiều cao khung)
 MAX_OVERFLOW = 1.3  # người rộng quá thì cho phép tràn 2 bên tối đa 130% chiều ngang khung
-SETTINGS = f"{MODEL}|{WIDTH}x{HEIGHT}|{HEADROOM}|{MAX_OVERFLOW}|v1"
+SETTINGS = f"{MODEL}|{WIDTH}x{HEIGHT}|{HEADROOM}|{MAX_OVERFLOW}|v2"
 
 
 def file_hash(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def bg_path(out: Path) -> Path:
+    """Ảnh gốc (còn nền) cắt cùng khung: <id>.webp -> <id>-bg.webp"""
+    return out.with_name(f"{out.stem}-bg.webp")
 
 
 def load_manifest() -> dict:
@@ -51,25 +57,34 @@ def load_manifest() -> dict:
         return {}
 
 
-def frame(cutout: Image.Image) -> Image.Image:
-    """Đặt người vào khung 3:4: đầu cách mép trên một chút, phần thân chạm mép dưới, căn giữa."""
+def frame(image: Image.Image, cutout: Image.Image) -> tuple[Image.Image, Image.Image]:
+    """Cắt ảnh gốc và ảnh đã tách nền theo cùng một khung 3:4 (để chồng lên nhau khớp từng điểm ảnh).
+
+    Đầu cách mép trên một chút, người ở giữa; khung luôn nằm trọn trong ảnh gốc để ảnh nền phủ kín.
+    """
     alpha = cutout.getchannel("A").point(lambda a: 255 if a > 16 else 0)
     bbox = alpha.getbbox()
     if not bbox:
         raise ValueError("không tìm thấy người trong ảnh")
 
-    subject = cutout.crop(bbox)
-    sw, sh = subject.size
+    left, top, right, bottom = bbox
+    sw, sh = right - left, bottom - top
+    iw, ih = image.size
     scale = HEIGHT * (1 - HEADROOM) / sh
     if sw * scale > WIDTH * MAX_OVERFLOW:
         scale = WIDTH * MAX_OVERFLOW / sw
+    scale = max(scale, WIDTH / iw, HEIGHT / ih)  # phóng to vừa đủ để ảnh nền phủ kín khung
 
-    subject = subject.resize((max(1, round(sw * scale)), max(1, round(sh * scale))), Image.LANCZOS)
-    canvas = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
-    x = (WIDTH - subject.width) // 2
-    y = HEIGHT - subject.height
-    canvas.alpha_composite(subject, (max(x, 0), max(y, 0)), (max(-x, 0), max(-y, 0)))
-    return canvas
+    # Khung trên ảnh gốc: căn giữa người, chừa khoảng trống trên đầu, rồi đẩy vào trong mép ảnh.
+    fw, fh = WIDTH / scale, HEIGHT / scale
+    x = min(max((left + right) / 2 - fw / 2, 0), iw - fw)
+    y = min(max(top - HEADROOM * fh, 0), ih - fh)
+    box = (x, y, x + fw, y + fh)
+
+    def crop(im: Image.Image) -> Image.Image:
+        return im.resize((WIDTH, HEIGHT), Image.LANCZOS, box=box)
+
+    return crop(image), crop(cutout)
 
 
 def main() -> int:
@@ -88,7 +103,7 @@ def main() -> int:
     for src in sources:
         out = OUT_DIR / f"{src.stem}.webp"
         key = f"{file_hash(src)}|{SETTINGS}"
-        if not args.force and out.exists() and manifest.get(src.name) == key:
+        if not args.force and out.exists() and bg_path(out).exists() and manifest.get(src.name) == key:
             print(f"  bỏ qua  {src.name} (đã xử lý)")
             continue
         todo.append((src, out, key))
@@ -107,9 +122,11 @@ def main() -> int:
         try:
             image = ImageOps.exif_transpose(Image.open(src)).convert("RGB")
             cutout = remove(image, session=session).convert("RGBA")
-            frame(cutout).save(out, "WEBP", quality=90, method=6)
+            background, person = frame(image, cutout)
+            person.save(out, "WEBP", quality=90, method=6)
+            background.save(bg_path(out), "WEBP", quality=82, method=6)  # không chép EXIF (GPS…) sang
             manifest[src.name] = key
-            print(f"  xong    {src.name}  ->  {out.relative_to(ROOT)}")
+            print(f"  xong    {src.name}  ->  {out.relative_to(ROOT)} + {bg_path(out).name}")
         except Exception as exc:  # một ảnh lỗi không làm hỏng cả lượt
             failed += 1
             print(f"  LỖI     {src.name}: {exc}", file=sys.stderr)
