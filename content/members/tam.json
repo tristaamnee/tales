@@ -1,0 +1,9 @@
+{
+  "$schema": "../schema/member.schema.json",
+  "id": "tam",
+  "name": "Đặng Trí Tâm",
+  "role": "Backend Developer · Golang",
+  "tagline": "Thợ đụng chính hiệu: đụng gì làm nấy.",
+  "color": "#4ade80",
+  "skills": ["Golang", "Backend"]
+}

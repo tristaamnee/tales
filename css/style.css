@@ -259,7 +259,7 @@ img {
   font-family: var(--font-display);
   font-weight: 600;
   font-size: clamp(16px, 1.8vw, 28px);
-  line-height: 1.15;
+  line-height: 1.5; /* đủ chỗ cho dấu chồng của chữ in hoa (Ồ, Ấ, Ữ…) */
   text-transform: uppercase;
   color: var(--fg);
   white-space: nowrap;
@@ -480,19 +480,6 @@ img {
   mix-blend-mode: screen;
 }
 
-.hero-index {
-  position: absolute;
-  right: 14%;
-  bottom: 12px;
-  z-index: 1;
-  font-family: var(--font-display);
-  font-size: clamp(56px, 8vw, 110px);
-  font-weight: 700;
-  line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 1.5px var(--accent);
-}
-
 .hero-content > * {
   animation: rise 0.9s var(--ease) both;
 }
@@ -514,7 +501,7 @@ img {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: clamp(40px, 6vw, 84px);
-  line-height: 1.12;
+  line-height: 1.22;
   text-transform: uppercase;
 }
 

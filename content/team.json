@@ -1,13 +1,8 @@
 {
   "$schema": "./schema/team.schema.json",
   "name": "TALES",
-  "tagline": "Năm con người · Năm thế giới · Một câu chuyện",
-  "description": "Landing page giới thiệu 5 thành viên của team TALES.",
-  "members": [
-    "member-1",
-    "member-2",
-    "member-3",
-    "member-4",
-    "member-5"
-  ]
+  "tagline": "Mỗi người một chương · Chung một câu chuyện",
+  "description": "TALES: năm con người, năm câu chuyện riêng, cùng viết nên một câu chuyện chung.",
+  "shuffle": true,
+  "members": ["tam", "nhung", "member-3", "member-4", "member-5"]
 }

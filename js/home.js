@@ -1,3 +1,12 @@
+function shuffled(list) {
+  const a = [...list];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 loadTeam()
   .then((TEAM) => {
     const roster = document.getElementById("roster");
@@ -6,7 +15,10 @@ loadTeam()
     document.title = `${TEAM.name} — Our Team`;
     if (TEAM.description) document.querySelector('meta[name="description"]').content = TEAM.description;
 
-    roster.innerHTML = TEAM.members
+    // Xáo thứ tự ngẫu nhiên mỗi lần mở trang (bật bằng "shuffle": true trong content/team.json).
+    const members = TEAM.shuffle ? shuffled(TEAM.members) : TEAM.members;
+
+    roster.innerHTML = members
       .map(
         (m, i) => `
         <a class="card" href="member.html#${encodeURIComponent(m.id)}"

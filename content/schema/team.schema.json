@@ -10,6 +10,10 @@
     "name": { "description": "Tên team, hiện to ở trang chủ.", "type": "string", "minLength": 1 },
     "tagline": { "description": "Dòng chữ nhỏ dưới tên team.", "type": "string" },
     "description": { "description": "Mô tả ngắn, dùng khi share link và cho SEO.", "type": "string" },
+    "shuffle": {
+      "description": "true = xáo thứ tự thành viên ngẫu nhiên mỗi lần mở trang chủ.",
+      "type": "boolean"
+    },
     "members": {
       "description": "Danh sách id thành viên, theo đúng thứ tự hiển thị. Mỗi id cần có file content/members/<id>.json",
       "type": "array",

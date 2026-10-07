@@ -103,7 +103,6 @@ loadTeam()
       <section class="hero">
         <div class="hero-photo">
           <img src="${escapeHTML(memberPhoto(m))}" data-photo-color="${escapeHTML(m.color)}" alt="Ảnh của ${escapeHTML(m.name)}" />
-          <span class="hero-index">${pad2(index + 1)}</span>
         </div>
 
         <div class="hero-content">
