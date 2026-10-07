@@ -11,7 +11,7 @@
          style="--accent:${escapeHTML(m.color)}; --i:${i}"
          aria-label="${escapeHTML(m.name)} — ${escapeHTML(m.role)}">
         <div class="card-media">
-          <img src="${escapeHTML(m.photo)}" alt="" loading="eager" />
+          <img src="${escapeHTML(memberPhoto(m))}" data-photo-color="${escapeHTML(m.color)}" alt="" loading="eager" />
         </div>
         <span class="card-index">${pad2(i + 1)}</span>
         <div class="card-info">
@@ -23,6 +23,7 @@
     )
     .join("");
 
+  attachPhotoFallbacks(roster);
   const cards = [...roster.querySelectorAll(".card")];
 
   let current = null;

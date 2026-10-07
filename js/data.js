@@ -4,7 +4,8 @@
  * ===================================================================
  *  - id:       dùng trên URL (member.html#...), viết liền, không dấu
  *  - color:    màu "chủ đạo" của từng người (glow khi hover, điểm nhấn trang cá nhân)
- *  - photo:    ảnh chân dung (nên dùng ảnh dọc tỉ lệ 3:4, nền tối hoặc đã tách nền)
+ *  - ảnh:      bỏ ảnh gốc vào photos/<id>.jpg, script sẽ tự tách nền ra images/members/<id>.webp.
+ *              (Muốn dùng ảnh khác thì thêm trường photo: "đường/dẫn/ảnh")
  *  - projects: những thứ đã làm được; image và link là tuỳ chọn
  * ===================================================================
  */
@@ -19,7 +20,6 @@ const TEAM = {
       role: "Frontend Developer",
       tagline: "Biến pixel thành trải nghiệm.",
       color: "#22d3ee",
-      photo: "images/members/member-1.svg",
       bio: "Giới thiệu ngắn về bản thân: bạn là ai, bạn làm gì trong team, điều gì khiến bạn hứng thú với công việc này.",
       stats: [
         { value: "4+", label: "Năm kinh nghiệm" },
@@ -59,7 +59,6 @@ const TEAM = {
       role: "UI/UX Designer",
       tagline: "Thiết kế là kể chuyện bằng hình.",
       color: "#f472b6",
-      photo: "images/members/member-2.svg",
       bio: "Giới thiệu ngắn về bản thân: bạn là ai, bạn làm gì trong team, điều gì khiến bạn hứng thú với công việc này.",
       stats: [
         { value: "3+", label: "Năm kinh nghiệm" },
@@ -93,7 +92,6 @@ const TEAM = {
       role: "Backend Engineer",
       tagline: "Những thứ bạn không thấy mới là thứ giữ mọi thứ chạy.",
       color: "#a3e635",
-      photo: "images/members/member-3.svg",
       bio: "Giới thiệu ngắn về bản thân: bạn là ai, bạn làm gì trong team, điều gì khiến bạn hứng thú với công việc này.",
       stats: [
         { value: "5+", label: "Năm kinh nghiệm" },
@@ -127,7 +125,6 @@ const TEAM = {
       role: "Content & Marketing",
       tagline: "Câu chuyện hay cần người kể hay.",
       color: "#fbbf24",
-      photo: "images/members/member-4.svg",
       bio: "Giới thiệu ngắn về bản thân: bạn là ai, bạn làm gì trong team, điều gì khiến bạn hứng thú với công việc này.",
       stats: [
         { value: "1M+", label: "Lượt tiếp cận" },
@@ -161,7 +158,6 @@ const TEAM = {
       role: "Project Manager",
       tagline: "Giữ con tàu đi đúng hướng.",
       color: "#a78bfa",
-      photo: "images/members/member-5.svg",
       bio: "Giới thiệu ngắn về bản thân: bạn là ai, bạn làm gì trong team, điều gì khiến bạn hứng thú với công việc này.",
       stats: [
         { value: "6+", label: "Năm kinh nghiệm" },

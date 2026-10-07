@@ -63,7 +63,7 @@
   document.getElementById("profile").innerHTML = `
     <section class="hero">
       <div class="hero-photo">
-        <img src="${escapeHTML(m.photo)}" alt="Ảnh của ${escapeHTML(m.name)}" />
+        <img src="${escapeHTML(memberPhoto(m))}" data-photo-color="${escapeHTML(m.color)}" alt="Ảnh của ${escapeHTML(m.name)}" />
         <span class="hero-index">${pad2(index + 1)}</span>
       </div>
 
@@ -99,6 +99,8 @@
       </a>
     </nav>
   `;
+
+  attachPhotoFallbacks(document.getElementById("profile"));
 
   // Hiện dần các thẻ dự án khi cuộn tới.
   const observer = new IntersectionObserver(

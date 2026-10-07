@@ -26,22 +26,40 @@ Mọi nội dung nằm trong **`js/data.js`** — chỉ cần sửa file này:
 | `role`     | Vai trò trong team                                              |
 | `tagline`  | Câu slogan ngắn                                                 |
 | `color`    | Màu chủ đạo (mã hex) — dùng cho glow và điểm nhấn               |
-| `photo`    | Đường dẫn ảnh chân dung                                         |
+| `photo`    | Không bắt buộc — mặc định dùng `images/members/<id>.webp`         |
 | `bio`      | Đoạn giới thiệu                                                 |
 | `stats`    | Các con số nổi bật `{ value, label }`                            |
 | `skills`   | Danh sách kỹ năng                                               |
 | `projects` | Những thứ đã làm `{ title, year, description, tags, link?, image? }` |
 | `socials`  | Link mạng xã hội `{ label, url }`                                |
 
-## Thay ảnh
+## Ảnh thành viên (tự tách nền)
 
-1. Bỏ ảnh vào `images/members/` (vd. `minh.jpg`).
-2. Sửa `photo` trong `js/data.js` thành `"images/members/minh.jpg"`.
+Chỉ cần bỏ ảnh chụp bình thường vào thư mục `photos/`, **đặt tên file trùng `id`** của thành viên:
 
-Mẹo để trông ngầu hơn:
-- Dùng ảnh **dọc, tỉ lệ khoảng 3:4**, mặt nằm ở 1/3 phía trên khung.
-- Ảnh **nền tối hoặc đã tách nền** (PNG trong suốt trên nền đen) sẽ cho hiệu ứng "bật sáng" đẹp nhất.
-- Cùng góc chụp / ánh sáng cho cả 5 người để trang chủ đồng bộ.
+```
+photos/minh.jpg  ->  images/members/minh.webp   (nền trong suốt, tự căn khung 3:4)
+```
+
+Trang web tự lấy `images/members/<id>.webp`, không cần sửa code hay dữ liệu. Ai chưa có ảnh thì hiện bóng người theo màu của người đó.
+
+**Cách 1 — tự động trên GitHub (không cần cài gì):** push ảnh vào `photos/`, GitHub Actions
+(`.github/workflows/photos.yml`) sẽ tách nền rồi tự commit ảnh kết quả vào cùng branch sau khoảng 2–3 phút.
+Xem tiến trình ở tab **Actions** của repo.
+
+**Cách 2 — chạy trên máy:**
+
+```bash
+pip install -r tools/requirements.txt
+python tools/process_photos.py          # chỉ xử lý ảnh mới / ảnh đã thay
+python tools/process_photos.py --force  # xử lý lại tất cả
+```
+
+Lần đầu sẽ tải model tách nền (~1GB, BiRefNet-portrait). Thay ảnh thì cứ ghi đè file cùng tên trong `photos/`.
+
+Mẹo: ảnh rõ mặt, thấy từ ngực trở lên, độ phân giải ≥ 1000px là đẹp nhất. Nền gì cũng được.
+
+Lưu ý: ảnh gốc trong `photos/` được commit vào repo — nếu repo public thì ai cũng xem được ảnh gốc.
 
 Ảnh dự án (`image` trong `projects`) nên dùng tỉ lệ 16:9.
 
@@ -59,5 +77,8 @@ js/data.js          ← DỮ LIỆU CỦA TEAM
 js/common.js        Tiện ích + hiệu ứng chuyển trang
 js/home.js          Logic trang chủ (hover / sáng / click)
 js/member.js        Render trang cá nhân
-images/members/     Ảnh thành viên (đang là ảnh placeholder)
+photos/             Ảnh gốc (bỏ ảnh vào đây)
+images/members/     Ảnh đã tách nền (tự sinh)
+tools/              Script tách nền
+.github/workflows/  Tự tách nền khi push ảnh
 ```
