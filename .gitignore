@@ -1,2 +1,4 @@
 .rembg-cache/
 __pycache__/
+# Playwright CLI output (may contain credentials)
+.playwright-cli/
