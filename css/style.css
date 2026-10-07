@@ -19,6 +19,8 @@
   --bar-line: rgba(0, 0, 0, 0.06);
   --accent: #ffffff;
   --fin-ink: #173a63;
+  --dev-ink: #00799a;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
 
   --font: "Be Vietnam Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
@@ -42,6 +44,7 @@
     --bar: rgba(16, 16, 18, 0.72);
     --bar-line: rgba(255, 255, 255, 0.08);
     --fin-ink: #a9c3e8;
+    --dev-ink: #6fd3ee;
   }
 }
 
@@ -58,6 +61,7 @@
   --bar: rgba(16, 16, 18, 0.72);
   --bar-line: rgba(255, 255, 255, 0.08);
   --fin-ink: #a9c3e8;
+  --dev-ink: #6fd3ee;
 }
 
 *,
@@ -985,6 +989,186 @@ img {
   [data-style="finance"] .stat dt {
     font-size: 13px;
   }
+}
+
+/* =========================================================
+   Phong cách theo ngành — Lập trình viên (data-style="developer")
+   Font code cho nhãn và số, xanh Golang, vai trò như dòng lệnh, slogan như comment,
+   kinh nghiệm như nhánh git, kỹ năng như một mảng trong code.
+   ========================================================= */
+[data-style="developer"] .portrait {
+  border-radius: 14px;
+}
+
+[data-style="developer"] .role,
+[data-style="developer"] .tagline,
+[data-style="developer"] .cv-title,
+[data-style="developer"] .stat dd,
+[data-style="developer"] .stat dt,
+[data-style="developer"] .entry-when,
+[data-style="developer"] .cert-name,
+[data-style="developer"] .cert-date,
+[data-style="developer"] .skill-groups,
+[data-style="developer"] .work-date,
+[data-style="developer"] .work-meta,
+[data-style="developer"] .work-tags,
+[data-style="developer"] .draft-note {
+  font-family: var(--mono);
+  letter-spacing: 0;
+}
+
+[data-style="developer"] .role {
+  font-size: 15px;
+  color: var(--dev-ink);
+}
+
+[data-style="developer"] .role::before {
+  content: "$ ";
+  color: var(--muted);
+}
+
+[data-style="developer"] .name::after {
+  content: "";
+  display: inline-block;
+  width: 0.08em;
+  height: 0.9em;
+  margin-left: 0.1em;
+  vertical-align: -0.08em;
+  background: var(--dev-ink);
+  animation: caret 1.1s steps(1) infinite;
+}
+
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+[data-style="developer"] .tagline {
+  max-width: 52ch;
+  font-size: clamp(16px, 1.5vw, 19px);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+[data-style="developer"] .tagline::before {
+  content: "// ";
+}
+
+[data-style="developer"] .stat dd {
+  font-size: clamp(32px, 3.2vw, 44px);
+  font-weight: 600;
+  color: var(--dev-ink);
+}
+
+[data-style="developer"] .stat dt {
+  font-size: 13px;
+}
+
+[data-style="developer"] .cv-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--dev-ink);
+}
+
+[data-style="developer"] .cv-title::before {
+  content: "## ";
+  color: var(--muted);
+}
+
+/* Kinh nghiệm như một nhánh git: đường dọc nối các mốc */
+[data-style="developer"] .entries {
+  gap: 0;
+}
+
+[data-style="developer"] .entry-body {
+  position: relative;
+  padding: 0 0 32px 24px;
+  border-left: 2px solid var(--hair);
+}
+
+[data-style="developer"] .entry:last-child .entry-body {
+  padding-bottom: 0;
+}
+
+[data-style="developer"] .entry-body::before {
+  content: "";
+  position: absolute;
+  left: -7px;
+  top: 0.35em;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--canvas);
+  border: 2px solid var(--dev-ink);
+}
+
+[data-style="developer"] .entry-when {
+  font-size: 13px;
+}
+
+[data-style="developer"] .cert-name {
+  font-size: 15px;
+}
+
+/* Kỹ năng như một khối code: // nhóm \n ["Go", "SQL"] */
+[data-style="developer"] .skill-groups {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+  padding: 24px 28px;
+  border-radius: 14px;
+  background: var(--parchment);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+[data-style="developer"] .skill-group h3 {
+  margin: 0;
+  font: inherit;
+  color: var(--muted);
+}
+
+[data-style="developer"] .skill-group h3::before {
+  content: "// ";
+}
+
+[data-style="developer"] .skill-group ul::before {
+  content: "[";
+  color: var(--muted);
+}
+
+[data-style="developer"] .skill-group ul::after {
+  content: "]";
+  color: var(--muted);
+}
+
+[data-style="developer"] .skill-group li {
+  display: inline;
+  padding: 0;
+  border: 0;
+  font-size: inherit;
+  color: var(--dev-ink);
+}
+
+[data-style="developer"] .skill-group li::before,
+[data-style="developer"] .skill-group li::after {
+  content: '"';
+}
+
+[data-style="developer"] .skill-group li:not(:last-child)::after {
+  content: '",\00a0';
+  color: var(--dev-ink);
+}
+
+[data-style="developer"] .work-tags::before {
+  content: "";
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--dev-ink);
 }
 
 /* ---- Lỗi tải dữ liệu ---- */

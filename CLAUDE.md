@@ -38,7 +38,9 @@ Mỗi lần sửa `content/` hoặc thêm ảnh: chạy validate trước khi co
   `@media (prefers-color-scheme: dark) :root:not([data-theme="light"])` lẫn `:root[data-theme="dark"]`.
 - Trang cá nhân có thể đổi phong cách theo ngành bằng `"style"` trong JSON (gắn `data-style` lên `<body>`):
   `finance` = kiểu báo cáo thường niên/CV tài chính (chữ có chân Source Serif 4 cho tiêu đề và số, xanh navy
-  `--fin-ink`, đường kẻ mảnh, ảnh hồ sơ nhỏ). Phong cách mới: thêm vào enum `style` trong schema và một khối
+  `--fin-ink`, đường kẻ mảnh, ảnh hồ sơ nhỏ); `developer` = kiểu lập trình viên (JetBrains Mono, xanh Golang
+  `--dev-ink`, vai trò như dòng lệnh `$`, slogan như comment `//`, kinh nghiệm như nhánh git, kỹ năng như mảng code).
+  Phong cách mới: thêm vào enum `style` trong schema và một khối
   `[data-style="…"]` trong CSS; chỉ ghi đè trình bày, không đổi cấu trúc dữ liệu.
 - Các mục CV (`experience`, `education`, `certifications`, `skillGroups`, `languages`, `cv`) dùng chung cho mọi người.
   `"draft": true` = dữ liệu mẫu, trang hiện dòng "Nội dung mẫu…"; bỏ cờ này khi đã có thông tin thật.

@@ -98,10 +98,11 @@
       }
     },
     "style": {
-      "description": "Phong cách trang cá nhân theo ngành. default: chung; finance: kiểu báo cáo tài chính / CV ngành tài chính.",
+      "description": "Phong cách trang cá nhân theo ngành. default: chung; finance: kiểu báo cáo tài chính / CV ngành tài chính; developer: kiểu lập trình viên (font code, dòng thời gian kiểu git).",
       "enum": [
         "default",
-        "finance"
+        "finance",
+        "developer"
       ]
     },
     "draft": {
