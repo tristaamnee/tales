@@ -94,6 +94,8 @@ Settings → Pages → Source: *Deploy from a branch* → chọn branch và thư
 
 ```
 content/            ← NỘI DUNG (JSON)
+CLAUDE.md           Hướng dẫn cho Claude Code (đọc tự động mỗi phiên)
+.claude/skills/     Skill cho Claude Code (thiết kế, rà UI, trình duyệt)
 index.html          Trang chủ
 member.html         Trang cá nhân (dùng chung cho cả 5 người)
 css/style.css       Toàn bộ giao diện
