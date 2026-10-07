@@ -1,6 +1,7 @@
 // Đọc nội dung từ content/*.json lúc build (chỉ chạy phía server).
 import fs from "node:fs";
 import path from "node:path";
+import { asset, duration, placeholderPhoto } from "./format";
 
 export type Stat = { value: string; label: string };
 export type Social = { platform: string; url: string; label?: string };
@@ -87,4 +88,26 @@ export function getMember(id: string): Member | undefined {
 export function memberPhoto(m: Member): string | null {
   const src = m.photo || `images/members/${m.id}.webp`;
   return fs.existsSync(path.join(PUBLIC, src)) ? src : null;
+}
+
+// Dữ liệu gửi xuống trình duyệt: cả team (5 người, vài KB) nạp một lần,
+// để chuyển giữa trang chủ và trang từng người chỉ là đổi state, không tải gì thêm.
+export type JobView = Job & { tenure: string };
+export type MemberView = Omit<Member, "experience"> & { photoSrc: string; experience?: JobView[] };
+export type TeamView = Omit<Team, "members"> & { members: MemberView[] };
+
+export function getTeamView(): TeamView {
+  const team = getTeam();
+  return {
+    ...team,
+    members: team.members.map((m) => {
+      const photo = memberPhoto(m);
+      return {
+        ...m,
+        photoSrc: photo ? asset(photo) : placeholderPhoto(m.color),
+        // Tính sẵn lúc build; trình duyệt tính lại theo hôm nay (components/Tenure.tsx).
+        experience: m.experience?.map((j) => ({ ...j, tenure: duration(j.start, j.end) })),
+      };
+    }),
+  };
 }

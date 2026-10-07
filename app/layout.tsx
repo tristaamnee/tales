@@ -17,12 +17,14 @@ const serif = Source_Serif_4({
   axes: ["opsz"], // cỡ quang học: chữ to tự mảnh và thanh hơn, giống bản gốc
   variable: "--font-serif",
   display: "swap",
+  preload: false, // chỉ dùng ở trang cá nhân; TalesApp tải sẵn lúc trình duyệt rảnh
 });
 const mono = JetBrains_Mono({
   subsets: ["latin", "vietnamese"],
   weight: ["400", "600"],
   variable: "--font-mono",
   display: "swap",
+  preload: false, // chỉ dùng ở trang cá nhân; TalesApp tải sẵn lúc trình duyệt rảnh
 });
 
 const team = getTeam();

@@ -88,13 +88,9 @@ body {
   transition: opacity 0.35s var(--ease), background-color 0.35s var(--ease), color 0.35s var(--ease);
 }
 
-body.is-leaving {
-  opacity: 0;
-}
-
-/* Mỗi trang hiện dần lên khi mở (app/template.tsx) */
-.page-fade {
-  animation: page-in 0.5s var(--ease) both;
+/* Đổi màn hình (trang chủ ↔ trang từng người) là đổi state: màn mới hiện dần rất nhanh, không chờ màn cũ */
+.view {
+  animation: page-in 0.2s var(--ease) both;
 }
 
 @keyframes page-in {
@@ -241,6 +237,11 @@ img {
 }
 
 /* Chờ xáo thứ tự xong mới cho thẻ hiện lên, tránh thấy thẻ đổi chỗ */
+/* Hiệu ứng thẻ lần lượt hiện lên chỉ chạy lần đầu; quay lại trang chủ thì thẻ có sẵn ngay */
+.roster.no-intro .card {
+  animation: none;
+}
+
 .roster[data-ready="false"] .card {
   opacity: 0;
   animation-play-state: paused;
@@ -431,7 +432,6 @@ img {
   background:
     radial-gradient(65% 45% at 50% 40%, color-mix(in srgb, var(--accent) 42%, transparent), transparent 75%),
     var(--tile);
-  animation: rise 0.9s var(--ease) both;
 }
 
 .portrait img {
@@ -446,13 +446,6 @@ img {
 .intro {
   min-width: 0;
 }
-
-.intro > * {
-  animation: rise 0.8s var(--ease) both;
-}
-.intro > :nth-child(2) { animation-delay: 0.05s; }
-.intro > :nth-child(3) { animation-delay: 0.1s; }
-.intro > :nth-child(n + 4) { animation-delay: 0.15s; }
 
 .role {
   margin: 0;

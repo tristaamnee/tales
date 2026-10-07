@@ -9,8 +9,15 @@ nội dung giao diện bằng tiếng Việt.
 - `content/team.json` — tên team, tagline, `shuffle` (xáo thứ tự trang chủ), danh sách id thành viên
 - `content/members/<id>.json` — hồ sơ từng người; schema ở `content/schema/`; mẫu ở `_template.json`
 - `lib/content.ts` đọc JSON lúc build (kiểu TypeScript của dữ liệu nằm ở đây) · `lib/format.ts` định dạng ngày, `asset()`
-- `app/page.tsx` trang chủ · `app/thanh-vien/[id]/page.tsx` trang cá nhân (generateStaticParams) · `app/template.tsx` hiệu ứng vào trang
-- `components/Roster.tsx` (hover/cuộn/chạm/xáo, client) · `ThemeToggle.tsx` · `TransitionLink.tsx` (mờ dần khi rời trang) · `Tenure.tsx`
+- Điều hướng là **đổi state theo slug**: `components/TalesApp.tsx` nhận dữ liệu cả team (`getTeamView()`, tính sẵn ảnh
+  và thời gian làm việc lúc build) và chọn màn hình theo `usePathname()`; bấm link gọi `go(path)` →
+  `history.pushState` (Next.js tự cập nhật `usePathname`, Back/Forward tự chạy), không tải trang, không chờ hiệu ứng.
+  `app/page.tsx` và `app/thanh-vien/[id]/page.tsx` (generateStaticParams) đều chỉ render `<TalesApp>`, để mở link
+  trực tiếp/F5 vẫn có HTML dựng sẵn. Link nội bộ dùng `AppLink` (`to="/..."`) hoặc `useNav()` từ `components/nav.ts`
+  — không dùng `next/link`/`router.push` cho các màn trong site (sẽ tải lại dữ liệu trang).
+- `components/HomeView.tsx` · `Roster.tsx` (hover/cuộn/chạm) · `MemberView.tsx` (trang cá nhân) · `ThemeToggle.tsx` · `Tenure.tsx`.
+  TalesApp còn: xáo thứ tự một lần mỗi phiên, nhớ vị trí cuộn trang chủ, đổi `document.title`, và lúc rảnh tải sẵn
+  ảnh + font chỉ dùng ở trang cá nhân. Hiệu ứng đổi màn hình chỉ là `.view` hiện dần 0,2s.
 - `app/globals.css` — toàn bộ giao diện (token ở `:root`); font qua `next/font` (biến `--font-sans/serif/mono`)
 - `photos/<id>.jpg` — ảnh gốc → `tools/process_photos.py` tách nền ra `public/images/members/<id>.webp`
 - `public/member.html` — chuyển link cũ `member.html#<id>` sang `/thanh-vien/<id>/`
@@ -27,8 +34,8 @@ python tools/process_photos.py             # tách nền ảnh mới trong photo
 
 Mỗi lần sửa `content/` hoặc thêm ảnh: chạy validate trước khi commit. GitHub Actions chạy validate
 (`content.yml`), tự tách nền khi push ảnh (`photos.yml`) và build + deploy GitHub Pages khi push lên `main` (`deploy.yml`).
-Site có thể nằm ở thư mục con: đường dẫn file trong `public/` phải đi qua `asset()`; link nội bộ dùng `next/link`
-hoặc `TransitionLink` (tự thêm basePath).
+Site có thể nằm ở thư mục con: đường dẫn file trong `public/` phải đi qua `asset()`; link nội bộ dùng `AppLink`/`useNav()`
+(tự thêm basePath).
 
 ## Quy ước
 
