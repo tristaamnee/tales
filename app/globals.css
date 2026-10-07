@@ -1148,7 +1148,7 @@ img {
 }
 
 [data-style="developer"] .skill-group li {
-  display: inline;
+  display: inline-block; /* màn hẹp: chỉ xuống dòng giữa các mục, không cắt đôi một mục */
   padding: 0;
   border: 0;
   font-size: inherit;
@@ -1160,8 +1160,12 @@ img {
   content: '"';
 }
 
+[data-style="developer"] .skill-group li:not(:last-child) {
+  margin-right: 1ch;
+}
+
 [data-style="developer"] .skill-group li:not(:last-child)::after {
-  content: '",\00a0';
+  content: '",';
   color: var(--dev-ink);
 }
 

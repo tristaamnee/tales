@@ -6,78 +6,36 @@
   "tagline": "Thợ đụng chính hiệu: đụng gì làm nấy.",
   "color": "#8cc9a0",
   "style": "developer",
-  "location": "TP. Hồ Chí Minh",
   "bio": [
-    "Lập trình viên backend, làm chính với Go: thiết kế API, xử lý dữ liệu và giữ cho hệ thống chạy ổn định khi lượng người dùng tăng.",
-    "Ngoài backend thì việc gì team cần cũng xắn tay vào: dựng hạ tầng, viết frontend, tự động hoá quy trình."
-  ],
-  "stats": [
-    { "value": "4+", "label": "Năm kinh nghiệm" },
-    { "value": "30+", "label": "API & dịch vụ đã viết" },
-    { "value": "99.95%", "label": "Uptime hệ thống phụ trách" },
-    { "value": "2.000", "label": "Request/giây lúc cao điểm" }
-  ],
-  "experience": [
-    {
-      "company": "Công ty Công nghệ (mẫu)",
-      "title": "Backend Engineer",
-      "start": "2023-01",
-      "location": "TP. Hồ Chí Minh",
-      "highlights": [
-        "Xây dựng dịch vụ thanh toán bằng Go và PostgreSQL, xử lý ổn định 2.000 request/giây lúc cao điểm.",
-        "Tách hệ thống cũ thành các dịch vụ nhỏ giao tiếp qua gRPC, giảm thời gian phản hồi trung bình 40%.",
-        "Thiết lập CI/CD với GitHub Actions và giám sát bằng Grafana."
-      ]
-    },
-    {
-      "company": "Startup (mẫu)",
-      "title": "Fullstack Developer",
-      "start": "2021-06",
-      "end": "2022-12",
-      "highlights": [
-        "Viết API bằng Go và giao diện quản trị bằng React cho sản phẩm thương mại điện tử.",
-        "Dựng hạ tầng trên Docker, triển khai lên cloud."
-      ]
-    }
+    "Lập trình viên backend làm chính với Go, hiện tự làm các dự án cá nhân và đang học năm 2 tại UIT (hệ vừa học vừa làm).",
+    "Đưa một việc kèm hạn chót, miễn nó không đòi hỏi trình độ bậc thầy như vẽ một bức tranh hoàn mỹ hay thiết kế quy trình cho nhà máy điện hạt nhân, thì khả năng cao là việc đó sẽ xong."
   ],
   "education": [
     {
-      "school": "Trường Đại học Bách khoa (mẫu)",
-      "degree": "Kỹ sư Công nghệ Thông tin",
-      "start": "2016",
-      "end": "2021"
+      "school": "Trường Đại học Công nghệ Thông tin – ĐHQG-HCM (UIT)",
+      "degree": "Hệ vừa học vừa làm",
+      "note": "Đang học năm 2"
     }
   ],
-  "certifications": [
-    { "name": "AWS Certified Developer – Associate", "issuer": "Amazon Web Services", "date": "2024", "status": "done" }
-  ],
   "skillGroups": [
-    { "label": "Ngôn ngữ", "items": ["Go", "TypeScript", "SQL"] },
-    { "label": "Hạ tầng & dữ liệu", "items": ["PostgreSQL", "Redis", "Docker", "Kubernetes", "gRPC"] },
-    { "label": "Công cụ", "items": ["Git", "GitHub Actions", "Linux", "Grafana"] },
-    { "label": "Đụng thêm", "items": ["React", "Figma"] }
+    { "label": "Ngôn ngữ", "items": ["Go", "JavaScript"] },
+    { "label": "Database & hạ tầng", "items": ["PostgreSQL", "Redis", "Docker", "Pulumi"] },
+    { "label": "Công cụ", "items": ["Git", "CI/CD", "Cloud"] },
+    { "label": "Đụng thêm", "items": ["Frontend", "DevOps (cơ bản)"] }
   ],
   "works": [
     {
       "type": "project",
-      "title": "Dịch vụ thanh toán",
-      "date": "2024",
-      "role": "Backend chính",
-      "summary": "Cổng thanh toán nội bộ hỗ trợ nhiều ngân hàng, có đối soát tự động cuối ngày.",
-      "tags": ["Go", "PostgreSQL", "gRPC"],
+      "title": "TALES — trang giới thiệu team",
+      "date": "2026",
+      "summary": "Chính trang bạn đang xem: Next.js xuất web tĩnh, chuyển giữa các thành viên bằng state theo slug nên không tải lại trang, nội dung tách ra JSON có schema kiểm tra, ảnh tự tách nền bằng rembg (BiRefNet), GitHub Actions kiểm tra nội dung, xử lý ảnh và tự deploy lên GitHub Pages.",
+      "tags": ["Next.js", "TypeScript", "Python", "GitHub Actions"],
+      "links": [{ "label": "Mã nguồn", "url": "https://github.com/tristaamnee/tales" }],
       "featured": true
-    },
-    {
-      "type": "project",
-      "title": "Realtime chat",
-      "date": "2023",
-      "summary": "Máy chủ chat thời gian thực dùng WebSocket, chịu 10.000 kết nối đồng thời.",
-      "tags": ["Go", "Redis", "WebSocket"]
     }
   ],
   "socials": [
-    { "platform": "github", "url": "https://github.com/" },
-    { "platform": "linkedin", "url": "https://www.linkedin.com/" },
-    { "platform": "email", "url": "mailto:tam@example.com" }
+    { "platform": "github", "url": "https://github.com/tristaamnee" },
+    { "platform": "email", "url": "mailto:tritam20082001@gmail.com" }
   ]
 }
