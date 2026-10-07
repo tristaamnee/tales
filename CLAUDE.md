@@ -33,6 +33,9 @@ Mỗi lần sửa `content/` hoặc thêm ảnh: chạy validate trước khi co
   không viền trang trí, không bóng đổ, không gradient trang trí, không chữ HOA giãn rộng, không số thứ tự trang trí.
   Ô ảnh nền tối; ảnh mặc định xám tối, người được hover/cuộn tới thì ảnh sáng lên đủ màu kèm ánh sáng dịu màu riêng.
   Màu riêng của thành viên chỉ dùng cho ánh sáng sau ảnh, không dùng cho chữ hay viền.
+- Có chế độ ban đêm: mặc định theo máy, nút "Tự động / Sáng / Tối" lưu lựa chọn vào localStorage (`tales-theme`).
+  Mọi màu phải lấy từ token trong `:root` (bản sáng) và được định nghĩa lại cho tối trong cả
+  `@media (prefers-color-scheme: dark) :root:not([data-theme="light"])` lẫn `:root[data-theme="dark"]`.
 - Dấu chồng tiếng Việt (Ồ, Ấ, Ữ…) không được bị cắt: kiểm tra `line-height` khi đổi cỡ chữ tên nhiều dòng.
 - Màu mỗi thành viên: dịu, khác nhau rõ ràng. Không dùng mã màu Tailwind mặc định.
 - Ảnh gốc người dùng gửi trong chat nằm ở thư mục ảnh của phiên; copy vào `photos/<id>.jpg` rồi chạy `process_photos.py`.

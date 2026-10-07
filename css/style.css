@@ -15,12 +15,45 @@
   --hair: #d2d2d7;
   --tile: #1d1d1f;
   --link: #0066cc;
+  --bar: rgba(255, 255, 255, 0.8);
+  --bar-line: rgba(0, 0, 0, 0.06);
   --accent: #ffffff;
 
   --font: "Be Vietnam Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
   --gutter: clamp(16px, 4vw, 48px);
   --page: min(1280px, 100% - 2 * var(--gutter));
   --ease: cubic-bezier(0.28, 0.11, 0.32, 1);
+}
+
+/* Chế độ ban đêm: theo máy (mặc định) hoặc theo lựa chọn của người xem (data-theme trên <html>) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --canvas: #101012;
+    --parchment: #1a1a1d;
+    --ink: #f5f5f7;
+    --ink-2: #d2d2d7;
+    --muted: #98989d;
+    --hair: #38383c;
+    --tile: #1d1d1f;
+    --link: #2997ff;
+    --bar: rgba(16, 16, 18, 0.72);
+    --bar-line: rgba(255, 255, 255, 0.08);
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --canvas: #101012;
+  --parchment: #1a1a1d;
+  --ink: #f5f5f7;
+  --ink-2: #d2d2d7;
+  --muted: #98989d;
+  --hair: #38383c;
+  --tile: #1d1d1f;
+  --link: #2997ff;
+  --bar: rgba(16, 16, 18, 0.72);
+  --bar-line: rgba(255, 255, 255, 0.08);
 }
 
 *,
@@ -45,7 +78,7 @@ body {
   -webkit-font-smoothing: antialiased;
   touch-action: manipulation;
   animation: page-in 0.5s var(--ease) both;
-  transition: opacity 0.35s var(--ease);
+  transition: opacity 0.35s var(--ease), background-color 0.35s var(--ease), color 0.35s var(--ease);
 }
 
 body.is-leaving {
@@ -100,6 +133,31 @@ img {
   top: 12px;
 }
 
+/* ---- Nút chuyển giao diện ---- */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 4px;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition: color 0.25s var(--ease);
+}
+
+.theme-toggle:hover {
+  color: var(--ink);
+}
+
+.theme-toggle svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+
 /* =========================================================
    Trang chủ
    ========================================================= */
@@ -110,6 +168,12 @@ img {
 
 .page-home main {
   flex: 1;
+}
+
+.home-tools {
+  position: absolute;
+  top: 12px;
+  right: var(--gutter);
 }
 
 .hero {
@@ -295,10 +359,10 @@ img {
   justify-content: space-between;
   height: 52px;
   padding-inline: max(var(--gutter), (100% - 1280px) / 2);
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--bar);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   backdrop-filter: saturate(180%) blur(20px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid var(--bar-line);
 }
 
 .wordmark {
@@ -306,6 +370,12 @@ img {
   font-weight: 600;
   letter-spacing: -0.02em;
   text-decoration: none;
+}
+
+.topbar-tools {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 .back-link {

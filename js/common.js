@@ -53,3 +53,51 @@ document.addEventListener("click", (e) => {
 
 // Khi bấm Back của trình duyệt, trang có thể được lấy từ bfcache với class is-leaving.
 window.addEventListener("pageshow", () => document.body.classList.remove("is-leaving"));
+
+// ---- Chế độ sáng / tối ----
+// "auto" theo máy; "light"/"dark" là lựa chọn của người xem, lưu trong localStorage.
+const THEME_KEY = "tales-theme";
+const THEME_ORDER = ["auto", "light", "dark"];
+const THEME_LABELS = { auto: "Tự động", light: "Sáng", dark: "Tối" };
+const THEME_ICON =
+  '<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" stroke-width="1.5"/>' +
+  '<path d="M8 1.75a6.25 6.25 0 0 1 0 12.5z" fill="currentColor"/></svg>';
+
+function getTheme() {
+  try {
+    const t = localStorage.getItem(THEME_KEY);
+    return THEME_ORDER.includes(t) ? t : "auto";
+  } catch {
+    return "auto";
+  }
+}
+
+function applyTheme(theme) {
+  const root = document.documentElement;
+  if (theme === "auto") delete root.dataset.theme;
+  else root.dataset.theme = theme;
+
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.content = getComputedStyle(root).getPropertyValue("--canvas").trim();
+
+  document.querySelectorAll("[data-theme-toggle]").forEach((btn) => {
+    const next = THEME_ORDER[(THEME_ORDER.indexOf(theme) + 1) % THEME_ORDER.length];
+    btn.innerHTML = `${THEME_ICON}<span>${THEME_LABELS[theme]}</span>`;
+    btn.setAttribute("aria-label", `Giao diện: ${THEME_LABELS[theme]}. Bấm để chuyển sang ${THEME_LABELS[next]}.`);
+  });
+}
+
+document.querySelectorAll("[data-theme-toggle]").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const current = getTheme();
+    const next = THEME_ORDER[(THEME_ORDER.indexOf(current) + 1) % THEME_ORDER.length];
+    try {
+      if (next === "auto") localStorage.removeItem(THEME_KEY);
+      else localStorage.setItem(THEME_KEY, next);
+    } catch {}
+    applyTheme(next);
+  });
+});
+
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => applyTheme(getTheme()));
+applyTheme(getTheme());
