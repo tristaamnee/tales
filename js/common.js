@@ -9,10 +9,6 @@ function escapeHTML(value) {
     .replace(/'/g, "&#39;");
 }
 
-function pad2(n) {
-  return String(n).padStart(2, "0");
-}
-
 // Ảnh thành viên: mặc định lấy images/members/<id>.webp (ảnh đã tách nền bằng tools/process_photos.py).
 // Có thể ghi đè bằng trường photo trong dữ liệu.
 function memberPhoto(m) {
@@ -23,7 +19,7 @@ function memberPhoto(m) {
 function placeholderPhoto(color) {
   const svg =
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1200">` +
-    `<g fill="#1a1a22" stroke="${color}" stroke-opacity=".85" stroke-width="4">` +
+    `<g fill="none" stroke="${color}" stroke-opacity=".8" stroke-width="3">` +
     `<path d="M90 1200C105 960 240 840 450 832C660 840 795 960 810 1200Z"/>` +
     `<path d="M383 705H517L528 848C480 878 420 878 372 848Z"/>` +
     `<ellipse cx="450" cy="540" rx="168" ry="202"/></g></svg>`;

@@ -53,13 +53,7 @@ loadTeam()
     document.body.style.setProperty("--accent", m.color);
 
     const stats = (m.stats || [])
-      .map(
-        (s) => `
-        <div class="stat">
-          <span class="stat-value">${escapeHTML(s.value)}</span>
-          <span class="stat-label">${escapeHTML(s.label)}</span>
-        </div>`
-      )
+      .map((s) => `<div class="stat"><dt>${escapeHTML(s.label)}</dt><dd>${escapeHTML(s.value)}</dd></div>`)
       .join("");
 
     const skills = (m.skills || []).map((s) => `<li>${escapeHTML(s)}</li>`).join("");
@@ -68,89 +62,77 @@ loadTeam()
       .map((s) => {
         const label = s.label || SOCIAL_LABELS[s.platform] || s.platform;
         const external = !s.url.startsWith("mailto:");
-        return `<a href="${escapeHTML(s.url)}"${external ? ' target="_blank" rel="noopener"' : ""}>${escapeHTML(label)} ↗</a>`;
+        return `<li><a href="${escapeHTML(s.url)}"${external ? ' target="_blank" rel="noopener"' : ""}>${escapeHTML(label)}</a></li>`;
       })
       .join("");
 
-    const bio = [].concat(m.bio || []).map((p) => `<p class="hero-bio">${escapeHTML(p)}</p>`).join("");
+    const bio = [].concat(m.bio || []).map((p) => `<p>${escapeHTML(p)}</p>`).join("");
 
     // Mới nhất lên đầu; mục không có ngày xuống cuối.
-    const works = [...(m.works || [])].sort((a, b) => (b.date || "").localeCompare(a.date || ""));
-
-    const projects = works
-      .map((w, i) => {
-        const tags = (w.tags || []).map((t) => `<span>${escapeHTML(t)}</span>`).join("");
-        const image = w.image ? `<img class="project-image" src="${escapeHTML(w.image)}" alt="" loading="lazy" />` : "";
+    const works = [...(m.works || [])]
+      .sort((a, b) => (b.date || "").localeCompare(a.date || ""))
+      .map((w) => {
+        const tags = (w.tags || []).map(escapeHTML).join(" · ");
         const links = (w.links || [])
-          .map((l) => `<a class="project-link" href="${escapeHTML(l.url)}" target="_blank" rel="noopener">${escapeHTML(l.label)} ↗</a>`)
+          .map((l) => `<a href="${escapeHTML(l.url)}" target="_blank" rel="noopener">${escapeHTML(l.label)} <span aria-hidden="true">↗</span></a>`)
           .join("");
         return `
-          <article class="project reveal${w.featured ? " is-featured" : ""}" style="--d:${i}">
-            ${image}
-            <div class="project-head">
-              <span class="project-type">${escapeHTML(WORK_TYPES[w.type || "project"] || w.type)}</span>
-              <span class="project-year">${escapeHTML(formatDate(w.date))}</span>
+          <li class="work${w.featured ? " is-featured" : ""}">
+            <p class="work-date">${w.date ? `<time datetime="${escapeHTML(w.date)}">${escapeHTML(formatDate(w.date))}</time>` : ""}</p>
+            <div class="work-body">
+              <p class="work-type">${escapeHTML(WORK_TYPES[w.type || "project"] || w.type)}${w.role ? ` · ${escapeHTML(w.role)}` : ""}</p>
+              <h3 class="work-title">${escapeHTML(w.title)}</h3>
+              ${w.summary ? `<p class="work-summary">${escapeHTML(w.summary)}</p>` : ""}
+              ${w.image ? `<img class="work-image" src="${escapeHTML(w.image)}" alt="${escapeHTML(w.title)}" width="1600" height="900" loading="lazy" />` : ""}
+              ${tags ? `<p class="work-tags">${tags}</p>` : ""}
+              ${links ? `<p class="work-links">${links}</p>` : ""}
             </div>
-            <h3 class="project-title">${escapeHTML(w.title)}</h3>
-            ${w.role ? `<p class="project-role">${escapeHTML(w.role)}</p>` : ""}
-            ${w.summary ? `<p class="project-desc">${escapeHTML(w.summary)}</p>` : ""}
-            ${tags || links ? `<div class="project-foot"><div class="project-tags">${tags}</div>${links ? `<div class="project-links">${links}</div>` : ""}</div>` : ""}
-          </article>`;
+          </li>`;
       })
       .join("");
 
     document.getElementById("profile").innerHTML = `
-      <section class="hero">
-        <div class="hero-photo">
-          <img src="${escapeHTML(memberPhoto(m))}" data-photo-color="${escapeHTML(m.color)}" alt="Ảnh của ${escapeHTML(m.name)}" />
-        </div>
+      <article class="chapter">
+        <header class="chapter-head">
+          <figure class="portrait">
+            <img src="${escapeHTML(memberPhoto(m))}" data-photo-color="${escapeHTML(m.color)}"
+                 alt="Ảnh của ${escapeHTML(m.name)}" width="900" height="1200" fetchpriority="high" />
+          </figure>
 
-        <div class="hero-content">
-          <p class="eyebrow">${escapeHTML(m.role)}</p>
-          <h1 class="hero-name">${escapeHTML(m.name)}</h1>
-          <p class="hero-tagline">${escapeHTML(m.tagline)}</p>
-          ${bio}
+          <div class="intro">
+            <p class="role">${escapeHTML(m.role)}</p>
+            <h1 class="name">${escapeHTML(m.name)}</h1>
+            ${m.tagline ? `<p class="tagline">“${escapeHTML(m.tagline)}”</p>` : ""}
+            ${bio ? `<div class="bio">${bio}</div>` : ""}
 
-          ${stats ? `<div class="stats">${stats}</div>` : ""}
+            <dl class="facts">
+              ${stats}
+              ${skills ? `<div class="fact"><dt>Kỹ năng</dt><dd><ul class="inline-list">${skills}</ul></dd></div>` : ""}
+              ${socials ? `<div class="fact"><dt>Liên hệ</dt><dd><ul class="inline-list links">${socials}</ul></dd></div>` : ""}
+            </dl>
+          </div>
+        </header>
 
-          ${skills ? `<h2 class="label">Kỹ năng</h2><ul class="skills">${skills}</ul>` : ""}
+        ${
+          works
+            ? `<section class="works" aria-labelledby="works-title">
+                 <h2 id="works-title">Những thứ đã làm được</h2>
+                 <ol class="work-list">${works}</ol>
+               </section>`
+            : ""
+        }
+      </article>
 
-          ${socials ? `<div class="socials">${socials}</div>` : ""}
-        </div>
-      </section>
-
-      ${
-        projects
-          ? `<section class="works">
-               <h2 class="section-title"><span>Những thứ đã làm được</span></h2>
-               <div class="projects">${projects}</div>
-             </section>`
-          : ""
-      }
-
-      <nav class="member-nav" aria-label="Thành viên khác">
+      <nav class="chapter-nav" aria-label="Thành viên khác">
         <a href="member.html#${encodeURIComponent(prev.id)}" data-transition style="--c:${escapeHTML(prev.color)}">
-          <small>← Trước</small><span>${escapeHTML(prev.name)}</span>
+          <small>← Người trước</small><span>${escapeHTML(prev.name)}</span>
         </a>
         <a href="member.html#${encodeURIComponent(next.id)}" data-transition style="--c:${escapeHTML(next.color)}">
-          <small>Tiếp →</small><span>${escapeHTML(next.name)}</span>
+          <small>Người tiếp theo →</small><span>${escapeHTML(next.name)}</span>
         </a>
       </nav>
     `;
 
     attachPhotoFallbacks(document.getElementById("profile"));
-
-    // Hiện dần các thẻ dự án khi cuộn tới.
-    const observer = new IntersectionObserver(
-      (entries) =>
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            observer.unobserve(entry.target);
-          }
-        }),
-      { threshold: 0.15 }
-    );
-    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
   })
   .catch(showLoadError);

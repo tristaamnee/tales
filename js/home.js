@@ -18,21 +18,22 @@ loadTeam()
     // Xáo thứ tự ngẫu nhiên mỗi lần mở trang (bật bằng "shuffle": true trong content/team.json).
     const members = TEAM.shuffle ? shuffled(TEAM.members) : TEAM.members;
 
+    document.getElementById("team-count").textContent = `${TEAM.members.length} chương`;
+
     roster.innerHTML = members
       .map(
         (m, i) => `
         <a class="card" href="member.html#${encodeURIComponent(m.id)}"
            style="--accent:${escapeHTML(m.color)}; --i:${i}"
-           aria-label="${escapeHTML(m.name)} — ${escapeHTML(m.role)}">
-          <div class="card-media">
-            <img src="${escapeHTML(memberPhoto(m))}" data-photo-color="${escapeHTML(m.color)}" alt="" loading="eager" />
-          </div>
-          <span class="card-index">${pad2(i + 1)}</span>
-          <div class="card-info">
+           aria-label="${escapeHTML(m.name)}, ${escapeHTML(m.role)}">
+          <img class="card-photo" src="${escapeHTML(memberPhoto(m))}" data-photo-color="${escapeHTML(m.color)}"
+               alt="" width="900" height="1200" fetchpriority="high" />
+          <span class="card-spine" aria-hidden="true">${escapeHTML(m.name)}</span>
+          <span class="card-info">
             <span class="card-role">${escapeHTML(m.role)}</span>
             <span class="card-name">${escapeHTML(m.name)}</span>
-          </div>
-          <span class="card-line" aria-hidden="true"></span>
+            <span class="card-cta" aria-hidden="true">Mở hồ sơ →</span>
+          </span>
         </a>`
       )
       .join("");

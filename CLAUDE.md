@@ -27,9 +27,13 @@ Mỗi lần sửa `content/` hoặc thêm ảnh: chạy validate trước khi co
 
 - Thêm/sửa thành viên = sửa JSON, không sửa code. Trường mới → cập nhật cả schema, renderer và `_template.json`.
 - Mọi chuỗi từ JSON đưa vào HTML phải qua `escapeHTML()`.
-- Tên in hoa tiếng Việt có dấu chồng (Ồ, Ấ, Ữ…): giữ `line-height` đủ cao (`.card-name` 1.5, `.hero-name` 1.22) để dấu không bị cắt.
-- Font: Oswald (tiêu đề) + Be Vietnam Pro (nội dung), cả hai có đủ dấu tiếng Việt. Font mới phải hỗ trợ tiếng Việt.
-- Màu mỗi thành viên phải khác nhau rõ ràng và đủ sáng trên nền tối.
+- Hướng thiết kế: TALES = những câu chuyện. Trang chủ là kệ sách (mỗi người một gáy sách, tên in dọc, rê chuột thì
+  sách mở ra và người đó sáng lên); trang cá nhân trình bày như một chương sách. Tránh lại các kiểu "AI": chữ HOA giãn
+  rộng, chữ viền rỗng, số thứ tự trang trí, thẻ có viền + đổ bóng + glow, chip viền, màu Tailwind mặc định.
+- Font: Newsreader (chữ có chân, tiêu đề/tên) + Be Vietnam Pro (nội dung); cả hai đủ dấu tiếng Việt. Font mới phải hỗ trợ tiếng Việt.
+  Viết thường như câu bình thường, không `text-transform: uppercase`. Dấu chồng (Ồ, Ấ, Ữ…) không được bị cắt: kiểm tra
+  `line-height` khi đổi cỡ chữ.
+- Màu mỗi thành viên: dịu (độ bão hoà vừa phải), khác nhau rõ ràng, đủ sáng trên nền tối. Không dùng mã màu Tailwind.
 - Ảnh gốc người dùng gửi trong chat nằm ở thư mục ảnh của phiên; copy vào `photos/<id>.jpg` rồi chạy `process_photos.py`.
   Kiểm tra ảnh không chứa GPS trong EXIF trước khi commit.
 
