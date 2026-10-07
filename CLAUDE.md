@@ -48,6 +48,7 @@ Site có thể nằm ở thư mục con: đường dẫn file trong `public/` ph
   không viền trang trí, không bóng đổ, không gradient trang trí, không chữ HOA giãn rộng, không số thứ tự trang trí.
   Ô ảnh nền tối; thẻ trang chủ gồm hai lớp cùng khung (ảnh gốc ở dưới, người đã tách nền ở trên), mặc định cả hai
   xám tối; người được hover/cuộn tới thì nền mờ đi và tối lại, người rõ nét đủ màu kèm ánh sáng dịu màu riêng.
+  Ảnh lớn ở trang cá nhân dùng đúng trạng thái "sáng lên" đó (nền ảnh gốc mờ, người rõ nét).
   Màu riêng của thành viên chỉ dùng cho ánh sáng sau ảnh, không dùng cho chữ hay viền.
 - Có chế độ ban đêm: mặc định theo máy, nút "Tự động / Sáng / Tối" lưu lựa chọn vào localStorage (`tales-theme`).
   Mọi màu phải lấy từ token trong `:root` (bản sáng) và được định nghĩa lại cho tối trong cả

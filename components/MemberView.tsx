@@ -50,9 +50,15 @@ export default function MemberView({ member: m, teamName }: { member: Member; te
         {m.draft && <p className="draft-note">Nội dung mẫu, sẽ được thay bằng thông tin thật.</p>}
 
         <section className="profile-hero">
-          <figure className="portrait" style={{ "--accent": m.color } as CSSProperties}>
+          <figure className={`portrait${m.bgSrc ? " has-bg" : ""}`} style={{ "--accent": m.color } as CSSProperties}>
+            {/* Giống thẻ trang chủ lúc sáng lên: ảnh gốc mờ phía sau, người rõ nét phía trước */}
+            {m.bgSrc && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img className="portrait-bg" src={m.bgSrc} alt="" width={900} height={1200} />
+            )}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
+              className="portrait-person"
               src={m.photoSrc}
               alt={`Ảnh của ${m.name}`}
               width={900}
