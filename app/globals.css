@@ -514,6 +514,29 @@ img {
   mask-image: linear-gradient(to bottom, #000 62%, transparent 94%);
 }
 
+/* Có ảnh gốc: nền mờ và tối đi, ánh sáng màu riêng phủ nhẹ lên, người rõ nét ở trên (cùng khung nên khớp nhau) */
+.portrait.has-bg {
+  isolation: isolate;
+}
+
+.portrait .portrait-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  filter: blur(7px) brightness(0.6) saturate(0.85);
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+.portrait.has-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(65% 45% at 50% 40%, color-mix(in srgb, var(--accent) 42%, transparent), transparent 75%);
+  opacity: 0.55;
+}
+
 .intro {
   min-width: 0;
 }
