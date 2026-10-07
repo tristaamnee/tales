@@ -1,0 +1,384 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "member.schema.json",
+  "title": "Thành viên",
+  "description": "Hồ sơ của một thành viên. Tên file phải trùng id: content/members/<id>.json",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "role",
+    "color"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "description": "Viết thường, không dấu, nối bằng gạch ngang. Dùng cho link (member.html#<id>) và tên ảnh (photos/<id>.jpg).",
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "name": {
+      "description": "Tên hiển thị.",
+      "type": "string",
+      "minLength": 1
+    },
+    "role": {
+      "description": "Vai trò trong team, ví dụ: Frontend Developer.",
+      "type": "string",
+      "minLength": 1
+    },
+    "tagline": {
+      "description": "Một câu slogan ngắn.",
+      "type": "string"
+    },
+    "color": {
+      "description": "Màu chủ đạo dạng #rrggbb. Nên chọn màu sáng vì nền trang tối.",
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "photo": {
+      "description": "Không bắt buộc. Mặc định dùng images/members/<id>.webp (ảnh tự tách nền từ photos/<id>.jpg).",
+      "type": "string"
+    },
+    "bio": {
+      "description": "Giới thiệu bản thân. Mỗi phần tử là một đoạn văn.",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "stats": {
+      "description": "Tối đa 4 con số nổi bật.",
+      "type": "array",
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "required": [
+          "value",
+          "label"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "value": {
+            "description": "Con số, ví dụ: 4+, 30, 99.9%",
+            "type": "string"
+          },
+          "label": {
+            "description": "Ý nghĩa con số, ví dụ: Năm kinh nghiệm",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "skills": {
+      "description": "Danh sách kỹ năng.",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "works": {
+      "description": "Những thứ đã làm được. Tự sắp xếp mới nhất lên đầu.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/work"
+      }
+    },
+    "socials": {
+      "description": "Mạng xã hội / liên hệ.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/social"
+      }
+    },
+    "style": {
+      "description": "Phong cách trang cá nhân theo ngành. default: chung; finance: kiểu báo cáo tài chính / CV ngành tài chính; developer: kiểu lập trình viên (font code, dòng thời gian kiểu git).",
+      "enum": [
+        "default",
+        "finance",
+        "developer"
+      ]
+    },
+    "draft": {
+      "description": "true = nội dung đang là dữ liệu mẫu; trang hiện dòng nhắc \"Nội dung mẫu\".",
+      "type": "boolean"
+    },
+    "location": {
+      "description": "Nơi làm việc, ví dụ: TP. Hồ Chí Minh.",
+      "type": "string"
+    },
+    "cv": {
+      "description": "Đường dẫn file CV PDF (nếu có) để hiện nút \"Tải CV\".",
+      "type": "string"
+    },
+    "experience": {
+      "description": "Kinh nghiệm làm việc, mới nhất trước.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/job"
+      }
+    },
+    "education": {
+      "description": "Học vấn.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "school"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "school": {
+            "type": "string"
+          },
+          "degree": {
+            "description": "Bằng cấp / chuyên ngành",
+            "type": "string"
+          },
+          "start": {
+            "$ref": "#/$defs/month"
+          },
+          "end": {
+            "$ref": "#/$defs/month"
+          },
+          "note": {
+            "description": "Xếp loại, GPA, thành tích…",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "certifications": {
+      "description": "Chứng chỉ.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "issuer": {
+            "description": "Đơn vị cấp",
+            "type": "string"
+          },
+          "date": {
+            "$ref": "#/$defs/month"
+          },
+          "status": {
+            "description": "done: đã có; in-progress: đang học / đang thi",
+            "enum": [
+              "done",
+              "in-progress"
+            ]
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "skillGroups": {
+      "description": "Kỹ năng chia nhóm (ví dụ Chuyên môn / Phần mềm). Nếu có thì dùng thay cho skills.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "label",
+          "items"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "languages": {
+      "description": "Ngoại ngữ.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "level": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "work": {
+      "type": "object",
+      "required": [
+        "title"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "description": "Loại: project (dự án), award (giải thưởng), talk (diễn thuyết), cert (chứng chỉ), article (bài viết), other (khác). Mặc định: project.",
+          "enum": [
+            "project",
+            "award",
+            "talk",
+            "cert",
+            "article",
+            "other"
+          ]
+        },
+        "title": {
+          "description": "Tên dự án / thành tích.",
+          "type": "string",
+          "minLength": 1
+        },
+        "date": {
+          "description": "Năm hoặc năm-tháng: \"2026\" hoặc \"2026-03\".",
+          "type": "string",
+          "pattern": "^\\d{4}(-(0[1-9]|1[0-2]))?$"
+        },
+        "role": {
+          "description": "Vai trò của bạn trong việc này, ví dụ: Lead frontend.",
+          "type": "string"
+        },
+        "summary": {
+          "description": "Mô tả ngắn: là gì, bạn làm gì, kết quả ra sao.",
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "image": {
+          "description": "Ảnh minh hoạ (tỉ lệ 16:9), ví dụ: images/works/ten-du-an.jpg",
+          "type": "string"
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "label",
+              "url"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "label": {
+                "description": "Chữ hiển thị, ví dụ: Xem demo",
+                "type": "string"
+              },
+              "url": {
+                "type": "string",
+                "format": "uri"
+              }
+            }
+          }
+        },
+        "featured": {
+          "description": "true = hiển thị nổi bật (to hơn).",
+          "type": "boolean"
+        }
+      }
+    },
+    "social": {
+      "type": "object",
+      "required": [
+        "platform",
+        "url"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "platform": {
+          "enum": [
+            "github",
+            "gitlab",
+            "linkedin",
+            "facebook",
+            "instagram",
+            "tiktok",
+            "youtube",
+            "x",
+            "behance",
+            "dribbble",
+            "website",
+            "email",
+            "other"
+          ]
+        },
+        "url": {
+          "description": "Đường link. Email thì ghi dạng mailto:ten@domain.com",
+          "type": "string"
+        },
+        "label": {
+          "description": "Không bắt buộc, ghi đè chữ hiển thị mặc định.",
+          "type": "string"
+        }
+      }
+    },
+    "month": {
+      "description": "Năm hoặc năm-tháng: \"2026\" hoặc \"2026-03\".",
+      "type": "string",
+      "pattern": "^\\d{4}(-(0[1-9]|1[0-2]))?$"
+    },
+    "job": {
+      "type": "object",
+      "required": [
+        "company",
+        "title"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "company": {
+          "type": "string"
+        },
+        "title": {
+          "description": "Chức danh",
+          "type": "string"
+        },
+        "start": {
+          "$ref": "#/$defs/month"
+        },
+        "end": {
+          "description": "Bỏ trống nếu đang làm.",
+          "$ref": "#/$defs/month"
+        },
+        "location": {
+          "type": "string"
+        },
+        "highlights": {
+          "description": "Việc chính / thành tích, nên có số liệu.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

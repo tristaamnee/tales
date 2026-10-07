@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "team.schema.json",
+  "title": "Team",
+  "type": "object",
+  "required": ["name", "members"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "name": { "description": "Tên team, hiện to ở trang chủ.", "type": "string", "minLength": 1 },
+    "tagline": { "description": "Dòng chữ nhỏ dưới tên team.", "type": "string" },
+    "description": { "description": "Mô tả ngắn, dùng khi share link và cho SEO.", "type": "string" },
+    "shuffle": {
+      "description": "true = xáo thứ tự thành viên ngẫu nhiên mỗi lần mở trang chủ.",
+      "type": "boolean"
+    },
+    "members": {
+      "description": "Danh sách id thành viên, theo đúng thứ tự hiển thị. Mỗi id cần có file content/members/<id>.json",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" }
+    }
+  }
+}

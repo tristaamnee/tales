@@ -1,0 +1,1210 @@
+/* =========================================================
+   TALES — tối giản, sang trọng.
+   Ảnh là nhân vật chính, giao diện lùi về sau: nền trắng, chữ đen dịu, một màu xanh cho link,
+   một họ font, không viền / bóng đổ / gradient trang trí.
+   Trang chủ: 5 ô ảnh tối, rê chuột (điện thoại: cuộn tới) ai thì ảnh người đó sáng lên.
+   ========================================================= */
+:root {
+  color-scheme: light;
+
+  --canvas: #ffffff;
+  --parchment: #f5f5f7;
+  --ink: #1d1d1f;
+  --ink-2: #424245;
+  --muted: #6e6e73;
+  --hair: #d2d2d7;
+  --tile: #1d1d1f;
+  --link: #0066cc;
+  --bar: rgba(255, 255, 255, 0.8);
+  --bar-line: rgba(0, 0, 0, 0.06);
+  --accent: #ffffff;
+  --fin-ink: #173a63;
+  --dev-ink: #00799a;
+  --mono: var(--font-mono), "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --serif: var(--font-serif), "Source Serif 4", Georgia, "Times New Roman", serif;
+
+  --font: var(--font-sans), "Be Vietnam Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --gutter: clamp(16px, 4vw, 48px);
+  --page: min(1280px, 100% - 2 * var(--gutter));
+  --ease: cubic-bezier(0.28, 0.11, 0.32, 1);
+}
+
+/* Chế độ ban đêm: theo máy (mặc định) hoặc theo lựa chọn của người xem (data-theme trên <html>) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --canvas: #101012;
+    --parchment: #1a1a1d;
+    --ink: #f5f5f7;
+    --ink-2: #d2d2d7;
+    --muted: #98989d;
+    --hair: #38383c;
+    --tile: #1d1d1f;
+    --link: #2997ff;
+    --bar: rgba(16, 16, 18, 0.72);
+    --bar-line: rgba(255, 255, 255, 0.08);
+    --fin-ink: #a9c3e8;
+    --dev-ink: #6fd3ee;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --canvas: #101012;
+  --parchment: #1a1a1d;
+  --ink: #f5f5f7;
+  --ink-2: #d2d2d7;
+  --muted: #98989d;
+  --hair: #38383c;
+  --tile: #1d1d1f;
+  --link: #2997ff;
+  --bar: rgba(16, 16, 18, 0.72);
+  --bar-line: rgba(255, 255, 255, 0.08);
+  --fin-ink: #a9c3e8;
+  --dev-ink: #6fd3ee;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+}
+
+body {
+  min-height: 100dvh;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 17px;
+  line-height: 1.47;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  touch-action: manipulation;
+  transition: opacity 0.35s var(--ease), background-color 0.35s var(--ease), color 0.35s var(--ease);
+}
+
+/* Đổi màn hình (trang chủ ↔ trang từng người) là đổi state: màn mới hiện dần rất nhanh, không chờ màn cũ */
+.view {
+  animation: page-in 0.2s var(--ease) both;
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+  }
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 4px;
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--gutter);
+  top: -100px;
+  z-index: 300;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: var(--ink);
+  color: var(--canvas);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.skip-link:focus-visible {
+  top: 12px;
+}
+
+/* ---- Nút chuyển giao diện ---- */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 4px;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition: color 0.25s var(--ease);
+}
+
+.theme-toggle:hover {
+  color: var(--ink);
+}
+
+.theme-toggle svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+
+/* =========================================================
+   Trang chủ
+   ========================================================= */
+.page-home {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.page-home main {
+  flex: 1;
+}
+
+.home-tools {
+  position: absolute;
+  top: 12px;
+  right: var(--gutter);
+}
+
+.hero {
+  padding: clamp(56px, 11vh, 120px) var(--gutter) clamp(36px, 6vh, 64px);
+  text-align: center;
+}
+
+.hero-title {
+  margin: 0;
+  font-size: clamp(56px, 9vw, 112px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+.hero-tagline {
+  margin: 14px auto 0;
+  max-width: 34ch;
+  font-size: clamp(19px, 2vw, 24px);
+  font-weight: 300;
+  line-height: 1.35;
+  color: var(--ink-2);
+}
+
+.roster {
+  --gap: clamp(12px, 1.6vw, 24px);
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--gap);
+  width: var(--page);
+  margin: 0 auto;
+  padding-bottom: clamp(48px, 9vh, 104px);
+  outline: none;
+}
+
+.card {
+  display: grid;
+  align-content: start;
+  gap: 2px;
+  min-width: 0;
+  color: var(--ink);
+  text-decoration: none;
+  border-radius: 20px;
+  animation: rise 0.8s calc(0.08s + var(--i, 0) * 0.06s) var(--ease) both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+/* Chờ xáo thứ tự xong mới cho thẻ hiện lên, tránh thấy thẻ đổi chỗ */
+/* Hiệu ứng thẻ lần lượt hiện lên chỉ chạy lần đầu; quay lại trang chủ thì thẻ có sẵn ngay */
+.roster.no-intro .card {
+  animation: none;
+}
+
+.roster[data-ready="false"] .card {
+  opacity: 0;
+  animation-play-state: paused;
+}
+
+.card-tile {
+  position: relative;
+  isolation: isolate;
+  display: block;
+  aspect-ratio: 3 / 4;
+  margin-bottom: 14px;
+  overflow: hidden;
+  border-radius: 18px;
+  background: var(--tile);
+}
+
+/* Ánh sáng dịu theo màu riêng của từng người, chỉ hiện khi người đó "sáng lên" */
+.card-tile::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(65% 45% at 50% 40%, color-mix(in srgb, var(--accent) 40%, transparent), transparent 75%);
+  opacity: 0;
+  transition: opacity 0.6s var(--ease);
+}
+
+.card-tile img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  filter: grayscale(1) brightness(0.42);
+  -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 94%);
+  mask-image: linear-gradient(to bottom, #000 62%, transparent 94%);
+  transition: filter 0.6s var(--ease), transform 0.9s var(--ease);
+}
+
+/* Tên và vai trò luôn một dòng; tên quá dài thì hiện "…" (tên đầy đủ có trong tooltip và trang cá nhân) */
+.card-name,
+.card-role {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.card-name {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.3;
+  transition: color 0.35s var(--ease);
+}
+
+.card-role {
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.card.is-active .card-tile::before {
+  opacity: 1;
+}
+
+.card.is-active .card-tile img {
+  filter: none;
+  transform: scale(1.03);
+}
+
+.roster.has-active .card:not(.is-active) .card-name {
+  color: var(--muted);
+}
+
+.foot {
+  padding: 20px var(--gutter) 28px;
+  background: var(--parchment);
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.foot p {
+  margin: 0;
+}
+
+/* ---- Màn hình vừa: 5 cột quá hẹp cho tên → 3 ô trên, 2 ô dưới, căn giữa ---- */
+@media (min-width: 761px) and (max-width: 1199px) {
+  .roster {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 40px;
+  }
+
+  .card {
+    flex: 0 0 calc((100% - 2 * var(--gap)) / 3);
+  }
+}
+
+/* ---- Điện thoại: một cột, cuộn tới ai thì ảnh người đó sáng ---- */
+@media (max-width: 760px) {
+  .hero {
+    padding-block: 48px 32px;
+  }
+
+  .roster {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 36px;
+    width: min(440px, 100% - 2 * var(--gutter));
+  }
+
+  .card-tile {
+    aspect-ratio: 4 / 5;
+  }
+
+  .card-name {
+    font-size: 21px;
+  }
+
+  .card-role {
+    font-size: 15px;
+  }
+}
+
+/* =========================================================
+   Trang cá nhân
+   ========================================================= */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+  padding-inline: max(var(--gutter), (100% - 1280px) / 2);
+  background: var(--bar);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--bar-line);
+}
+
+.wordmark {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+}
+
+.topbar-tools {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.back-link {
+  font-size: 14px;
+  color: var(--link);
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+#profile {
+  outline: none;
+}
+
+.profile-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: clamp(32px, 6vw, 96px);
+  align-items: center;
+  width: var(--page);
+  margin: 0 auto;
+  padding-block: clamp(40px, 8vh, 96px);
+}
+
+.portrait {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 3 / 4;
+  max-width: 100%;
+  overflow: hidden;
+  border-radius: 22px;
+  background:
+    radial-gradient(65% 45% at 50% 40%, color-mix(in srgb, var(--accent) 42%, transparent), transparent 75%),
+    var(--tile);
+}
+
+.portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 94%);
+  mask-image: linear-gradient(to bottom, #000 62%, transparent 94%);
+}
+
+.intro {
+  min-width: 0;
+}
+
+.role {
+  margin: 0;
+  font-size: 19px;
+  color: var(--muted);
+}
+
+.name {
+  margin: 6px 0 0;
+  font-size: clamp(40px, 5.4vw, 72px);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+}
+
+.tagline {
+  max-width: 30ch;
+  margin: 20px 0 0;
+  font-size: clamp(21px, 2vw, 26px);
+  font-weight: 300;
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+
+.bio {
+  max-width: 60ch;
+  margin-top: 24px;
+  color: var(--ink-2);
+}
+
+.bio p {
+  margin: 0 0 12px;
+}
+
+.skills {
+  margin-top: 28px;
+}
+
+.skills h2 {
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.skills ul {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--ink-2);
+}
+
+.skills li:not(:last-child)::after {
+  content: ",\00a0";
+}
+
+.socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.socials a,
+.work-links a {
+  color: var(--link);
+  text-decoration: none;
+}
+
+.socials a:hover,
+.work-links a:hover {
+  text-decoration: underline;
+}
+
+/* ---- Con số ---- */
+.stats-band {
+  width: var(--page);
+  margin: 0 auto;
+  padding-block: 40px 56px;
+  border-top: 1px solid var(--hair);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 32px;
+  margin: 0;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column-reverse;
+  /* column-reverse: flex-end là phía trên, để các con số luôn thẳng hàng dù nhãn dài ngắn khác nhau */
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.stat dd {
+  margin: 0;
+  font-size: clamp(40px, 4.4vw, 56px);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat dt {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* ---- Những thứ đã làm được ---- */
+#profile > :last-child:not(.works-band) {
+  padding-bottom: clamp(64px, 12vh, 128px);
+}
+
+.works-band {
+  padding-block: clamp(56px, 10vh, 112px);
+  background: var(--parchment);
+}
+
+.works {
+  width: var(--page);
+  margin: 0 auto;
+}
+
+.works h2 {
+  margin: 0 0 28px;
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.work-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.work {
+  display: grid;
+  grid-template-columns: 9rem minmax(0, 1fr);
+  gap: 6px 32px;
+  padding-block: 28px;
+  border-top: 1px solid var(--hair);
+}
+
+.work-date {
+  margin: 0;
+  padding-top: 0.2em;
+  font-size: 14px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.work-body {
+  min-width: 0;
+  max-width: 64ch;
+}
+
+.work-title {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.work.is-featured .work-title {
+  font-size: clamp(24px, 2.4vw, 28px);
+}
+
+.work-meta {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.work-summary {
+  margin: 10px 0 0;
+  color: var(--ink-2);
+}
+
+.work-image {
+  width: 100%;
+  margin-top: 16px;
+  border-radius: 12px;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.work-tags {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.work-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin: 12px 0 0;
+}
+
+@media (max-width: 860px) {
+  .profile-hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+    padding-top: 24px;
+  }
+
+  .portrait {
+    width: min(100%, 440px);
+  }
+}
+
+@media (max-width: 560px) {
+  .work {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+  }
+
+  .work-date {
+    padding-top: 0;
+  }
+}
+
+/* =========================================================
+   Các mục CV (dùng chung cho mọi người; mục nào có dữ liệu mới hiện)
+   ========================================================= */
+.draft-note {
+  width: var(--page);
+  margin: 20px auto 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.location {
+  color: var(--muted);
+}
+
+.contact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 28px;
+  margin-top: 24px;
+}
+
+.contact .socials {
+  margin: 0;
+}
+
+.cv-download {
+  display: inline-block;
+  padding: 8px 18px;
+  border-radius: 980px;
+  background: var(--link);
+  color: #fff;
+  font-size: 14px;
+  text-decoration: none;
+  transition: transform 0.2s var(--ease), opacity 0.2s var(--ease);
+}
+
+.cv-download:hover {
+  opacity: 0.88;
+}
+
+.cv-download:active {
+  transform: scale(0.97);
+}
+
+.cv {
+  width: var(--page);
+  margin: 0 auto;
+  padding-bottom: clamp(56px, 10vh, 112px);
+}
+
+.cv-section {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
+  gap: 16px 40px;
+  padding-block: 40px;
+  border-top: 1px solid var(--hair);
+}
+
+.cv-title {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.cv-body {
+  min-width: 0;
+}
+
+.entries {
+  display: grid;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.entry {
+  display: grid;
+  grid-template-columns: 11rem minmax(0, 1fr);
+  gap: 4px 28px;
+}
+
+.entry-when {
+  margin: 0;
+  padding-top: 0.15em;
+  font-size: 14px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.entry-sub {
+  display: block;
+  font-size: 13px;
+}
+
+.entry-body {
+  min-width: 0;
+  max-width: 66ch;
+}
+
+.entry-title {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+}
+
+.entry-org {
+  margin: 2px 0 0;
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+.entry-note {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.entry-points {
+  margin: 12px 0 0;
+  padding-left: 1.1em;
+  color: var(--ink-2);
+}
+
+.entry-points li {
+  margin-bottom: 6px;
+}
+
+.entry-points li::marker {
+  color: var(--muted);
+}
+
+.certs {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cert {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 2fr) 6rem;
+  gap: 4px 24px;
+  align-items: baseline;
+  padding-block: 12px;
+  border-bottom: 1px solid var(--hair);
+}
+
+.cert:first-child {
+  padding-top: 0;
+}
+
+.cert-name {
+  font-weight: 600;
+}
+
+.cert-issuer {
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+.cert-date {
+  font-size: 14px;
+  color: var(--muted);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.skill-groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 28px 40px;
+}
+
+.skill-group h3 {
+  margin: 0 0 6px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.skill-group ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.skill-group li {
+  padding-block: 7px;
+  border-bottom: 1px solid var(--hair);
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+@media (max-width: 860px) {
+  .cv-section {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .entry,
+  .cert {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cert-date {
+    text-align: left;
+  }
+}
+
+/* =========================================================
+   Phong cách theo ngành — Tài chính (data-style="finance")
+   Kiểu báo cáo thường niên: chữ có chân cho tiêu đề và số, xanh navy, đường kẻ mảnh,
+   ảnh hồ sơ nhỏ gọn, số liệu thẳng cột.
+   ========================================================= */
+[data-style="finance"] .profile-hero {
+  grid-template-columns: minmax(0, 3fr) minmax(0, 8fr);
+  align-items: start;
+  margin-top: clamp(24px, 5vh, 56px);
+  padding-top: clamp(28px, 4vh, 44px);
+  border-top: 3px solid var(--fin-ink);
+}
+
+[data-style="finance"] .portrait {
+  max-width: 300px;
+  border-radius: 8px;
+}
+
+[data-style="finance"] .role {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--fin-ink);
+}
+
+[data-style="finance"] .role .location {
+  font-weight: 400;
+}
+
+[data-style="finance"] .name,
+[data-style="finance"] .cv-title,
+[data-style="finance"] .stat dd,
+[data-style="finance"] .works h2 {
+  font-family: var(--serif);
+  letter-spacing: -0.01em;
+}
+
+[data-style="finance"] .name {
+  font-size: clamp(38px, 4.6vw, 60px);
+  font-weight: 600;
+  line-height: 1.12;
+}
+
+[data-style="finance"] .tagline {
+  max-width: 44ch;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(19px, 1.7vw, 22px);
+}
+
+[data-style="finance"] .cv-title {
+  font-size: 24px;
+  color: var(--fin-ink);
+}
+
+[data-style="finance"] .stats-band {
+  padding-block: 0 48px;
+  border-top: 0;
+}
+
+[data-style="finance"] .stats {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0 32px;
+}
+
+[data-style="finance"] .stat {
+  padding-top: 16px;
+  border-top: 1px solid var(--fin-ink);
+}
+
+[data-style="finance"] .stat dd {
+  font-size: clamp(34px, 3.4vw, 44px);
+  font-weight: 600;
+  color: var(--fin-ink);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+[data-style="finance"] .cv-download {
+  background: var(--fin-ink);
+  color: var(--canvas);
+}
+
+@media (max-width: 860px) {
+  [data-style="finance"] .profile-hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  [data-style="finance"] .portrait {
+    width: min(100%, 260px);
+  }
+}
+
+@media (max-width: 560px) {
+  [data-style="finance"] .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 20px;
+  }
+
+  [data-style="finance"] .stat dt {
+    font-size: 13px;
+  }
+}
+
+/* =========================================================
+   Phong cách theo ngành — Lập trình viên (data-style="developer")
+   Font code cho nhãn và số, xanh Golang, vai trò như dòng lệnh, slogan như comment,
+   kinh nghiệm như nhánh git, kỹ năng như một mảng trong code.
+   ========================================================= */
+[data-style="developer"] .portrait {
+  border-radius: 14px;
+}
+
+[data-style="developer"] .role,
+[data-style="developer"] .tagline,
+[data-style="developer"] .cv-title,
+[data-style="developer"] .stat dd,
+[data-style="developer"] .stat dt,
+[data-style="developer"] .entry-when,
+[data-style="developer"] .cert-name,
+[data-style="developer"] .cert-date,
+[data-style="developer"] .skill-groups,
+[data-style="developer"] .work-date,
+[data-style="developer"] .work-meta,
+[data-style="developer"] .work-tags,
+[data-style="developer"] .draft-note {
+  font-family: var(--mono);
+  letter-spacing: 0;
+}
+
+[data-style="developer"] .role {
+  font-size: 15px;
+  color: var(--dev-ink);
+}
+
+[data-style="developer"] .role::before {
+  content: "$ ";
+  color: var(--muted);
+}
+
+[data-style="developer"] .name::after {
+  content: "";
+  display: inline-block;
+  width: 0.08em;
+  height: 0.9em;
+  margin-left: 0.1em;
+  vertical-align: -0.08em;
+  background: var(--dev-ink);
+  animation: caret 1.1s steps(1) infinite;
+}
+
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+[data-style="developer"] .tagline {
+  max-width: 52ch;
+  font-size: clamp(16px, 1.5vw, 19px);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+[data-style="developer"] .tagline::before {
+  content: "// ";
+}
+
+[data-style="developer"] .stat dd {
+  font-size: clamp(32px, 3.2vw, 44px);
+  font-weight: 600;
+  color: var(--dev-ink);
+}
+
+[data-style="developer"] .stat dt {
+  font-size: 13px;
+}
+
+[data-style="developer"] .cv-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--dev-ink);
+}
+
+[data-style="developer"] .cv-title::before {
+  content: "## ";
+  color: var(--muted);
+}
+
+/* Kinh nghiệm như một nhánh git: đường dọc nối các mốc */
+[data-style="developer"] .entries {
+  gap: 0;
+}
+
+[data-style="developer"] .entry-body {
+  position: relative;
+  padding: 0 0 32px 24px;
+  border-left: 2px solid var(--hair);
+}
+
+[data-style="developer"] .entry:last-child .entry-body {
+  padding-bottom: 0;
+}
+
+[data-style="developer"] .entry-body::before {
+  content: "";
+  position: absolute;
+  left: -7px;
+  top: 0.35em;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--canvas);
+  border: 2px solid var(--dev-ink);
+}
+
+[data-style="developer"] .entry-when {
+  font-size: 13px;
+}
+
+[data-style="developer"] .cert-name {
+  font-size: 15px;
+}
+
+/* Kỹ năng như một khối code: // nhóm \n ["Go", "SQL"] */
+[data-style="developer"] .skill-groups {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+  padding: 24px 28px;
+  border-radius: 14px;
+  background: var(--parchment);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+[data-style="developer"] .skill-group h3 {
+  margin: 0;
+  font: inherit;
+  color: var(--muted);
+}
+
+[data-style="developer"] .skill-group h3::before {
+  content: "// ";
+}
+
+[data-style="developer"] .skill-group ul::before {
+  content: "[";
+  color: var(--muted);
+}
+
+[data-style="developer"] .skill-group ul::after {
+  content: "]";
+  color: var(--muted);
+}
+
+[data-style="developer"] .skill-group li {
+  display: inline;
+  padding: 0;
+  border: 0;
+  font-size: inherit;
+  color: var(--dev-ink);
+}
+
+[data-style="developer"] .skill-group li::before,
+[data-style="developer"] .skill-group li::after {
+  content: '"';
+}
+
+[data-style="developer"] .skill-group li:not(:last-child)::after {
+  content: '",\00a0';
+  color: var(--dev-ink);
+}
+
+[data-style="developer"] .work-tags::before {
+  content: "";
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--dev-ink);
+}
+
+/* ---- Trang không tồn tại ---- */
+.not-found {
+  display: grid;
+  place-content: center;
+  gap: 8px;
+  min-height: 100dvh;
+  padding-inline: var(--gutter);
+  text-align: center;
+}
+
+.not-found h1 {
+  margin: 0;
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.not-found p {
+  margin: 0 0 8px;
+  color: var(--ink-2);
+}
+
+/* =========================================================
+   Giảm chuyển động
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+}

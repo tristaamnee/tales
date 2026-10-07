@@ -1,0 +1,115 @@
+{
+  "$schema": "../schema/member.schema.json",
+  "id": "ten-ban",
+  "name": "Họ và Tên",
+  "role": "Vai trò trong team",
+  "tagline": "Một câu slogan ngắn.",
+  "color": "#7cb8d9",
+  "style": "default",
+  "location": "TP. Hồ Chí Minh",
+  "bio": [
+    "Đoạn giới thiệu thứ nhất: bạn là ai, làm gì trong team.",
+    "Đoạn thứ hai (không bắt buộc)."
+  ],
+  "stats": [
+    {
+      "value": "3+",
+      "label": "Năm kinh nghiệm"
+    },
+    {
+      "value": "20",
+      "label": "Dự án"
+    }
+  ],
+  "skills": [
+    "Kỹ năng 1",
+    "Kỹ năng 2",
+    "Kỹ năng 3"
+  ],
+  "works": [
+    {
+      "type": "project",
+      "title": "Tên dự án",
+      "date": "2026-03",
+      "role": "Vai trò của bạn trong dự án",
+      "summary": "Dự án là gì, bạn làm gì, kết quả ra sao.",
+      "tags": [
+        "Tag 1",
+        "Tag 2"
+      ],
+      "image": "images/works/ten-du-an.jpg",
+      "links": [
+        {
+          "label": "Xem demo",
+          "url": "https://example.com"
+        }
+      ],
+      "featured": true
+    },
+    {
+      "type": "award",
+      "title": "Tên giải thưởng",
+      "date": "2025",
+      "summary": "Mô tả ngắn."
+    }
+  ],
+  "socials": [
+    {
+      "platform": "github",
+      "url": "https://github.com/ten-ban"
+    },
+    {
+      "platform": "email",
+      "url": "mailto:ten-ban@example.com"
+    }
+  ],
+  "experience": [
+    {
+      "company": "Tên công ty",
+      "title": "Chức danh",
+      "start": "2023-03",
+      "location": "TP. Hồ Chí Minh",
+      "highlights": [
+        "Việc chính / thành tích, nên có số liệu."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "school": "Tên trường",
+      "degree": "Bằng cấp – chuyên ngành",
+      "start": "2017",
+      "end": "2021",
+      "note": "Xếp loại / GPA"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Tên chứng chỉ",
+      "issuer": "Đơn vị cấp",
+      "date": "2024",
+      "status": "done"
+    }
+  ],
+  "skillGroups": [
+    {
+      "label": "Chuyên môn",
+      "items": [
+        "Kỹ năng 1",
+        "Kỹ năng 2"
+      ]
+    },
+    {
+      "label": "Phần mềm",
+      "items": [
+        "Công cụ 1"
+      ]
+    }
+  ],
+  "languages": [
+    {
+      "name": "Tiếng Anh",
+      "level": "Giao tiếp công việc"
+    }
+  ]
+}

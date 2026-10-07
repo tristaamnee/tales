@@ -1,63 +1,123 @@
 # TALES — Team Landing Page
 
-Landing page giới thiệu team 5 người. Site tĩnh, chỉ có HTML/CSS/JS thuần, không cần cài gì hay build gì.
+Landing page giới thiệu team 5 người, viết bằng **Next.js** (App Router, TypeScript), xuất ra web tĩnh.
 
-- **Trang chủ** (`index.html`): 5 thẻ nhân vật, mặc định tối đen. Di chuột vào ai thì người đó sáng lên với màu riêng, thẻ nở rộng ra; bấm vào để mở trang cá nhân.
-  - Trên điện thoại: các thẻ xếp dọc, cuộn tới ai (thẻ nằm giữa màn hình) thì người đó sáng lên; chạm để vào trang.
-- **Trang cá nhân** (`member.html#<id>`): ảnh, chức danh, giới thiệu, số liệu, kỹ năng, mạng xã hội, danh sách "Những thứ đã làm được", và nút chuyển sang người trước/sau.
+- **Trang chủ** (`/`): 5 ô ảnh, mặc định tối. Rê chuột vào ai thì ảnh người đó sáng lên; bấm để mở trang cá nhân.
+  - Điện thoại: xếp một cột, cuộn tới ai thì người đó sáng; chạm để mở. Máy tính bảng: chạm lần 1 sáng, lần 2 mở.
+- **Trang cá nhân** (`/thanh-vien/<id>/`): ảnh, giới thiệu, số liệu, kinh nghiệm, học vấn, chứng chỉ, kỹ năng,
+  "Những thứ đã làm được". Mỗi người có thể có phong cách riêng theo ngành (`"style"`: `finance`, `developer`).
+- Chuyển giữa trang chủ và trang từng người gần như tức thì: cả team được nạp một lần, bấm vào ai chỉ đổi màn hình
+  theo slug trên URL (Back/Forward, F5, chia sẻ link vẫn đúng).
+- Chế độ sáng / tối (theo máy hoặc tự chọn). Link cũ `member.html#<id>` tự chuyển sang địa chỉ mới.
 
-## Chạy thử
+## Chạy trên máy
 
-Mở thẳng file `index.html` bằng trình duyệt là được. Hoặc chạy server local:
+Cần Node.js 20 trở lên.
 
 ```bash
-python3 -m http.server 8000
-# mở http://localhost:8000
+npm install
+npm run dev        # xem thử, tự tải lại khi sửa: http://localhost:3000
+npm run build      # xuất web tĩnh ra thư mục out/
+npm start          # xem bản đã build
 ```
 
-## Sửa thông tin team
+Dữ liệu trong `content/` được đọc **lúc build**: sửa JSON xong thì `npm run dev` tự cập nhật,
+còn bản trên mạng sẽ cập nhật sau khi push (GitHub Actions build lại).
 
-Mọi nội dung nằm trong **`js/data.js`** — chỉ cần sửa file này:
+## Nội dung (profile)
 
-| Trường     | Ý nghĩa                                                         |
-|------------|-----------------------------------------------------------------|
-| `id`       | Dùng trên URL (`member.html#minh`), viết liền không dấu (vd. `minh`)                 |
-| `name`     | Tên hiển thị                                                    |
-| `role`     | Vai trò trong team                                              |
-| `tagline`  | Câu slogan ngắn                                                 |
-| `color`    | Màu chủ đạo (mã hex) — dùng cho glow và điểm nhấn               |
-| `photo`    | Đường dẫn ảnh chân dung                                         |
-| `bio`      | Đoạn giới thiệu                                                 |
-| `stats`    | Các con số nổi bật `{ value, label }`                            |
-| `skills`   | Danh sách kỹ năng                                               |
-| `projects` | Những thứ đã làm `{ title, year, description, tags, link?, image? }` |
-| `socials`  | Link mạng xã hội `{ label, url }`                                |
+Toàn bộ nội dung nằm trong `content/`, không có trong code:
 
-## Thay ảnh
+```
+content/
+  team.json              Tên team, tagline, và THỨ TỰ thành viên (danh sách id)
+  members/<id>.json      Hồ sơ từng người
+  members/_template.json File mẫu để copy khi thêm người mới
+  schema/                Mô tả cấu trúc: VS Code tự gợi ý trường và gạch đỏ chỗ sai
+photos/<id>.jpg          Ảnh gốc (tự tách nền)
+```
 
-1. Bỏ ảnh vào `images/members/` (vd. `minh.jpg`).
-2. Sửa `photo` trong `js/data.js` thành `"images/members/minh.jpg"`.
+**Thêm người mới:** copy `content/members/_template.json` thành `content/members/<id>.json`, điền thông tin,
+thêm `<id>` vào `members` trong `content/team.json`, bỏ ảnh vào `photos/<id>.jpg`.
 
-Mẹo để trông ngầu hơn:
-- Dùng ảnh **dọc, tỉ lệ khoảng 3:4**, mặt nằm ở 1/3 phía trên khung.
-- Ảnh **nền tối hoặc đã tách nền** (PNG trong suốt trên nền đen) sẽ cho hiệu ứng "bật sáng" đẹp nhất.
-- Cùng góc chụp / ánh sáng cho cả 5 người để trang chủ đồng bộ.
+**Sửa profile:** sửa `content/members/<id>.json` (sửa ngay trên GitHub bằng nút ✏️ cũng được) → Commit.
+**Đổi ảnh:** upload đè `photos/<id>.jpg`. **Đổi thứ tự / ẩn một người:** sửa danh sách `members` trong `content/team.json`.
+
+Mỗi lần push, GitHub Actions chạy `tools/validate_content.py` để kiểm tra (tab **Actions**; ❌ đỏ là có lỗi, bấm vào xem lỗi ở file nào, dòng nào). Chạy trên máy:
+
+```bash
+pip install jsonschema
+python tools/validate_content.py
+```
+
+Các trường chính của một thành viên (chi tiết xem `content/schema/member.schema.json`):
+
+| Trường    | Bắt buộc | Ghi chú |
+|-----------|:--:|---|
+| `id`      | ✓ | Viết thường, không dấu, nối bằng `-`. Trùng tên file và tên ảnh; dùng làm địa chỉ `/thanh-vien/<id>/`. |
+| `name`    | ✓ | Tên hiển thị |
+| `role`    | ✓ | Vai trò |
+| `color`   | ✓ | `#rrggbb`, nên là màu sáng |
+| `tagline` |   | Câu slogan |
+| `bio`     |   | Mảng các đoạn văn |
+| `stats`   |   | Tối đa 4 `{ "value", "label" }` |
+| `skills`  |   | Mảng chữ |
+| `works`   |   | `{ type, title, date, role, summary, tags, image, links, featured }` — `type`: `project`, `award`, `talk`, `cert`, `article`, `other`; `date`: `"2026"` hoặc `"2026-03"` |
+| `socials` |   | `{ platform, url }` — `platform`: `github`, `linkedin`, `facebook`, `instagram`, `tiktok`, `youtube`, `x`, `behance`, `dribbble`, `website`, `email`… |
+
+## Ảnh thành viên (tự tách nền)
+
+Chỉ cần bỏ ảnh chụp bình thường vào thư mục `photos/`, **đặt tên file trùng `id`** của thành viên:
+
+```
+photos/minh.jpg  ->  public/images/members/minh.webp   (nền trong suốt, tự căn khung 3:4)
+```
+
+Trang web tự lấy `public/images/members/<id>.webp`, không cần sửa code hay dữ liệu. Ai chưa có ảnh thì hiện bóng người theo màu của người đó.
+
+**Cách 1 — tự động trên GitHub (không cần cài gì):** push ảnh vào `photos/`, GitHub Actions
+(`.github/workflows/photos.yml`) sẽ tách nền rồi tự commit ảnh kết quả vào cùng branch sau khoảng 2–3 phút.
+Xem tiến trình ở tab **Actions** của repo.
+
+**Cách 2 — chạy trên máy:**
+
+```bash
+pip install -r tools/requirements.txt
+python tools/process_photos.py          # chỉ xử lý ảnh mới / ảnh đã thay
+python tools/process_photos.py --force  # xử lý lại tất cả
+```
+
+Lần đầu sẽ tải model tách nền (~1GB, BiRefNet-portrait). Thay ảnh thì cứ ghi đè file cùng tên trong `photos/`.
+
+Mẹo: ảnh rõ mặt, thấy từ ngực trở lên, độ phân giải ≥ 1000px là đẹp nhất. Nền gì cũng được.
+
+Lưu ý: ảnh gốc trong `photos/` được commit vào repo — nếu repo public thì ai cũng xem được ảnh gốc.
 
 Ảnh dự án (`image` trong `projects`) nên dùng tỉ lệ 16:9.
 
 ## Deploy lên GitHub Pages
 
-Settings → Pages → Source: *Deploy from a branch* → chọn branch và thư mục `/ (root)` → Save.
+Workflow `.github/workflows/deploy.yml` tự build và đưa lên GitHub Pages mỗi khi push lên `main`.
+Lần đầu: **Settings → Pages → Source: GitHub Actions**. Site nằm ở thư mục con (vd. `/tales`) cũng tự đúng đường dẫn.
+
+Host tĩnh khác (Netlify, Vercel, Cloudflare Pages…): lệnh build `npm run build`, thư mục xuất `out`.
 
 ## Cấu trúc
 
 ```
-index.html          Trang chủ
-member.html         Trang cá nhân (dùng chung cho cả 5 người)
-css/style.css       Toàn bộ giao diện
-js/data.js          ← DỮ LIỆU CỦA TEAM
-js/common.js        Tiện ích + hiệu ứng chuyển trang
-js/home.js          Logic trang chủ (hover / sáng / click)
-js/member.js        Render trang cá nhân
-images/members/     Ảnh thành viên (đang là ảnh placeholder)
+content/              ← NỘI DUNG (JSON), đọc lúc build
+app/
+  layout.tsx          Khung chung: font, chống nháy sáng/tối
+  page.tsx            Trang chủ
+  thanh-vien/[id]/    Trang cá nhân (tạo sẵn cho từng người)
+  globals.css         Toàn bộ giao diện
+components/           TalesApp (đổi màn hình theo slug, không tải lại), HomeView, Roster, MemberView, ThemeToggle
+lib/                  Đọc nội dung (content.ts), định dạng ngày/thời gian (format.ts)
+public/images/members/  Ảnh đã tách nền (tự sinh)
+public/member.html    Chuyển link cũ member.html#<id> sang địa chỉ mới
+photos/               Ảnh gốc (bỏ ảnh vào đây)
+tools/                Script tách nền + kiểm tra nội dung
+.github/workflows/    Deploy, tự tách nền, tự kiểm tra khi push
+CLAUDE.md             Hướng dẫn cho Claude Code (đọc tự động mỗi phiên)
+.claude/skills/       Skill cho Claude Code
 ```

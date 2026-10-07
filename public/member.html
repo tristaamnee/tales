@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="robots" content="noindex" />
+  <title>Đang chuyển trang…</title>
+  <script>
+    // Link cũ dạng member.html#id hoặc member.html?id=id → trang mới /thanh-vien/<id>/
+    (function () {
+      var id = decodeURIComponent(location.hash.slice(1)) || new URLSearchParams(location.search).get("id") || "";
+      var base = location.pathname.replace(/member\.html$/, "");
+      location.replace(base + (/^[a-z0-9-]+$/.test(id) ? "thanh-vien/" + id + "/" : ""));
+    })();
+  </script>
+</head>
+<body></body>
+</html>
