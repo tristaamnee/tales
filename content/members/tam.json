@@ -6,7 +6,6 @@
   "tagline": "Thợ đụng chính hiệu: đụng gì làm nấy.",
   "color": "#8cc9a0",
   "style": "developer",
-  "draft": true,
   "location": "TP. Hồ Chí Minh",
   "bio": [
     "Lập trình viên backend, làm chính với Go: thiết kế API, xử lý dữ liệu và giữ cho hệ thống chạy ổn định khi lượng người dùng tăng.",
