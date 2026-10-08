@@ -1996,6 +1996,13 @@ img {
   display: none;
 }
 
+/* Người không mờ dần ở chân ảnh: phần mờ (váy trắng) đè lên vòng tròn xanh trông như vết lỗi;
+   chân ảnh đã có khung trích dẫn che. */
+.card[data-style="editorial"] .card-tile img {
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
 .card[data-style="editorial"] .card-tile::before {
   inset: 14% -18% auto auto;
   width: 82%;
