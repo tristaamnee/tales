@@ -62,8 +62,8 @@ Site có thể nằm ở thư mục con: đường dẫn file trong `public/` ph
   slogan chữ viết tay Dancing Script, khối bo tròn lớn, hoa/tia sáng là mask SVG tô bằng token); riêng `pop` còn đổi cả
   thẻ ở trang chủ (`.card[data-style="pop"]`): lúc tối giống mọi người, sáng lên thì nền kem + vòm hồng + mặt trời cam.
   `editorial` = kiểu portfolio tạp chí (giấy ngà `--ed-paper`, chữ đen, một màu xanh lục `--ed-green`, tên chữ HOA hẹp
-  Anton rất lớn, nhãn nhỏ chữ HOA giãn rộng, đường kẻ mảnh, mục đánh số 01/02, ảnh người đen trắng trên vòng tròn xanh);
-  cũng đổi thẻ ở trang chủ: sáng lên thì nền giấy ngà + vòng tròn xanh + người đen trắng + khung trích dẫn.
+  Anton rất lớn, nhãn nhỏ chữ HOA giãn rộng, đường kẻ mảnh, mục đánh số 01/02, ảnh người đủ màu trên vòng tròn xanh);
+  cũng đổi thẻ ở trang chủ: sáng lên thì nền giấy ngà + vòng tròn xanh + người đủ màu + khung trích dẫn.
   Phong cách mới: thêm vào enum `style` trong schema và một khối
   `[data-style="…"]` trong CSS; chỉ ghi đè trình bày, không đổi cấu trúc dữ liệu.
 - Các mục CV (`experience`, `education`, `certifications`, `skillGroups`, `languages`, `cv`) dùng chung cho mọi người.
