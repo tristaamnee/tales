@@ -88,6 +88,13 @@ export default function TalesApp({ team }: { team: TeamView }) {
     document.title = member ? `${member.name} — ${team.name}` : `${team.name} — Our Team`;
   }, [member, team.name]);
 
+  // Nhấn rồi kéo không làm gì: chặn kéo ảnh / link (globals.css đã tắt bôi đen chữ).
+  useEffect(() => {
+    const block = (e: DragEvent) => e.preventDefault();
+    document.addEventListener("dragstart", block);
+    return () => document.removeEventListener("dragstart", block);
+  }, []);
+
   const go = useCallback(
     (path: string) => {
       if (!slug) homeScroll.current = window.scrollY;
