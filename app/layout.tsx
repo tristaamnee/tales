@@ -1,31 +1,18 @@
 import type { Metadata, Viewport } from "next";
-import { Be_Vietnam_Pro, JetBrains_Mono, Source_Serif_4 } from "next/font/google";
 import { themeInitScript } from "@/components/ThemeToggle";
 import { getTeam } from "@/lib/content";
+// Font tự host từ gói @fontsource: file font nằm sẵn trong node_modules và được đóng gói cùng site,
+// nên lúc build không phải tải từ Google Fonts (từng làm build trên GitHub Actions lỗi) và người xem
+// cũng không gọi tới Google. Mỗi file CSS chia theo bảng chữ (latin, tiếng Việt…), trình duyệt chỉ tải phần cần.
+import "@fontsource/be-vietnam-pro/300.css";
+import "@fontsource/be-vietnam-pro/400.css";
+import "@fontsource/be-vietnam-pro/500.css";
+import "@fontsource/be-vietnam-pro/600.css";
+import "@fontsource-variable/source-serif-4/opsz.css"; // cỡ quang học: chữ to tự mảnh và thanh hơn
+import "@fontsource-variable/source-serif-4/opsz-italic.css";
+import "@fontsource/jetbrains-mono/400.css";
+import "@fontsource/jetbrains-mono/600.css";
 import "./globals.css";
-
-// Font được tải về lúc build và phục vụ cùng site (không gọi Google Fonts khi người xem mở trang).
-const sans = Be_Vietnam_Pro({
-  subsets: ["latin", "vietnamese"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-sans",
-  display: "swap",
-});
-const serif = Source_Serif_4({
-  subsets: ["latin", "vietnamese"],
-  style: ["normal", "italic"],
-  axes: ["opsz"], // cỡ quang học: chữ to tự mảnh và thanh hơn, giống bản gốc
-  variable: "--font-serif",
-  display: "swap",
-  preload: false, // chỉ dùng ở trang cá nhân; TalesApp tải sẵn lúc trình duyệt rảnh
-});
-const mono = JetBrains_Mono({
-  subsets: ["latin", "vietnamese"],
-  weight: ["400", "600"],
-  variable: "--font-mono",
-  display: "swap",
-  preload: false, // chỉ dùng ở trang cá nhân; TalesApp tải sẵn lúc trình duyệt rảnh
-});
 
 const team = getTeam();
 
@@ -44,7 +31,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="vi" className={`${sans.variable} ${serif.variable} ${mono.variable}`} suppressHydrationWarning>
+    <html lang="vi" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>

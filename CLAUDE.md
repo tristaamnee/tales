@@ -18,7 +18,8 @@ nội dung giao diện bằng tiếng Việt.
 - `components/HomeView.tsx` · `Roster.tsx` (hover/cuộn/chạm) · `MemberView.tsx` (trang cá nhân) · `ThemeToggle.tsx` · `Tenure.tsx`.
   TalesApp còn: xáo thứ tự một lần mỗi phiên, nhớ vị trí cuộn trang chủ, đổi `document.title`, và lúc rảnh tải sẵn
   ảnh + font chỉ dùng ở trang cá nhân. Hiệu ứng đổi màn hình chỉ là `.view` hiện dần 0,2s.
-- `app/globals.css` — toàn bộ giao diện (token ở `:root`); font qua `next/font` (biến `--font-sans/serif/mono`)
+- `app/globals.css` — toàn bộ giao diện (token ở `:root`); font tự host qua gói `@fontsource` (nạp trong `app/layout.tsx`,
+  tên họ font ở token `--font-sans/serif/mono`); không dùng `next/font/google` (build trên GitHub Actions từng lỗi khi tải font)
 - `photos/<id>.jpg` — ảnh gốc → `tools/process_photos.py` tách nền ra `public/images/members/<id>.webp`
   kèm `<id>-bg.webp` (ảnh gốc cắt cùng khung, làm lớp nền cho thẻ trang chủ)
 - `public/member.html` — chuyển link cũ `member.html#<id>` sang `/thanh-vien/<id>/`

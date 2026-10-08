@@ -21,6 +21,10 @@
   --accent: #ffffff;
   --fin-ink: #173a63;
   --dev-ink: #00799a;
+  /* Tên họ font (tự host qua @fontsource, nạp trong app/layout.tsx) */
+  --font-sans: "Be Vietnam Pro";
+  --font-serif: "Source Serif 4 Variable";
+  --font-mono: "JetBrains Mono";
   --mono: var(--font-mono), "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --serif: var(--font-serif), "Source Serif 4", Georgia, "Times New Roman", serif;
 
