@@ -31,12 +31,21 @@
   --pop-ink: #3d2016;
   --pop-ink-2: #6e4535;
   --pop-on: #fffaf4; /* chữ trên nền cam */
+  /* Phong cách "editorial": giấy trắng ngà, chữ đen, một màu xanh lục */
+  --ed-paper: #f3f3f1;
+  --ed-band: #e9e9e6;
+  --ed-ink: #141414;
+  --ed-ink-2: #4a4a47;
+  --ed-muted: #7b7b76;
+  --ed-line: #cfcfca;
+  --ed-green: #0f7a55;
   /* Tên họ font (tự host qua @fontsource, nạp trong app/layout.tsx) */
   --font-sans: "Be Vietnam Pro";
   --font-serif: "Source Serif 4 Variable";
   --font-mono: "JetBrains Mono";
   --font-display: "Paytone One";
   --font-script: "Dancing Script";
+  --font-condensed: "Anton";
   --mono: var(--font-mono), "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --serif: var(--font-serif), "Source Serif 4", Georgia, "Times New Roman", serif;
 
@@ -72,6 +81,13 @@
     --pop-ink: #fbeadf;
     --pop-ink-2: #d8b8a6;
     --pop-on: #2a120a;
+    --ed-paper: #121413;
+    --ed-band: #1a1d1b;
+    --ed-ink: #eeeeea;
+    --ed-ink-2: #c6c6c0;
+    --ed-muted: #8e8e88;
+    --ed-line: #33373a;
+    --ed-green: #45c48f;
   }
 }
 
@@ -99,6 +115,13 @@
   --pop-ink: #fbeadf;
   --pop-ink-2: #d8b8a6;
   --pop-on: #2a120a;
+  --ed-paper: #121413;
+  --ed-band: #1a1d1b;
+  --ed-ink: #eeeeea;
+  --ed-ink-2: #c6c6c0;
+  --ed-muted: #8e8e88;
+  --ed-line: #33373a;
+  --ed-green: #45c48f;
 }
 
 *,
@@ -1945,6 +1968,494 @@ img {
 
   [data-style="pop"] .cv-section {
     grid-column: 1 / -1;
+  }
+}
+
+/* =========================================================
+   Phong cách "editorial": portfolio kiểu tạp chí. Giấy trắng ngà, chữ đen, đúng một màu xanh lục;
+   tên chữ HOA hẹp rất lớn (Anton), nhãn nhỏ chữ HOA giãn rộng, đường kẻ mảnh, mục đánh số 01/02,
+   số liệu chữ có chân; ảnh người đen trắng trên vòng tròn xanh. Đổi cả thẻ ở trang chủ.
+   ========================================================= */
+
+/* ---- Thẻ ở trang chủ: lúc tối giống mọi người; sáng lên: giấy ngà, vòng tròn xanh, người đen trắng ---- */
+.card[data-style="editorial"] .card-tile {
+  transition: background-color 0.6s var(--ease);
+}
+
+.card[data-style="editorial"] .card-tile .card-bg {
+  display: none;
+}
+
+.card[data-style="editorial"] .card-tile::before {
+  inset: 14% -18% auto auto;
+  width: 82%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--ed-green);
+  opacity: 0.14;
+  transform: scale(0.85);
+  transition: opacity 0.6s var(--ease), transform 0.8s var(--ease);
+}
+
+.card[data-style="editorial"] .card-tile::after {
+  display: none;
+}
+
+.card[data-style="editorial"].is-active .card-tile {
+  background-color: var(--ed-paper);
+}
+
+.card[data-style="editorial"].is-active .card-tile::before {
+  opacity: 1;
+  transform: none;
+}
+
+.card[data-style="editorial"].is-active .card-tile img {
+  filter: grayscale(1) contrast(1.08);
+}
+
+.card[data-style="editorial"] .card-quote {
+  inset: auto 12px 12px;
+  padding: 10px 12px 11px 30px;
+  border: 1px solid var(--ed-line);
+  border-radius: 0;
+  background: var(--ed-paper);
+  color: var(--ed-ink);
+  font-size: 12.5px;
+  line-height: 1.45;
+  text-align: left;
+}
+
+.card[data-style="editorial"] .card-quote::before {
+  content: "\201C";
+  position: absolute;
+  left: 9px;
+  top: 2px;
+  font-family: var(--serif);
+  font-size: 30px;
+  line-height: 1;
+  color: var(--ed-green);
+}
+
+.card[data-style="editorial"] .card-name {
+  font-family: var(--font-condensed), var(--font);
+  font-size: 21px;
+  font-weight: 400;
+  line-height: 1.35; /* chừa chỗ cho dấu chồng của chữ HOA */
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.card[data-style="editorial"] .card-role {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ed-green);
+}
+
+@media (max-width: 760px) {
+  .card[data-style="editorial"] .card-quote {
+    inset: auto 16px 16px;
+    font-size: 14px;
+  }
+
+  .card[data-style="editorial"] .card-name {
+    font-size: 26px;
+  }
+}
+
+/* ---- Trang cá nhân ---- */
+.page-member[data-style="editorial"] {
+  min-height: 100dvh;
+  overflow-x: clip;
+  background: var(--ed-paper);
+  color: var(--ed-ink);
+}
+
+/* nhãn nhỏ chữ HOA giãn rộng, dùng chung trong phong cách này */
+[data-style="editorial"] .wordmark,
+[data-style="editorial"] .back-link,
+[data-style="editorial"] .role,
+[data-style="editorial"] .cv-title,
+[data-style="editorial"] .works h2,
+[data-style="editorial"] .entry-title,
+[data-style="editorial"] .work-title,
+[data-style="editorial"] .skill-group h3,
+[data-style="editorial"] .stat dt,
+[data-style="editorial"] .socials a,
+[data-style="editorial"] .work-links a,
+[data-style="editorial"] .cv-download {
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+[data-style="editorial"] .topbar {
+  height: 64px;
+  background: color-mix(in srgb, var(--ed-paper) 86%, transparent);
+  border-bottom-color: var(--ed-line);
+}
+
+[data-style="editorial"] .wordmark {
+  font-size: 12px;
+  color: var(--ed-ink);
+}
+
+[data-style="editorial"] .theme-toggle {
+  color: var(--ed-ink-2);
+}
+
+[data-style="editorial"] .back-link {
+  font-size: 11px;
+  color: var(--ed-ink);
+}
+
+[data-style="editorial"] .back-link::after {
+  content: " \2192";
+  color: var(--ed-green);
+}
+
+/* hero: tên rất lớn bên trái, ảnh đen trắng + vòng tròn xanh bên phải, ảnh chạm mép dưới */
+[data-style="editorial"] .profile-hero {
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  align-items: end;
+  padding-block: clamp(40px, 9vh, 104px) 0;
+}
+
+[data-style="editorial"] .intro {
+  display: flex;
+  flex-direction: column;
+  order: -1;
+  padding-bottom: clamp(40px, 8vh, 88px);
+}
+
+[data-style="editorial"] .intro::after {
+  content: "";
+  order: 9;
+  width: 64px;
+  height: 2px;
+  margin-top: 36px;
+  background: var(--ed-green);
+}
+
+[data-style="editorial"] .name {
+  order: -1;
+  margin: 0;
+  font-family: var(--font-condensed), var(--font);
+  font-size: clamp(56px, 9.4vw, 148px);
+  font-weight: 400;
+  line-height: 1.16; /* chữ HOA hẹp: đủ chỗ cho dấu nặng dòng trên và dấu chồng dòng dưới (Ị / Ồ) */
+  letter-spacing: 0;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+[data-style="editorial"] .role {
+  margin-top: 18px;
+  font-size: clamp(12px, 1vw, 14px);
+  color: var(--ed-green);
+}
+
+[data-style="editorial"] .role .location {
+  color: var(--ed-muted);
+}
+
+[data-style="editorial"] .tagline {
+  max-width: 34ch;
+  margin-top: 26px;
+  font-size: clamp(18px, 1.5vw, 21px);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--ed-ink);
+}
+
+[data-style="editorial"] .bio {
+  max-width: 56ch;
+  margin-top: 14px;
+  font-size: 15px;
+  color: var(--ed-ink-2);
+}
+
+[data-style="editorial"] .socials a,
+[data-style="editorial"] .work-links a {
+  font-size: 11px;
+  color: var(--ed-green);
+}
+
+[data-style="editorial"] .socials a > span,
+[data-style="editorial"] .work-links a > span {
+  display: none; /* thay dấu › bằng mũi tên */
+}
+
+[data-style="editorial"] .socials a::after,
+[data-style="editorial"] .work-links a::after {
+  content: "  \2192";
+  white-space: pre;
+}
+
+[data-style="editorial"] .cv-download {
+  padding: 12px 18px;
+  border: 1px solid var(--ed-green);
+  border-radius: 0;
+  background: transparent;
+  color: var(--ed-ink);
+  font-size: 11px;
+}
+
+[data-style="editorial"] .portrait {
+  justify-self: end;
+  width: min(100%, 500px);
+  aspect-ratio: 3 / 3.6; /* cắt bớt chân ảnh (giữ tỉ lệ, không kéo méo) để ảnh dừng thẳng ở mép dưới */
+  overflow: visible;
+  border-radius: 0;
+  background: none;
+  isolation: isolate;
+}
+
+[data-style="editorial"] .portrait .portrait-bg {
+  display: none;
+}
+
+[data-style="editorial"] .portrait::before,
+[data-style="editorial"] .portrait.has-bg::before {
+  content: "";
+  position: absolute;
+  inset: 12% 0 auto auto;
+  z-index: -1;
+  width: 84%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--ed-green);
+  opacity: 1;
+}
+
+[data-style="editorial"] .portrait img {
+  filter: grayscale(1) contrast(1.08);
+  -webkit-mask-image: linear-gradient(to bottom, #000 92%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 92%, transparent 100%);
+}
+
+/* ---- Con số: chữ có chân mảnh, ngăn bằng đường kẻ dọc ---- */
+[data-style="editorial"] .stats-band {
+  border-top-color: var(--ed-line);
+}
+
+[data-style="editorial"] .stat {
+  padding-left: 24px;
+  border-left: 1px solid var(--ed-line);
+}
+
+[data-style="editorial"] .stat dd {
+  font-family: var(--serif);
+  font-weight: 300;
+  letter-spacing: -0.01em;
+}
+
+[data-style="editorial"] .stat dt {
+  font-size: 10px;
+  color: var(--ed-ink-2);
+}
+
+/* ---- Các mục CV: dải nền xám nhạt, nhãn trái có gạch xanh, mục đánh số ---- */
+[data-style="editorial"] .cv {
+  width: 100%;
+  padding-inline: max(var(--gutter), (100% - 1280px) / 2);
+  background: var(--ed-band);
+}
+
+[data-style="editorial"] .cv-section {
+  padding-block: clamp(40px, 7vh, 72px);
+  border-top-color: var(--ed-line);
+}
+
+[data-style="editorial"] .cv-section:first-child {
+  border-top: 0;
+}
+
+[data-style="editorial"] .cv-title,
+[data-style="editorial"] .works h2 {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ed-ink);
+}
+
+[data-style="editorial"] .cv-title::after,
+[data-style="editorial"] .works h2::after {
+  content: "";
+  display: block;
+  width: 32px;
+  height: 2px;
+  margin-top: 14px;
+  background: var(--ed-green);
+}
+
+[data-style="editorial"] .entries {
+  counter-reset: ed-entry;
+  gap: 40px;
+}
+
+[data-style="editorial"] .entry {
+  counter-increment: ed-entry;
+}
+
+[data-style="editorial"] .entry-when {
+  color: var(--ed-muted);
+}
+
+[data-style="editorial"] .entry-sub {
+  color: var(--ed-muted);
+}
+
+[data-style="editorial"] .entry-title {
+  display: flex;
+  gap: 14px;
+  align-items: baseline;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--ed-line);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+[data-style="editorial"] .entry-title::before {
+  content: counter(ed-entry, decimal-leading-zero);
+  letter-spacing: 0.04em;
+  color: var(--ed-green);
+}
+
+[data-style="editorial"] .entry-org {
+  margin-top: 10px;
+  color: var(--ed-ink);
+}
+
+[data-style="editorial"] .entry-note {
+  color: var(--ed-muted);
+}
+
+[data-style="editorial"] .entry-points {
+  color: var(--ed-ink-2);
+  font-size: 15px;
+}
+
+[data-style="editorial"] .entry-points li::marker {
+  color: var(--ed-green);
+}
+
+[data-style="editorial"] .cert {
+  border-bottom-color: var(--ed-line);
+}
+
+[data-style="editorial"] .cert-issuer,
+[data-style="editorial"] .cert-date {
+  color: var(--ed-muted);
+}
+
+/* Kỹ năng: mỗi dòng có vòng tròn xanh nhỏ và đường kẻ mảnh */
+[data-style="editorial"] .skill-group h3 {
+  margin-bottom: 10px;
+  font-size: 11px;
+  color: var(--ed-muted);
+}
+
+[data-style="editorial"] .skill-group li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-block: 10px;
+  border-bottom-color: var(--ed-line);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ed-ink);
+}
+
+[data-style="editorial"] .skill-group li::before {
+  content: "";
+  flex: none;
+  width: 14px;
+  aspect-ratio: 1;
+  border: 1.5px solid var(--ed-green);
+  border-radius: 50%;
+}
+
+/* ---- Những thứ đã làm được: các cột đánh số như "Selected projects" ---- */
+[data-style="editorial"] .works-band {
+  background: var(--ed-paper);
+}
+
+[data-style="editorial"] .works h2 {
+  margin-bottom: 36px;
+}
+
+[data-style="editorial"] .work-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 40px 32px;
+  counter-reset: ed-work;
+}
+
+[data-style="editorial"] .work {
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  counter-increment: ed-work;
+}
+
+[data-style="editorial"] .work-date {
+  order: 2;
+  color: var(--ed-muted);
+}
+
+[data-style="editorial"] .work-title {
+  display: flex;
+  gap: 14px;
+  align-items: baseline;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--ed-line);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ed-ink);
+}
+
+[data-style="editorial"] .work-title::before {
+  content: counter(ed-work, decimal-leading-zero);
+  letter-spacing: 0.04em;
+  color: var(--ed-green);
+}
+
+[data-style="editorial"] .work-meta {
+  color: var(--ed-green);
+}
+
+[data-style="editorial"] .work-summary {
+  color: var(--ed-ink-2);
+  font-size: 15px;
+}
+
+[data-style="editorial"] .work-tags {
+  color: var(--ed-muted);
+}
+
+[data-style="editorial"] .draft-note {
+  color: var(--ed-muted);
+}
+
+@media (max-width: 860px) {
+  [data-style="editorial"] .profile-hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    padding-top: 32px;
+  }
+
+  [data-style="editorial"] .intro {
+    order: 0;
+    padding-top: 28px;
+  }
+
+  [data-style="editorial"] .portrait {
+    justify-self: center;
+    width: min(88%, 420px);
   }
 }
 
