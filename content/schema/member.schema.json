@@ -103,11 +103,12 @@
       }
     },
     "style": {
-      "description": "Phong cách trang cá nhân theo ngành. default: chung; finance: kiểu báo cáo tài chính / CV ngành tài chính; developer: kiểu lập trình viên (font code, dòng thời gian kiểu git).",
+      "description": "Phong cách trang cá nhân theo ngành. default: chung; finance: kiểu báo cáo tài chính / CV ngành tài chính; developer: kiểu lập trình viên (font code, dòng thời gian kiểu git); pop: rực rỡ kem – cam – hồng, chữ đậm tròn + chữ viết tay, áp dụng cả cho thẻ ở trang chủ.",
       "enum": [
         "default",
         "finance",
-        "developer"
+        "developer",
+        "pop"
       ]
     },
     "draft": {

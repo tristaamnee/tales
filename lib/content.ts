@@ -42,7 +42,7 @@ export type Member = {
   tagline?: string;
   quote?: string;
   photo?: string;
-  style?: "default" | "finance" | "developer";
+  style?: "default" | "finance" | "developer" | "pop";
   draft?: boolean;
   location?: string;
   cv?: string;

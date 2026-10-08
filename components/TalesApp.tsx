@@ -68,6 +68,8 @@ export default function TalesApp({ team }: { team: TeamView }) {
         ["--font-serif", ["600 40px", "italic 400 20px", "400 20px"]],
         ["--font-mono", ["400 15px", "600 15px"]],
         ["--font-sans", ["300 17px", "400 17px", "600 17px"]],
+        ["--font-display", ["400 40px"]],
+        ["--font-script", ["600 30px"]],
       ] as const) {
         const family = css.getPropertyValue(v).trim();
         if (family) styles.forEach((st) => document.fonts.load(`${st} ${family}`, sample).catch(() => {}));

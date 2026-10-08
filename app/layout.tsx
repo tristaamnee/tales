@@ -12,6 +12,8 @@ import "@fontsource-variable/source-serif-4/opsz.css"; // cỡ quang học: ch�
 import "@fontsource-variable/source-serif-4/opsz-italic.css";
 import "@fontsource/jetbrains-mono/400.css";
 import "@fontsource/jetbrains-mono/600.css";
+import "@fontsource/paytone-one/400.css"; // phong cách "pop": chữ tiêu đề tròn, đậm
+import "@fontsource/dancing-script/600.css"; // phong cách "pop": chữ viết tay
 import "./globals.css";
 
 const team = getTeam();
