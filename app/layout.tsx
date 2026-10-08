@@ -14,6 +14,7 @@ import "@fontsource/jetbrains-mono/400.css";
 import "@fontsource/jetbrains-mono/600.css";
 import "@fontsource/paytone-one/400.css"; // phong cách "pop": chữ tiêu đề tròn, đậm
 import "@fontsource/dancing-script/600.css"; // phong cách "pop": chữ viết tay
+import "@fontsource/anton/400.css"; // phong cách "editorial": chữ HOA hẹp, rất đậm
 import "./globals.css";
 
 const team = getTeam();
