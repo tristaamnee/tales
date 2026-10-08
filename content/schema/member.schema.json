@@ -103,7 +103,7 @@
       }
     },
     "style": {
-      "description": "Phong cách trang cá nhân theo ngành. default: chung; finance: kiểu báo cáo tài chính / CV ngành tài chính; developer: kiểu lập trình viên (font code, dòng thời gian kiểu git); pop: rực rỡ kem – cam – hồng, chữ đậm tròn + chữ viết tay, áp dụng cả cho thẻ ở trang chủ; editorial: kiểu portfolio tạp chí (giấy trắng ngà, tên chữ HOA hẹp rất lớn, ảnh đen trắng trên vòng tròn xanh lục), cũng đổi cả thẻ ở trang chủ.",
+      "description": "Phong cách trang cá nhân theo ngành. default: chung; finance: kiểu báo cáo tài chính / CV ngành tài chính; developer: kiểu lập trình viên (font code, dòng thời gian kiểu git); pop: rực rỡ kem – cam – hồng, chữ đậm tròn + chữ viết tay, áp dụng cả cho thẻ ở trang chủ; editorial: kiểu portfolio tạp chí (giấy trắng ngà, tên chữ HOA hẹp rất lớn, ảnh người trên vòng tròn xanh lục), cũng đổi cả thẻ ở trang chủ.",
       "enum": [
         "default",
         "finance",
