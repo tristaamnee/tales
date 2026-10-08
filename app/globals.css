@@ -139,6 +139,16 @@ body {
    thẻ đã tự sáng lên khi chạm, còn bàn phím vẫn có viền :focus-visible. */
 html {
   -webkit-tap-highlight-color: transparent;
+  /* Không cho bôi đen chữ khi nhấn rồi kéo, không hiện menu khi nhấn giữ trên iPhone; bấm link vẫn bình thường */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Không kéo được ảnh / link ra ngoài (Chrome, Safari; Firefox chặn trong TalesApp) */
+img,
+a {
+  -webkit-user-drag: none;
 }
 
 body {
