@@ -85,6 +85,7 @@ export default function Roster({ members, ready, intro }: { members: MemberView[
             href={href(path)}
             className={`card${active === m.id ? " is-active" : ""}`}
             data-id={m.id}
+            data-style={m.style}
             style={{ "--accent": m.color, "--i": i } as CSSProperties}
             onPointerEnter={(e) => {
               if (e.pointerType === "mouse" && !isStacked()) setActive(m.id);

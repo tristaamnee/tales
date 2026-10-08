@@ -58,6 +58,9 @@ Site có thể nằm ở thư mục con: đường dẫn file trong `public/` ph
   `finance` = kiểu báo cáo thường niên/CV tài chính (chữ có chân Source Serif 4 cho tiêu đề và số, xanh navy
   `--fin-ink`, đường kẻ mảnh, ảnh hồ sơ nhỏ); `developer` = kiểu lập trình viên (JetBrains Mono, xanh Golang
   `--dev-ink`, vai trò như dòng lệnh `$`, slogan như comment `//`, kinh nghiệm như nhánh git, kỹ năng như mảng code).
+  `pop` = kiểu "Solar Pop" rực rỡ (nền kem, cam `--pop-orange`, hồng `--pop-pink`, tiêu đề Paytone One chữ HOA,
+  slogan chữ viết tay Dancing Script, khối bo tròn lớn, hoa/tia sáng là mask SVG tô bằng token); riêng `pop` còn đổi cả
+  thẻ ở trang chủ (`.card[data-style="pop"]`): lúc tối giống mọi người, sáng lên thì nền kem + vòm hồng + mặt trời cam.
   Phong cách mới: thêm vào enum `style` trong schema và một khối
   `[data-style="…"]` trong CSS; chỉ ghi đè trình bày, không đổi cấu trúc dữ liệu.
 - Các mục CV (`experience`, `education`, `certifications`, `skillGroups`, `languages`, `cv`) dùng chung cho mọi người.

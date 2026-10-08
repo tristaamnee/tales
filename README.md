@@ -5,7 +5,7 @@ Landing page giới thiệu team 5 người, viết bằng **Next.js** (App Rout
 - **Trang chủ** (`/`): 5 ô ảnh, mặc định tối. Rê chuột vào ai thì ảnh người đó sáng lên; bấm để mở trang cá nhân.
   - Điện thoại: xếp một cột, cuộn tới ai thì người đó sáng; chạm để mở. Máy tính bảng: chạm lần 1 sáng, lần 2 mở.
 - **Trang cá nhân** (`/thanh-vien/<id>/`): ảnh, giới thiệu, số liệu, kinh nghiệm, học vấn, chứng chỉ, kỹ năng,
-  "Những thứ đã làm được". Mỗi người có thể có phong cách riêng theo ngành (`"style"`: `finance`, `developer`).
+  "Những thứ đã làm được". Mỗi người có thể có phong cách riêng theo ngành (`"style"`: `finance`, `developer`, `pop`).
 - Chuyển giữa trang chủ và trang từng người gần như tức thì: cả team được nạp một lần, bấm vào ai chỉ đổi màn hình
   theo slug trên URL (Back/Forward, F5, chia sẻ link vẫn đúng).
 - Chế độ sáng / tối (theo máy hoặc tự chọn). Link cũ `member.html#<id>` tự chuyển sang địa chỉ mới.
