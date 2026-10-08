@@ -8,80 +8,81 @@
   "style": "finance",
   "location": "TP. Hồ Chí Minh",
   "bio": [
-    "Kế toán tổng hợp với hơn 4 năm kinh nghiệm tại doanh nghiệp sản xuất và công ty dịch vụ kế toán: lập báo cáo tài chính theo VAS, quyết toán thuế và chuẩn hoá quy trình đóng sổ.",
-    "Đang mở rộng sang tài chính doanh nghiệp: lập ngân sách, dự báo dòng tiền và phân tích hiệu quả chi phí để hỗ trợ ban giám đốc ra quyết định."
-  ],
-  "stats": [
-    { "value": "4+", "label": "Năm kinh nghiệm" },
-    { "value": "12", "label": "Doanh nghiệp đã phụ trách sổ sách" },
-    { "value": "6 ngày", "label": "Đóng sổ cuối tháng (trước đây 10 ngày)" },
-    { "value": "0", "label": "Sai sót trọng yếu qua các kỳ kiểm toán" }
+    "Kế toán nội bộ kiêm tổng hợp tại một công ty thương mại – quảng cáo từ 09/2022: hạch toán, theo dõi công nợ, giao dịch ngân hàng, kê khai thuế VAT, TNCN và lập báo cáo tài chính năm.",
+    "Đang học chuyên ngành Tài chính tại Đại học Kinh tế TP. Hồ Chí Minh để từng bước chuyển sang tài chính doanh nghiệp. Làm việc cẩn thận, trung thực, nhanh nhạy và logic với số liệu."
   ],
   "experience": [
     {
-      "company": "Công ty TNHH Sản xuất (mẫu)",
-      "title": "Kế toán tổng hợp",
-      "start": "2023-03",
-      "location": "TP. Hồ Chí Minh",
+      "company": "Công ty Cổ phần Thương mại Quảng cáo Nguyễn Trần",
+      "title": "Kế toán nội bộ kiêm tổng hợp",
+      "start": "2022-09",
       "highlights": [
-        "Lập báo cáo tài chính tháng, quý, năm theo VAS và báo cáo quản trị cho ban giám đốc.",
-        "Chuẩn hoá quy trình đóng sổ, rút thời gian từ 10 xuống 6 ngày làm việc.",
-        "Phụ trách quyết toán thuế TNDN, TNCN và làm việc với kiểm toán độc lập."
+        "Hạch toán các nghiệp vụ tiền mặt, tiền gửi ngân hàng, công nợ, lương và BHXH.",
+        "Theo dõi, đối chiếu và kiểm soát công nợ khách hàng, nhà cung cấp; lên lịch dự kiến thanh toán cho nhà cung cấp.",
+        "Thực hiện giao dịch ngân hàng, hồ sơ thanh toán giải ngân; dùng sao kê làm căn cứ hạch toán và xuất hóa đơn.",
+        "Kê khai, nộp báo cáo thuế VAT, TNCN theo tháng hoặc quý và báo cáo tài chính năm.",
+        "Quản lý, lưu trữ hóa đơn, chứng từ và kê khai vào phần mềm kế toán; phối hợp bộ phận CS kiểm tra bảng giá, hợp đồng."
       ]
     },
     {
-      "company": "Công ty Dịch vụ Kế toán (mẫu)",
-      "title": "Kế toán viên",
-      "start": "2021-07",
-      "end": "2023-02",
-      "location": "TP. Hồ Chí Minh",
+      "company": "Công ty TNHH BEST Express Việt Nam",
+      "title": "Thực tập sinh kế toán",
+      "start": "2022-03",
+      "end": "2022-06",
       "highlights": [
-        "Quản lý sổ sách và kê khai thuế định kỳ cho 12 doanh nghiệp vừa và nhỏ.",
-        "Đối chiếu công nợ, ngân hàng và hàng tồn kho hằng tháng."
+        "Nhập liệu và hạch toán chứng từ trên phần mềm MISA.",
+        "Sắp xếp, lưu trữ và in chứng từ, sổ sách trình cấp trên.",
+        "Hỗ trợ đối chiếu công nợ với các bưu cục."
       ]
-    },
-    {
-      "company": "Công ty Kiểm toán (mẫu)",
-      "title": "Trợ lý kiểm toán (thực tập)",
-      "start": "2021-01",
-      "end": "2021-06",
-      "highlights": ["Hỗ trợ kiểm tra chi tiết khoản mục doanh thu, chi phí cho 5 khách hàng."]
     }
   ],
   "education": [
     {
-      "school": "Trường Đại học Kinh tế (mẫu)",
-      "degree": "Cử nhân Kế toán – Kiểm toán",
-      "start": "2017",
-      "end": "2021",
+      "school": "Trường Đại học Kinh tế TP. Hồ Chí Minh",
+      "degree": "Chuyên ngành Tài chính",
+      "start": "2024",
+      "end": "2027",
+      "note": "Đang học"
+    },
+    {
+      "school": "Trường Cao đẳng Kinh tế TP. Hồ Chí Minh",
+      "degree": "Chuyên ngành Kiểm toán",
+      "start": "2019",
+      "end": "2023",
       "note": "Tốt nghiệp loại Giỏi"
     }
   ],
   "certifications": [
-    { "name": "ACCA", "issuer": "Hiệp hội Kế toán Công chứng Anh quốc", "status": "in-progress", "note": "Đã hoàn thành 6/13 môn" },
-    { "name": "Chứng chỉ Kế toán trưởng", "issuer": "Bộ Tài chính", "date": "2024", "status": "done" },
-    { "name": "IELTS 7.0", "issuer": "IDP", "date": "2022", "status": "done" }
+    { "name": "Chứng chỉ Tin học văn phòng", "date": "2019", "status": "done" }
   ],
   "skillGroups": [
     {
       "label": "Chuyên môn",
       "items": [
-        "Lập báo cáo tài chính (VAS)",
-        "Quyết toán thuế TNDN, TNCN",
-        "Kê khai thuế GTGT",
-        "Lập ngân sách & dự báo dòng tiền",
-        "Phân tích biến động chi phí",
-        "Kiểm soát nội bộ"
+        "Xử lý chứng từ",
+        "Hạch toán thu chi",
+        "Theo dõi, đối chiếu công nợ",
+        "Báo cáo thuế VAT, TNCN",
+        "Lập báo cáo tài chính năm"
       ]
     },
     {
       "label": "Phần mềm",
-      "items": ["Excel nâng cao (Power Query, PivotTable)", "MISA SME", "SAP Business One", "Power BI (cơ bản)"]
+      "items": ["ERP Lemon", "MISA AMIS", "Word", "Excel"]
     }
   ],
-  "languages": [{ "name": "Tiếng Anh", "level": "Đọc hiểu báo cáo tài chính, giao tiếp công việc" }],
-  "socials": [
-    { "platform": "email", "url": "mailto:hongnhung@example.com" },
-    { "platform": "linkedin", "url": "https://www.linkedin.com/" }
+  "works": [
+    {
+      "type": "award",
+      "title": "Sinh viên 5 tốt cấp trường",
+      "date": "2020"
+    },
+    {
+      "type": "other",
+      "title": "CLB Thông tin – Truyền thông",
+      "date": "2019",
+      "role": "Thành viên, 2019 – 2021",
+      "summary": "Tham gia tổ chức các chương trình cho sinh viên như Chào Tân Sinh Viên, Nhân tố đỏ; hỗ trợ buổi training kỹ năng mềm cho thành viên mới và lên ý tưởng hoạt động ngoại khóa."
+    }
   ]
 }
