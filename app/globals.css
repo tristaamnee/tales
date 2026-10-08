@@ -562,6 +562,7 @@ img {
 .tagline {
   max-width: 30ch;
   margin: 20px 0 0;
+  text-wrap: balance; /* phải xuống dòng thì chia hai dòng đều nhau, không để một chữ lẻ loi */
   font-size: clamp(21px, 2vw, 26px);
   font-weight: 300;
   line-height: 1.4;
@@ -1034,7 +1035,7 @@ img {
 }
 
 [data-style="finance"] .tagline {
-  max-width: 44ch;
+  max-width: 60ch; /* đủ cho slogan một dòng trên máy tính */
   font-family: var(--serif);
   font-style: italic;
   font-size: clamp(19px, 1.7vw, 22px);
