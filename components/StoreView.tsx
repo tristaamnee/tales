@@ -20,7 +20,12 @@ function useCart(key: string, products: Product[], ready: boolean) {
   const loaded = useRef(false);
   useEffect(() => {
     try {
-      setCart(JSON.parse(localStorage.getItem(key) || "{}") as Cart);
+      const saved: unknown = JSON.parse(localStorage.getItem(key) || "{}");
+      if (saved && typeof saved === "object") {
+        // Chỉ nhận { id: số nguyên dương }, phòng dữ liệu hỏng/bị sửa tay.
+        const ok = ([id, q]: [string, unknown]) => /^[a-z0-9-]+$/.test(id) && Number.isInteger(q) && (q as number) > 0;
+        setCart(Object.fromEntries(Object.entries(saved).filter(ok).map(([id, q]) => [id, Math.min(q as number, 99)])));
+      }
     } catch {}
     loaded.current = true;
   }, [key]);
@@ -37,7 +42,7 @@ function useCart(key: string, products: Product[], ready: boolean) {
       localStorage.setItem(key, JSON.stringify(cart));
     } catch {}
   }, [key, cart]);
-  const add = (id: string, n = 1) => setCart((c) => ({ ...c, [id]: Math.max(0, (c[id] || 0) + n) }));
+  const add = (id: string, n = 1) => setCart((c) => ({ ...c, [id]: Math.min(99, Math.max(0, (c[id] || 0) + n)) }));
   const remove = (id: string) =>
     setCart((c) => {
       const next = { ...c };
@@ -307,8 +312,14 @@ export default function StoreView({ store, member }: { store: Store; member: Mem
                 <Thumb p={p} />
                 {p.badge && <span className="product-badge">{p.badge}</span>}
                 <p className="product-cat">{catLabel[p.category]}</p>
-                <h3 className="product-name">{p.name}</h3>
-                {p.description && <p className="product-desc">{p.description}</p>}
+                <h3 className="product-name" title={p.name}>
+                  {p.name}
+                </h3>
+                {p.description && (
+                  <p className="product-desc" title={p.description}>
+                    {p.description}
+                  </p>
+                )}
                 <p className="product-price">
                   {vnd(p.price)}
                   {p.compareAt && <s>{vnd(p.compareAt)}</s>}

@@ -56,6 +56,11 @@ Site có thể nằm ở thư mục con: đường dẫn file trong `public/` ph
 
 - Thêm/sửa thành viên = sửa JSON, không sửa code. Trường mới → cập nhật cả schema, renderer và `_template.json`.
 - Không dùng `dangerouslySetInnerHTML` cho dữ liệu từ JSON (React tự escape).
+- Bảo mật: site tĩnh, không có key/secret nào; nếu sau này cần thì để trong biến môi trường/GitHub Secrets (`.env*` đã
+  gitignore), không bao giờ dùng tiền tố `NEXT_PUBLIC_` cho secret (sẽ lộ ra trình duyệt). CSP nằm ở thẻ meta trong
+  `app/layout.tsx` (chỉ bật khi build): thêm dịch vụ ngoài (API, font, iframe…) thì phải mở đúng mục trong CSP.
+  Link trong JSON chỉ nhận `https://`/`mailto:` (schema); ảnh từ Sheet chỉ nhận `https://` hoặc đường dẫn trong `public/`.
+  Workflow giữ quyền tối thiểu (`permissions` theo job; chỉ job deploy có quyền ghi Pages).
 - Hướng thiết kế (người dùng đã chọn): **tối giản sang trọng kiểu Apple/Tesla**. Ảnh là nhân vật chính, giao diện lùi
   về sau: nền trắng `#fff` / xám nhạt `#f5f5f7`, chữ `#1d1d1f`, đúng một màu xanh `#0066cc` cho link; một họ font
   Be Vietnam Pro (300/400/600), tiêu đề đậm 600 và khít chữ (letter-spacing âm), nội dung 17px; bo góc 18–22px cho ô ảnh;

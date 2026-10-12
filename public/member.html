@@ -8,7 +8,7 @@
     // Link cũ dạng member.html#id hoặc member.html?id=id → trang mới /<id>/
     (function () {
       var id = decodeURIComponent(location.hash.slice(1)) || new URLSearchParams(location.search).get("id") || "";
-      var base = location.pathname.replace(/member\.html$/, "");
+      var base = location.pathname.replace(/member(\.html)?\/?$/, "");
       location.replace(base + (/^[a-z0-9-]+$/.test(id) ? id + "/" : ""));
     })();
   </script>

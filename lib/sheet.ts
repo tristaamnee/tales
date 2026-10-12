@@ -90,10 +90,14 @@ function money(s: string): number | undefined {
   return Number(digits) * (/k\s*$/i.test(s.trim()) ? 1000 : 1);
 }
 
-// Link chia sẻ Google Drive -> link ảnh hiển thị được trên web.
-function imageUrl(s: string): string {
-  const drive = s.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=\w+&)?id=)([\w-]+)/);
-  return drive ? `https://lh3.googleusercontent.com/d/${drive[1]}` : asset(s);
+// Link chia sẻ Google Drive -> link ảnh hiển thị được trên web. Chỉ nhận https:// hoặc đường dẫn trong public/
+// (không nhận javascript:, data:, http:, //host, ../), link khác coi như không có ảnh.
+function imageUrl(s: string): string | undefined {
+  const drive = s.match(/^https:\/\/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=\w+&)?id=)([\w-]+)/);
+  if (drive) return `https://lh3.googleusercontent.com/d/${drive[1]}`;
+  if (/^https:\/\/[^\s"'<>]+$/i.test(s)) return s;
+  if (/^[a-z0-9][\w-]*(\/[\w-]+)*\.(webp|jpe?g|png|avif|gif)$/i.test(s)) return asset(s);
+  return undefined;
 }
 
 export function productsFromCsv(text: string): SheetProducts {
@@ -135,7 +139,9 @@ export function productsFromCsv(text: string): SheetProducts {
     if (row.badge) p.badge = row.badge;
     if (row.featured && yes(row.featured)) p.featured = true;
     if (row.soldOut && yes(row.soldOut)) p.soldOut = true;
-    if (row.image) p.imageSrc = imageUrl(row.image);
+    const image = row.image && imageUrl(row.image);
+    if (image) p.imageSrc = image;
+    else if (row.image) skipped.push(`${line} (${row.name}): link ảnh không hợp lệ, dùng hình minh họa`);
     products.push(p);
   });
 
