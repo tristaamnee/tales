@@ -19,6 +19,9 @@ CONTENT = ROOT / "content"
 PUBLIC = ROOT / "public"
 SCHEMAS = CONTENT / "schema"
 
+# Trang cá nhân nằm ở /<id>/ nên id không được trùng các thư mục / file có sẵn của site.
+RESERVED_IDS = {"thanh-vien", "member", "images", "store", "_next", "404", "index"}
+
 errors: list[str] = []
 warnings: list[str] = []
 
@@ -55,6 +58,8 @@ def main() -> int:
         if member is None:
             continue
         check_schema(member, "member.schema.json", path)
+        if member_id in RESERVED_IDS:
+            errors.append(f"{path.relative_to(ROOT)}: id \"{member_id}\" trùng với một đường dẫn có sẵn của site (/{member_id}/) — đặt id khác")
         if member.get("id") != member_id:
             errors.append(f"{path.relative_to(ROOT)}: id là \"{member.get('id')}\" nhưng tên file là \"{member_id}\" — hai cái phải giống nhau")
 

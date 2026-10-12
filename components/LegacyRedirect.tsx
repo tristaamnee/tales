@@ -1,4 +1,4 @@
-// Trang chuyển hướng cho link cũ (vd /thanh-vien/<id>/ → /member/<id>/).
+// Trang chuyển hướng cho link cũ (vd /thanh-vien/<id>/ → /<id>/).
 // Dùng đường dẫn tương đối nên đúng cả khi site nằm trong thư mục con (basePath).
 export default function LegacyRedirect({ to, label }: { to: string; label: string }) {
   return (

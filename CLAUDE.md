@@ -1,15 +1,15 @@
 # TALES — landing page của team
 
 Next.js 16 (App Router, TypeScript), `output: "export"` → web tĩnh trong `out/`. Trang chủ có 5 thẻ thành viên:
-tối mặc định, sáng lên khi hover (điện thoại: khi cuộn tới), bấm vào mở trang cá nhân `/member/<id>/`. Người dùng nói tiếng Việt — trả lời và viết
+tối mặc định, sáng lên khi hover (điện thoại: khi cuộn tới), bấm vào mở trang cá nhân `/<id>/`. Người dùng nói tiếng Việt — trả lời và viết
 nội dung giao diện bằng tiếng Việt.
 
 ## Cấu trúc
 
 - `content/team.json` — tên team, tagline, `shuffle` (xáo thứ tự trang chủ), danh sách id thành viên
 - `content/members/<id>.json` — hồ sơ từng người; schema ở `content/schema/`; mẫu ở `_template.json`
-- `content/stores/<id>.json` — cửa hàng (không bắt buộc) của thành viên `<id>`, trang `/member/<id>/store/`
-  (`app/member/[id]/store/page.tsx`, `components/StoreView.tsx`, phong cách Solar Pop dùng token `--pop-*`);
+- `content/stores/<id>.json` — cửa hàng (không bắt buộc) của thành viên `<id>`, trang `/<id>/store/`
+  (`app/[id]/store/page.tsx`, `components/StoreView.tsx`, phong cách Solar Pop dùng token `--pop-*`);
   có file này thì trang cá nhân tự hiện khối "Vào cửa hàng". Sản phẩm chưa có ảnh dùng hình minh họa `art`
   (`components/ProductArt.tsx`). Giỏ hàng lưu trên trình duyệt (localStorage `tales-cart-<id>`), "Gửi đơn" mở email
   soạn sẵn tới `order.email` (không có máy chủ). `reviews` chỉ ghi nhận xét thật của khách.
@@ -17,7 +17,7 @@ nội dung giao diện bằng tiếng Việt.
 - Điều hướng là **đổi state theo slug**: `components/TalesApp.tsx` nhận dữ liệu cả team (`getTeamView()`, tính sẵn ảnh
   và thời gian làm việc lúc build) và chọn màn hình theo `usePathname()`; bấm link gọi `go(path)` →
   `history.pushState` (Next.js tự cập nhật `usePathname`, Back/Forward tự chạy), không tải trang, không chờ hiệu ứng.
-  `app/page.tsx` và `app/member/[id]/page.tsx` (generateStaticParams) đều chỉ render `<TalesApp>`, để mở link
+  `app/page.tsx` và `app/[id]/page.tsx` (generateStaticParams) đều chỉ render `<TalesApp>`, để mở link
   trực tiếp/F5 vẫn có HTML dựng sẵn. Link nội bộ dùng `AppLink` (`to="/..."`) hoặc `useNav()` từ `components/nav.ts`
   — không dùng `next/link`/`router.push` cho các màn trong site (sẽ tải lại dữ liệu trang).
 - `components/HomeView.tsx` · `Roster.tsx` (hover/cuộn/chạm) · `MemberView.tsx` (trang cá nhân) · `StoreView.tsx` (cửa hàng)
@@ -28,8 +28,10 @@ nội dung giao diện bằng tiếng Việt.
   tên họ font ở token `--font-sans/serif/mono`); không dùng `next/font/google` (build trên GitHub Actions từng lỗi khi tải font)
 - `photos/<id>.jpg` — ảnh gốc → `tools/process_photos.py` tách nền ra `public/images/members/<id>.webp`
   kèm `<id>-bg.webp` (ảnh gốc cắt cùng khung, làm lớp nền cho thẻ trang chủ)
-- `public/member.html` — chuyển link cũ `member.html#<id>` sang `/member/<id>/`; `app/thanh-vien/[id]/` (và `cua-hang/`)
-  là trang chuyển hướng cho link cũ `/thanh-vien/<id>/` → `/member/<id>/` (`/cua-hang/` → `/store/`)
+- Địa chỉ: trang chủ `/`, trang cá nhân `/<id>/`, cửa hàng `/<id>/store/`. Vì `<id>` nằm ngay sau `/`, id thành viên không được
+  trùng thư mục/file khác của site (`thanh-vien`, `images`, `member`, `_next`…; `validate_content.py` báo lỗi).
+- `public/member.html` — chuyển link cũ `member.html#<id>` sang `/<id>/`; `app/thanh-vien/[id]/` (và `cua-hang/`)
+  là trang chuyển hướng cho link cũ `/thanh-vien/<id>/` → `/<id>/` (`/cua-hang/` → `/store/`)
 
 ## Lệnh
 

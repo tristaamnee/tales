@@ -110,7 +110,7 @@ export default function StoreView({ store, member }: { store: Store; member: Mem
     return `mailto:${store.order.email}?subject=${encodeURIComponent(`Đơn hàng ${store.name}`)}&body=${encodeURIComponent(body)}`;
   }, [lines, total, store]);
 
-  const memberPath = `/member/${member.id}/`;
+  const memberPath = `/${member.id}/`;
 
   return (
     <div className="store" style={{ "--accent": member.color } as CSSProperties}>

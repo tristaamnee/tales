@@ -10,9 +10,9 @@ import StoreView from "./StoreView";
 
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
-// "/member/nhung/" -> "nhung"; "/member/nhung/store/" -> "nhung/store"; trang chủ -> null
+// "/nhung/" -> "nhung"; "/nhung/store/" -> "nhung/store"; trang chủ "/" -> null
 function slugOf(pathname: string): string | null {
-  const m = pathname.match(/^\/member\/([a-z0-9-]+)(\/store)?\/?$/);
+  const m = pathname.match(/^\/([a-z0-9-]+)(\/store)?\/?$/);
   return m ? m[1] + (m[2] ? "/store" : "") : null;
 }
 
