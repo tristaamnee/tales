@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "store.schema.json",
+  "title": "Cửa hàng của một thành viên",
+  "description": "content/stores/<id>.json — trang /<id>/store/. Tên file trùng id thành viên.",
+  "type": "object",
+  "required": ["member", "name", "headline", "categories", "products", "order"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "member": { "description": "id thành viên sở hữu cửa hàng (trùng tên file).", "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "name": { "description": "Tên cửa hàng, hiện ở thanh trên cùng.", "type": "string", "minLength": 1 },
+    "announcement": { "description": "Dòng thông báo trên cùng (khuyến mãi, freeship…).", "type": "string" },
+    "headline": {
+      "description": "Tiêu đề lớn ở đầu trang, mỗi phần tử một dòng (chữ HOA).",
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1,
+      "maxItems": 3
+    },
+    "script": { "description": "Vài chữ viết tay nằm chéo cạnh tiêu đề.", "type": "string" },
+    "intro": { "description": "Đoạn giới thiệu ngắn dưới tiêu đề.", "type": "string" },
+    "badge": { "description": "Chữ trong nhãn tròn dán trên ảnh (ngắn, 2–4 chữ).", "type": "string", "maxLength": 32 },
+    "about": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "text"],
+      "properties": {
+        "title": { "type": "string" },
+        "text": { "type": "string" },
+        "signature": { "description": "Chữ ký viết tay.", "type": "string" },
+        "promises": { "description": "Danh sách cam kết ngắn bên phải.", "type": "array", "items": { "type": "string" }, "maxItems": 6 }
+      }
+    },
+    "categories": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "label"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "label": { "type": "string" }
+        }
+      }
+    },
+    "products": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "name", "category", "price"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "name": { "type": "string" },
+          "category": { "description": "id của một mục trong categories.", "type": "string" },
+          "price": { "description": "Giá bán (đồng).", "type": "integer", "minimum": 0 },
+          "compareAt": { "description": "Giá gốc trước giảm (đồng), hiện gạch ngang.", "type": "integer", "minimum": 0 },
+          "description": { "type": "string" },
+          "badge": { "description": "Nhãn nhỏ: Bán chạy, Mới, -15%…", "type": "string", "maxLength": 16 },
+          "featured": { "description": "true = hiện trong mục Sản phẩm nổi bật.", "type": "boolean" },
+          "image": { "description": "Ảnh sản phẩm trong public/ (vd images/store/nen-thom.webp). Không có thì dùng hình minh họa art.", "type": "string" },
+          "art": {
+            "description": "Hình minh họa khi chưa có ảnh.",
+            "enum": ["candle", "mug", "vase", "tote", "case", "earrings", "notebook", "card"]
+          },
+          "tint": { "description": "Màu nền ô sản phẩm.", "enum": ["peach", "pink", "sun"] },
+          "soldOut": { "description": "true = hết hàng, không thêm vào giỏ được.", "type": "boolean" }
+        }
+      }
+    },
+    "perks": {
+      "description": "Các ô số/ưu đãi màu (vd 7 ngày – Đổi trả).",
+      "type": "array",
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["value", "label"],
+        "properties": { "value": { "type": "string" }, "label": { "type": "string" } }
+      }
+    },
+    "reviews": {
+      "description": "Nhận xét THẬT của khách (không bịa). Bỏ trống thì không hiện mục này.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["quote", "name"],
+        "properties": { "quote": { "type": "string" }, "name": { "type": "string" }, "note": { "type": "string" } }
+      }
+    },
+    "order": {
+      "description": "Cách nhận đơn: giỏ hàng soạn sẵn email gửi tới địa chỉ này.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["email"],
+      "properties": {
+        "email": { "type": "string", "format": "email" },
+        "note": { "description": "Ghi chú hiện trong giỏ hàng (thanh toán, giao hàng…).", "type": "string" },
+        "location": { "type": "string" }
+      }
+    },
+    "closing": {
+      "description": "Khối cuối trang.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "headline": { "type": "string" },
+        "script": { "type": "string" },
+        "title": { "type": "string" },
+        "text": { "type": "string" }
+      }
+    }
+  }
+}

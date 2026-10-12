@@ -1,0 +1,122 @@
+{
+  "$schema": "../schema/store.schema.json",
+  "member": "nhung",
+  "name": "Nhung Store",
+  "announcement": "Cửa hàng đang chạy thử — sản phẩm và giá dưới đây là mẫu",
+  "headline": ["Đồ xinh", "cho ngày"],
+  "script": "rực rỡ",
+  "intro": "Góc nhỏ của Nhung: đồ dùng trong nhà, phụ kiện và quà tặng được chọn kỹ từng món, màu tươi, dùng bền, giá dễ thương.",
+  "badge": "Gói quà miễn phí",
+  "about": {
+    "title": "Xin chào, mình là Nhung.",
+    "text": "Ngày đi làm kế toán, tối về mình chọn từng món đồ xinh cho shop. Mỗi đơn đều được kiểm tra, gói cẩn thận và gửi kèm một tấm thiệp nhỏ.",
+    "signature": "Nhung",
+    "promises": ["Chọn kỹ từng món", "Gói quà miễn phí", "Đổi trả trong 7 ngày", "Tư vấn tận tình"]
+  },
+  "categories": [
+    { "id": "nha-cua", "label": "Nhà cửa" },
+    { "id": "phu-kien", "label": "Phụ kiện" },
+    { "id": "van-phong-pham", "label": "Văn phòng phẩm" },
+    { "id": "qua-tang", "label": "Quà tặng" }
+  ],
+  "products": [
+    {
+      "id": "nen-thom-hoang-hon",
+      "name": "Nến thơm Hoàng hôn",
+      "category": "nha-cua",
+      "price": 189000,
+      "description": "Sáp đậu nành, hương cam và vani.",
+      "badge": "Bán chạy",
+      "featured": true,
+      "art": "candle",
+      "tint": "peach"
+    },
+    {
+      "id": "tui-tote-mat-troi",
+      "name": "Túi tote Mặt trời",
+      "category": "phu-kien",
+      "price": 199000,
+      "description": "Vải canvas dày, in tay.",
+      "featured": true,
+      "art": "tote",
+      "tint": "sun"
+    },
+    {
+      "id": "op-dien-thoai-hoa-cam",
+      "name": "Ốp điện thoại Hoa cam",
+      "category": "phu-kien",
+      "price": 129000,
+      "description": "Nhiều dòng máy, viền chống sốc.",
+      "badge": "Mới",
+      "featured": true,
+      "art": "case",
+      "tint": "pink"
+    },
+    {
+      "id": "so-tay-ngay-ruc-ro",
+      "name": "Sổ tay Ngày rực rỡ",
+      "category": "van-phong-pham",
+      "price": 79000,
+      "description": "A5, 160 trang chấm.",
+      "featured": true,
+      "art": "notebook",
+      "tint": "peach"
+    },
+    {
+      "id": "coc-gom-sang-nang",
+      "name": "Cốc gốm Sáng nắng",
+      "category": "nha-cua",
+      "price": 159000,
+      "description": "Gốm men bóng, 350 ml.",
+      "art": "mug",
+      "tint": "sun"
+    },
+    {
+      "id": "binh-gom-hoa-giay",
+      "name": "Bình gốm mini Hoa giấy",
+      "category": "nha-cua",
+      "price": 219000,
+      "compareAt": 259000,
+      "description": "Cao 14 cm, cắm hoa khô.",
+      "badge": "-15%",
+      "art": "vase",
+      "tint": "pink"
+    },
+    {
+      "id": "khuyen-tai-giot-nang",
+      "name": "Khuyên tai Giọt nắng",
+      "category": "phu-kien",
+      "price": 89000,
+      "description": "Nhựa resin, móc chống dị ứng.",
+      "art": "earrings",
+      "tint": "peach"
+    },
+    {
+      "id": "thiep-cam-on-nha",
+      "name": "Thiệp Cảm ơn nha",
+      "category": "qua-tang",
+      "price": 25000,
+      "description": "Kèm phong bì, viết lời nhắn miễn phí.",
+      "art": "card",
+      "tint": "pink"
+    }
+  ],
+  "perks": [
+    { "value": "7 ngày", "label": "Đổi trả" },
+    { "value": "0đ", "label": "Gói quà" },
+    { "value": "300K", "label": "Freeship từ" },
+    { "value": "2h", "label": "Giao nội thành" }
+  ],
+  "reviews": [],
+  "order": {
+    "email": "nhungtthn283@gmail.com",
+    "note": "Bấm gửi đơn sẽ mở email đã điền sẵn món và tổng tiền. Nhung trả lời xác nhận và hướng dẫn thanh toán.",
+    "location": "TP. Hồ Chí Minh"
+  },
+  "closing": {
+    "headline": "Ghé shop",
+    "script": "nhé bạn ơi!",
+    "title": "Cần tư vấn chọn quà?",
+    "text": "Nói Nhung biết dịp gì, tặng ai, ngân sách bao nhiêu, Nhung gợi ý giúp."
+  }
+}

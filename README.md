@@ -4,8 +4,11 @@ Landing page giới thiệu team 5 người, viết bằng **Next.js** (App Rout
 
 - **Trang chủ** (`/`): 5 ô ảnh, mặc định tối. Rê chuột vào ai thì ảnh người đó sáng lên; bấm để mở trang cá nhân.
   - Điện thoại: xếp một cột, cuộn tới ai thì người đó sáng; chạm để mở. Máy tính bảng: chạm lần 1 sáng, lần 2 mở.
-- **Trang cá nhân** (`/thanh-vien/<id>/`): ảnh, giới thiệu, số liệu, kinh nghiệm, học vấn, chứng chỉ, kỹ năng,
+- **Trang cá nhân** (`/<id>/`): ảnh, giới thiệu, số liệu, kinh nghiệm, học vấn, chứng chỉ, kỹ năng,
   "Những thứ đã làm được". Mỗi người có thể có phong cách riêng theo ngành (`"style"`: `finance`, `developer`, `pop`, `editorial`).
+- **Cửa hàng** (`/<id>/store/`, không bắt buộc): ai có `content/stores/<id>.json` thì có trang bán hàng
+  (phong cách Solar Pop) và nút "Vào cửa hàng" trên trang cá nhân. Giỏ hàng lưu trên trình duyệt; "Gửi đơn" mở email
+  soạn sẵn món + tổng tiền tới địa chỉ trong `order.email`.
 - Chuyển giữa trang chủ và trang từng người gần như tức thì: cả team được nạp một lần, bấm vào ai chỉ đổi màn hình
   theo slug trên URL (Back/Forward, F5, chia sẻ link vẫn đúng).
 - Chế độ sáng / tối (theo máy hoặc tự chọn). Link cũ `member.html#<id>` tự chuyển sang địa chỉ mới.
@@ -40,6 +43,9 @@ photos/<id>.jpg          Ảnh gốc (tự tách nền)
 **Thêm người mới:** copy `content/members/_template.json` thành `content/members/<id>.json`, điền thông tin,
 thêm `<id>` vào `members` trong `content/team.json`, bỏ ảnh vào `photos/<id>.jpg`.
 
+**Sửa cửa hàng:** sửa `content/stores/<id>.json` — thêm/bớt sản phẩm trong `products` (giá ghi số đồng, vd `189000`;
+`featured: true` để lên mục nổi bật; `image` là ảnh trong `public/`, chưa có ảnh thì chọn hình minh họa `art`).
+
 **Sửa profile:** sửa `content/members/<id>.json` (sửa ngay trên GitHub bằng nút ✏️ cũng được) → Commit.
 **Đổi ảnh:** upload đè `photos/<id>.jpg`. **Đổi thứ tự / ẩn một người:** sửa danh sách `members` trong `content/team.json`.
 
@@ -54,7 +60,7 @@ Các trường chính của một thành viên (chi tiết xem `content/schema/m
 
 | Trường    | Bắt buộc | Ghi chú |
 |-----------|:--:|---|
-| `id`      | ✓ | Viết thường, không dấu, nối bằng `-`. Trùng tên file và tên ảnh; dùng làm địa chỉ `/thanh-vien/<id>/`. |
+| `id`      | ✓ | Viết thường, không dấu, nối bằng `-`. Trùng tên file và tên ảnh; dùng làm địa chỉ `/<id>/` (không được trùng `thanh-vien`, `images`, `member`). |
 | `name`    | ✓ | Tên hiển thị |
 | `role`    | ✓ | Vai trò |
 | `color`   | ✓ | `#rrggbb`, nên là màu sáng |
@@ -110,9 +116,10 @@ content/              ← NỘI DUNG (JSON), đọc lúc build
 app/
   layout.tsx          Khung chung: font, chống nháy sáng/tối
   page.tsx            Trang chủ
-  thanh-vien/[id]/    Trang cá nhân (tạo sẵn cho từng người)
+  [id]/               Trang cá nhân /<id>/ (tạo sẵn cho từng người); store/ = trang cửa hàng
+  thanh-vien/[id]/    Chuyển link cũ /thanh-vien/<id>/(cua-hang/) sang địa chỉ mới
   globals.css         Toàn bộ giao diện
-components/           TalesApp (đổi màn hình theo slug, không tải lại), HomeView, Roster, MemberView, ThemeToggle
+components/           TalesApp (đổi màn hình theo slug, không tải lại), HomeView, Roster, MemberView, StoreView, ProductArt, ThemeToggle
 lib/                  Đọc nội dung (content.ts), định dạng ngày/thời gian (format.ts)
 public/images/members/  Ảnh đã tách nền (tự sinh)
 public/member.html    Chuyển link cũ member.html#<id> sang địa chỉ mới

@@ -19,6 +19,9 @@ CONTENT = ROOT / "content"
 PUBLIC = ROOT / "public"
 SCHEMAS = CONTENT / "schema"
 
+# Trang cá nhân nằm ở /<id>/ nên id không được trùng các thư mục / file có sẵn của site.
+RESERVED_IDS = {"thanh-vien", "member", "images", "store", "_next", "404", "index"}
+
 errors: list[str] = []
 warnings: list[str] = []
 
@@ -55,6 +58,8 @@ def main() -> int:
         if member is None:
             continue
         check_schema(member, "member.schema.json", path)
+        if member_id in RESERVED_IDS:
+            errors.append(f"{path.relative_to(ROOT)}: id \"{member_id}\" trùng với một đường dẫn có sẵn của site (/{member_id}/) — đặt id khác")
         if member.get("id") != member_id:
             errors.append(f"{path.relative_to(ROOT)}: id là \"{member.get('id')}\" nhưng tên file là \"{member_id}\" — hai cái phải giống nhau")
 
@@ -74,6 +79,29 @@ def main() -> int:
         if color in colors:
             warnings.append(f"{member_id}: trùng màu {color} với {colors[color]}")
         colors[color] = member_id
+
+    # Cửa hàng: content/stores/<id>.json
+    for path in sorted((CONTENT / "stores").glob("*.json")) if (CONTENT / "stores").exists() else []:
+        store = load(path)
+        if store is None:
+            continue
+        check_schema(store, "store.schema.json", path)
+        if store.get("member") != path.stem:
+            errors.append(f"{path.relative_to(ROOT)}: member là \"{store.get('member')}\" nhưng tên file là \"{path.stem}\" — hai cái phải giống nhau")
+        if path.stem not in listed:
+            warnings.append(f"{path.relative_to(ROOT)}: {path.stem} không có trong team.json nên cửa hàng sẽ không hiện")
+        cats = {c.get("id") for c in store.get("categories", [])}
+        ids: set[str] = set()
+        for i, p in enumerate(store.get("products", [])):
+            if p.get("category") not in cats:
+                errors.append(f"{path.relative_to(ROOT)} → products/{i}: category \"{p.get('category')}\" không có trong categories")
+            if p.get("id") in ids:
+                errors.append(f"{path.relative_to(ROOT)} → products/{i}: trùng id \"{p.get('id')}\"")
+            ids.add(p.get("id"))
+            if p.get("image") and not (PUBLIC / p["image"]).exists():
+                warnings.append(f"{path.relative_to(ROOT)} → products/{i}/image: không tìm thấy {p['image']}")
+            if p.get("compareAt") is not None and p["compareAt"] <= p.get("price", 0):
+                warnings.append(f"{path.relative_to(ROOT)} → products/{i}: compareAt nên lớn hơn price")
 
     for path in sorted((CONTENT / "members").glob("*.json")):
         if not path.name.startswith("_") and path.stem not in listed:

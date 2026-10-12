@@ -58,6 +58,39 @@ export type Member = {
   socials?: Social[];
 };
 
+// Cửa hàng của một thành viên: content/stores/<id>.json (schema: content/schema/store.schema.json)
+export type ProductArt = "candle" | "mug" | "vase" | "tote" | "case" | "earrings" | "notebook" | "card";
+export type Product = {
+  id: string;
+  name: string;
+  category: string;
+  price: number;
+  compareAt?: number;
+  description?: string;
+  badge?: string;
+  featured?: boolean;
+  image?: string;
+  art?: ProductArt;
+  tint?: "peach" | "pink" | "sun";
+  soldOut?: boolean;
+};
+export type Store = {
+  member: string;
+  name: string;
+  announcement?: string;
+  headline: string[];
+  script?: string;
+  intro?: string;
+  badge?: string;
+  about?: { title: string; text: string; signature?: string; promises?: string[] };
+  categories: { id: string; label: string }[];
+  products: Product[];
+  perks?: { value: string; label: string }[];
+  reviews?: { quote: string; name: string; note?: string }[];
+  order: { email: string; note?: string; location?: string };
+  closing?: { headline?: string; script?: string; title?: string; text?: string };
+};
+
 export type Team = {
   name: string;
   tagline?: string;
@@ -91,6 +124,11 @@ export function memberPhoto(m: Member): string | null {
   return fs.existsSync(path.join(PUBLIC, src)) ? src : null;
 }
 
+export function getStore(id: string): Store | undefined {
+  const file = path.join(CONTENT, "stores", `${id}.json`);
+  return fs.existsSync(file) ? readJSON<Store>(file) : undefined;
+}
+
 // Ảnh gốc (còn nền) cắt cùng khung với ảnh tách nền, làm lớp nền cho thẻ ở trang chủ.
 export function memberBackground(m: Member): string | null {
   if (m.photo) return null; // ảnh tự chọn thì không có bản nền đi kèm
@@ -101,8 +139,20 @@ export function memberBackground(m: Member): string | null {
 // Dữ liệu gửi xuống trình duyệt: cả team (5 người, vài KB) nạp một lần,
 // để chuyển giữa trang chủ và trang từng người chỉ là đổi state, không tải gì thêm.
 export type JobView = Job & { tenure: string };
-export type MemberView = Omit<Member, "experience"> & { photoSrc: string; bgSrc?: string; experience?: JobView[] };
+export type StoreView = Omit<Store, "products"> & { products: (Product & { imageSrc?: string })[] };
+export type MemberView = Omit<Member, "experience"> & {
+  photoSrc: string;
+  bgSrc?: string;
+  experience?: JobView[];
+  store?: StoreView;
+};
 export type TeamView = Omit<Team, "members"> & { members: MemberView[] };
+
+function storeView(id: string): StoreView | undefined {
+  const store = getStore(id);
+  if (!store) return undefined;
+  return { ...store, products: store.products.map((p) => (p.image ? { ...p, imageSrc: asset(p.image) } : p)) };
+}
 
 export function getTeamView(): TeamView {
   const team = getTeam();
@@ -116,6 +166,7 @@ export function getTeamView(): TeamView {
         ...(photo && memberBackground(m) ? { bgSrc: asset(memberBackground(m)!) } : {}),
         // Tính sẵn lúc build; trình duyệt tính lại theo hôm nay (components/Tenure.tsx).
         experience: m.experience?.map((j) => ({ ...j, tenure: duration(j.start, j.end) })),
+        store: storeView(m.id),
       };
     }),
   };
