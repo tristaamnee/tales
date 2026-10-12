@@ -300,8 +300,10 @@
                 "type": "string"
               },
               "url": {
+                "description": "Chỉ nhận link https://",
                 "type": "string",
-                "format": "uri"
+                "format": "uri",
+                "pattern": "^https://"
               }
             }
           }
@@ -338,8 +340,9 @@
           ]
         },
         "url": {
-          "description": "Đường link. Email thì ghi dạng mailto:ten@domain.com",
-          "type": "string"
+          "description": "Đường link https://. Email thì ghi dạng mailto:ten@domain.com",
+          "type": "string",
+          "pattern": "^(https://|mailto:[^\\s@]+@[^\\s@]+$)"
         },
         "label": {
           "description": "Không bắt buộc, ghi đè chữ hiển thị mặc định.",

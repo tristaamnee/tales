@@ -3170,6 +3170,16 @@ img {
   font-weight: 600;
 }
 
+/* Tên và mô tả tối đa 2 dòng; giá + nút ghim đáy thẻ để mọi thẻ cùng hàng có giá thẳng hàng. */
+.product-name,
+.product-desc {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
 .product-name {
   margin-top: 2px;
   font-size: 18px;
@@ -3189,7 +3199,8 @@ img {
   flex-wrap: wrap;
   align-items: baseline;
   gap: 10px;
-  margin: 10px 0 14px;
+  margin: auto 0 14px;
+  padding-top: 10px;
   font-family: var(--font-display), var(--font);
   font-size: 20px;
   color: var(--pop-orange);
@@ -3202,7 +3213,6 @@ img {
 }
 
 .add-btn {
-  margin-top: auto;
   padding: 11px 16px;
   border: 0;
   border-radius: 999px;

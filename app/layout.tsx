@@ -28,6 +28,24 @@ export const metadata: Metadata = {
   },
 };
 
+// Chính sách nội dung (CSP): chỉ chạy script/font của chính site, chỉ gọi mạng tới site và Google Sheet
+// (sản phẩm cửa hàng), ảnh từ site hoặc https. GitHub Pages không cho đặt header nên dùng thẻ meta
+// (meta không hỗ trợ frame-ancestors). 'unsafe-inline' cần cho script dữ liệu Next.js chèn vào trang và
+// script chọn sáng/tối. Chỉ bật khi build: bản dev của Next cần eval và websocket.
+const CSP = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline'",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: https:",
+  "font-src 'self'",
+  "connect-src 'self' https://docs.google.com https://*.googleusercontent.com",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'none'",
+  "frame-src 'none'",
+  "upgrade-insecure-requests",
+].join("; ");
+
 export const viewport: Viewport = {
   themeColor: "#ffffff",
 };
@@ -36,6 +54,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="vi" suppressHydrationWarning>
       <head>
+        {process.env.NODE_ENV === "production" && <meta httpEquiv="Content-Security-Policy" content={CSP} />}
+        <meta name="referrer" content="strict-origin-when-cross-origin" />
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body>{children}</body>
