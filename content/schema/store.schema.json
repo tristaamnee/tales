@@ -4,7 +4,7 @@
   "title": "Cửa hàng của một thành viên",
   "description": "content/stores/<id>.json — trang /<id>/store/. Tên file trùng id thành viên.",
   "type": "object",
-  "required": ["member", "name", "headline", "order"],
+  "required": ["member", "name", "headline", "contact"],
   "anyOf": [{ "required": ["sheet"] }, { "required": ["categories", "products"] }],
   "additionalProperties": false,
   "properties": {
@@ -34,7 +34,7 @@
       }
     },
     "sheet": {
-      "description": "Google Sheet chứa sản phẩm (chia sẻ \"Bất kỳ ai có đường liên kết đều xem được\"). Có sheet thì danh mục và sản phẩm lấy từ Sheet, products/categories bên dưới bỏ qua. Cột: Tên, Giá, Danh mục, Giá gốc, Mô tả, Nhãn, Nổi bật, Hết hàng, Ảnh, Minh họa, Màu nền, Ẩn (xem lib/sheet.ts).",
+      "description": "Google Sheet chứa sản phẩm (chia sẻ \"Bất kỳ ai có đường liên kết đều xem được\"). Có sheet thì danh mục và sản phẩm lấy từ Sheet, products/categories bên dưới bỏ qua. Cột: Tên, Giá, Link (Shopee), Danh mục, Giá gốc, Mô tả, Nhãn, Nổi bật, Hết hàng, Ảnh, Minh họa, Màu nền, Ẩn (xem lib/sheet.ts).",
       "type": "object",
       "additionalProperties": false,
       "required": ["id"],
@@ -79,7 +79,8 @@
             "enum": ["candle", "mug", "vase", "tote", "case", "earrings", "notebook", "card"]
           },
           "tint": { "description": "Màu nền ô sản phẩm.", "enum": ["peach", "pink", "sun"] },
-          "soldOut": { "description": "true = hết hàng, không thêm vào giỏ được.", "type": "boolean" }
+          "soldOut": { "description": "true = hết hàng, thẻ không bấm được.", "type": "boolean" },
+          "url": { "description": "Link mua (Shopee…), bấm vào thẻ sẽ mở tab mới. Chưa có thì thẻ hiện \"Sắp mở bán\".", "type": "string", "pattern": "^https://" }
         }
       }
     },
@@ -104,14 +105,13 @@
         "properties": { "quote": { "type": "string" }, "name": { "type": "string" }, "note": { "type": "string" } }
       }
     },
-    "order": {
-      "description": "Cách nhận đơn: giỏ hàng soạn sẵn email gửi tới địa chỉ này.",
+    "contact": {
+      "description": "Liên hệ ở cuối trang (khách mua qua link Shopee của từng sản phẩm, web không nhận đơn).",
       "type": "object",
       "additionalProperties": false,
       "required": ["email"],
       "properties": {
         "email": { "type": "string", "format": "email" },
-        "note": { "description": "Ghi chú hiện trong giỏ hàng (thanh toán, giao hàng…).", "type": "string" },
         "location": { "type": "string" }
       }
     },

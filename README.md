@@ -7,8 +7,8 @@ Landing page giới thiệu team 5 người, viết bằng **Next.js** (App Rout
 - **Trang cá nhân** (`/<id>/`): ảnh, giới thiệu, số liệu, kinh nghiệm, học vấn, chứng chỉ, kỹ năng,
   "Những thứ đã làm được". Mỗi người có thể có phong cách riêng theo ngành (`"style"`: `finance`, `developer`, `pop`, `editorial`).
 - **Cửa hàng** (`/<id>/store/`, không bắt buộc): ai có `content/stores/<id>.json` thì có trang bán hàng
-  (phong cách Solar Pop) và nút "Vào cửa hàng" trên trang cá nhân. Giỏ hàng lưu trên trình duyệt; "Gửi đơn" mở email
-  soạn sẵn món + tổng tiền tới địa chỉ trong `order.email`.
+  (phong cách Solar Pop) và nút "Vào cửa hàng" trên trang cá nhân. Web không bán hay thanh toán: bấm vào món là mở
+  link mua của món đó (Shopee…) ở tab mới; món chưa có link hiện "Sắp mở bán".
 - Chuyển giữa trang chủ và trang từng người gần như tức thì: cả team được nạp một lần, bấm vào ai chỉ đổi màn hình
   theo slug trên URL (Back/Forward, F5, chia sẻ link vẫn đúng).
 - Chế độ sáng / tối (theo máy hoặc tự chọn). Link cũ `member.html#<id>` tự chuyển sang địa chỉ mới.
@@ -44,12 +44,12 @@ photos/<id>.jpg          Ảnh gốc (tự tách nền)
 thêm `<id>` vào `members` trong `content/team.json`, bỏ ảnh vào `photos/<id>.jpg`.
 
 **Sửa cửa hàng:** sửa `content/stores/<id>.json` — thêm/bớt sản phẩm trong `products` (giá ghi số đồng, vd `189000`;
-`featured: true` để lên mục nổi bật; `image` là ảnh trong `public/`, chưa có ảnh thì chọn hình minh họa `art`).
+`url` là link Shopee của món; `featured: true` để lên mục nổi bật; `image` là ảnh trong `public/`, chưa có ảnh thì chọn hình minh họa `art`).
 
 **Sản phẩm từ Google Sheet:** thêm `"sheet": { "id": "<mã Sheet>", "tab": "<tên tab>" }` vào `content/stores/<id>.json`
 (mã Sheet là phần giữa `/d/` và `/edit` trong link; Sheet chia sẻ "Bất kỳ ai có đường liên kết đều xem được").
 Khi đó sản phẩm và danh mục lấy từ Sheet, `products`/`categories` trong JSON không cần nữa. Mẫu cột: `content/stores/sheet-mau.csv`
-(File → Nhập trong Google Sheets). Cột: **Tên**, **Giá** (bắt buộc) · Danh mục · Giá gốc · Mô tả · Nhãn · Nổi bật (`x`) ·
+(File → Nhập trong Google Sheets). Cột: **Tên**, **Giá** (bắt buộc) · **Link** (link Shopee của món, `https://…`) · Danh mục · Giá gốc · Mô tả · Nhãn · Nổi bật (`x`) ·
 Hết hàng (`x`) · Ảnh (link ảnh hoặc link Google Drive) · Minh họa (nến, ly, bình, túi, ốp, bông tai, sổ, thiệp — khi chưa có ảnh) ·
 Màu nền (cam/hồng/vàng) · Ẩn (`x` = tạm ẩn). Trình duyệt đọc lại Sheet mỗi lần mở cửa hàng; lúc build (`npm run build`)
 bản Sheet được tải sẵn vào `.sheet-cache/` để trang dựng sẵn đã có hàng.
