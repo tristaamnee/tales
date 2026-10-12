@@ -4,9 +4,9 @@ Landing page giới thiệu team 5 người, viết bằng **Next.js** (App Rout
 
 - **Trang chủ** (`/`): 5 ô ảnh, mặc định tối. Rê chuột vào ai thì ảnh người đó sáng lên; bấm để mở trang cá nhân.
   - Điện thoại: xếp một cột, cuộn tới ai thì người đó sáng; chạm để mở. Máy tính bảng: chạm lần 1 sáng, lần 2 mở.
-- **Trang cá nhân** (`/thanh-vien/<id>/`): ảnh, giới thiệu, số liệu, kinh nghiệm, học vấn, chứng chỉ, kỹ năng,
+- **Trang cá nhân** (`/member/<id>/`): ảnh, giới thiệu, số liệu, kinh nghiệm, học vấn, chứng chỉ, kỹ năng,
   "Những thứ đã làm được". Mỗi người có thể có phong cách riêng theo ngành (`"style"`: `finance`, `developer`, `pop`, `editorial`).
-- **Cửa hàng** (`/thanh-vien/<id>/cua-hang/`, không bắt buộc): ai có `content/stores/<id>.json` thì có trang bán hàng
+- **Cửa hàng** (`/member/<id>/store/`, không bắt buộc): ai có `content/stores/<id>.json` thì có trang bán hàng
   (phong cách Solar Pop) và nút "Vào cửa hàng" trên trang cá nhân. Giỏ hàng lưu trên trình duyệt; "Gửi đơn" mở email
   soạn sẵn món + tổng tiền tới địa chỉ trong `order.email`.
 - Chuyển giữa trang chủ và trang từng người gần như tức thì: cả team được nạp một lần, bấm vào ai chỉ đổi màn hình
@@ -60,7 +60,7 @@ Các trường chính của một thành viên (chi tiết xem `content/schema/m
 
 | Trường    | Bắt buộc | Ghi chú |
 |-----------|:--:|---|
-| `id`      | ✓ | Viết thường, không dấu, nối bằng `-`. Trùng tên file và tên ảnh; dùng làm địa chỉ `/thanh-vien/<id>/`. |
+| `id`      | ✓ | Viết thường, không dấu, nối bằng `-`. Trùng tên file và tên ảnh; dùng làm địa chỉ `/member/<id>/`. |
 | `name`    | ✓ | Tên hiển thị |
 | `role`    | ✓ | Vai trò |
 | `color`   | ✓ | `#rrggbb`, nên là màu sáng |
@@ -116,7 +116,8 @@ content/              ← NỘI DUNG (JSON), đọc lúc build
 app/
   layout.tsx          Khung chung: font, chống nháy sáng/tối
   page.tsx            Trang chủ
-  thanh-vien/[id]/    Trang cá nhân (tạo sẵn cho từng người); cua-hang/ = trang cửa hàng
+  member/[id]/        Trang cá nhân (tạo sẵn cho từng người); store/ = trang cửa hàng
+  thanh-vien/[id]/    Chuyển link cũ /thanh-vien/<id>/(cua-hang/) sang địa chỉ mới
   globals.css         Toàn bộ giao diện
 components/           TalesApp (đổi màn hình theo slug, không tải lại), HomeView, Roster, MemberView, StoreView, ProductArt, ThemeToggle
 lib/                  Đọc nội dung (content.ts), định dạng ngày/thời gian (format.ts)

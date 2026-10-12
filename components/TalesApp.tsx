@@ -10,10 +10,10 @@ import StoreView from "./StoreView";
 
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
-// "/thanh-vien/nhung/" -> "nhung"; "/thanh-vien/nhung/cua-hang/" -> "nhung/cua-hang"; trang chủ -> null
+// "/member/nhung/" -> "nhung"; "/member/nhung/store/" -> "nhung/store"; trang chủ -> null
 function slugOf(pathname: string): string | null {
-  const m = pathname.match(/^\/thanh-vien\/([a-z0-9-]+)(\/cua-hang)?\/?$/);
-  return m ? m[1] + (m[2] ? "/cua-hang" : "") : null;
+  const m = pathname.match(/^\/member\/([a-z0-9-]+)(\/store)?\/?$/);
+  return m ? m[1] + (m[2] ? "/store" : "") : null;
 }
 
 function shuffled<T>(list: T[]): T[] {
@@ -35,7 +35,7 @@ export default function TalesApp({ team }: { team: TeamView }) {
   const slug = slugOf(usePathname());
   const [memberId, sub] = slug ? slug.split("/") : [];
   const member = memberId ? team.members.find((m) => m.id === memberId) : undefined;
-  const store = sub === "cua-hang" ? member?.store : undefined;
+  const store = sub === "store" ? member?.store : undefined;
 
   // Thứ tự trang chủ: xáo một lần cho cả phiên, quay lại trang chủ vẫn giữ nguyên.
   const [order, setOrder] = useState(() => team.members.map((m) => m.id));

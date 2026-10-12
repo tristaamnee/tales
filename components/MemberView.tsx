@@ -125,7 +125,7 @@ export default function MemberView({ member: m, teamName }: { member: Member; te
               <h2 className="store-promo-name">{m.store.name}</h2>
               {m.store.intro && <p className="store-promo-text">{m.store.intro}</p>}
             </div>
-            <AppLink className="store-promo-link" to={`/thanh-vien/${m.id}/cua-hang/`}>
+            <AppLink className="store-promo-link" to={`/member/${m.id}/store/`}>
               Vào cửa hàng <span aria-hidden="true">→</span>
             </AppLink>
           </section>

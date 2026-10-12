@@ -110,7 +110,7 @@ export default function StoreView({ store, member }: { store: Store; member: Mem
     return `mailto:${store.order.email}?subject=${encodeURIComponent(`Đơn hàng ${store.name}`)}&body=${encodeURIComponent(body)}`;
   }, [lines, total, store]);
 
-  const memberPath = `/thanh-vien/${member.id}/`;
+  const memberPath = `/member/${member.id}/`;
 
   return (
     <div className="store" style={{ "--accent": member.color } as CSSProperties}>
@@ -145,7 +145,7 @@ export default function StoreView({ store, member }: { store: Store; member: Mem
         <div className="store-tools">
           <ThemeToggle />
           <button type="button" className="store-cart-btn" onClick={() => setOpen(true)} aria-haspopup="dialog">
-            Giỏ hàng <span className="store-cart-count">{count}</span>
+            <span className="store-cart-label">Giỏ hàng</span> <span className="store-cart-count">{count}</span>
           </button>
         </div>
       </nav>

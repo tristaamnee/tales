@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "store.schema.json",
   "title": "Cửa hàng của một thành viên",
-  "description": "content/stores/<id>.json — trang /thanh-vien/<id>/cua-hang/. Tên file trùng id thành viên.",
+  "description": "content/stores/<id>.json — trang /member/<id>/store/. Tên file trùng id thành viên.",
   "type": "object",
   "required": ["member", "name", "headline", "categories", "products", "order"],
   "additionalProperties": false,

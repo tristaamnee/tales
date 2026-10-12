@@ -1,12 +1,9 @@
-import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import TalesApp from "@/components/TalesApp";
-import { getMember, getStore, getTeam, getTeamView } from "@/lib/content";
+import LegacyRedirect from "@/components/LegacyRedirect";
+import { getStore, getTeam } from "@/lib/content";
 
 type Props = { params: Promise<{ id: string }> };
 
-// Trang cửa hàng dựng sẵn cho thành viên nào có content/stores/<id>.json.
-// Trong site, vào/ra cửa hàng cũng chỉ đổi state (components/TalesApp.tsx).
+// Link cũ /thanh-vien/<id>/cua-hang/ → /member/<id>/store/
 export function generateStaticParams() {
   return getTeam()
     .members.filter((m) => getStore(m.id))
@@ -15,15 +12,7 @@ export function generateStaticParams() {
 
 export const dynamicParams = false;
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export default async function OldStorePage({ params }: Props) {
   const id = (await params).id;
-  const store = getStore(id);
-  const m = getMember(id);
-  return store && m ? { title: store.name, description: store.intro || `Cửa hàng của ${m.name}` } : {};
-}
-
-export default async function StorePage({ params }: Props) {
-  const id = (await params).id;
-  if (!getMember(id) || !getStore(id)) notFound();
-  return <TalesApp team={getTeamView()} />;
+  return <LegacyRedirect to={`../../../member/${id}/store/`} label={`/member/${id}/store/`} />;
 }

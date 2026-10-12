@@ -78,7 +78,7 @@ export default function Roster({ members, ready, intro }: { members: MemberView[
       }}
     >
       {members.map((m, i) => {
-        const path = `/thanh-vien/${m.id}/`;
+        const path = `/member/${m.id}/`;
         return (
           <a
             key={m.id}
