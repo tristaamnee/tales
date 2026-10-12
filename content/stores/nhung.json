@@ -6,12 +6,11 @@
   "headline": ["Đồ xinh", "cho ngày"],
   "script": "rực rỡ",
   "intro": "Góc nhỏ của Nhung: đồ dùng trong nhà, phụ kiện và quà tặng được chọn kỹ từng món, màu tươi, dùng bền, giá dễ thương.",
-  "badge": "Gói quà miễn phí",
   "about": {
     "title": "Tủ đồ nhỏ của Nhung",
     "text": "Đây là góc nhỏ Nhung cất mấy món mình đã thử và thương thật sự. Có món dùng mỗi ngày, có món chỉ để ngắm cho vui. Ghé xem thử, biết đâu có món hợp với bạn.",
     "signature": "Nhung",
-    "promises": ["Chọn kỹ từng món", "Gói quà miễn phí", "Tư vấn tận tình"]
+    "promises": ["Chọn kỹ từng món", "Tư vấn tận tình"]
   },
   "categories": [
     { "id": "nha-cua", "label": "Nhà cửa" },
@@ -100,11 +99,6 @@
       "art": "card",
       "tint": "pink"
     }
-  ],
-  "perks": [
-    { "value": "0đ", "label": "Gói quà" },
-    { "value": "300K", "label": "Freeship từ" },
-    { "value": "2h", "label": "Giao nội thành" }
   ],
   "reviews": [],
   "contact": {
