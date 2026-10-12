@@ -46,6 +46,14 @@ thêm `<id>` vào `members` trong `content/team.json`, bỏ ảnh vào `photos/<
 **Sửa cửa hàng:** sửa `content/stores/<id>.json` — thêm/bớt sản phẩm trong `products` (giá ghi số đồng, vd `189000`;
 `featured: true` để lên mục nổi bật; `image` là ảnh trong `public/`, chưa có ảnh thì chọn hình minh họa `art`).
 
+**Sản phẩm từ Google Sheet:** thêm `"sheet": { "id": "<mã Sheet>", "tab": "<tên tab>" }` vào `content/stores/<id>.json`
+(mã Sheet là phần giữa `/d/` và `/edit` trong link; Sheet chia sẻ "Bất kỳ ai có đường liên kết đều xem được").
+Khi đó sản phẩm và danh mục lấy từ Sheet, `products`/`categories` trong JSON không cần nữa. Mẫu cột: `content/stores/sheet-mau.csv`
+(File → Nhập trong Google Sheets). Cột: **Tên**, **Giá** (bắt buộc) · Danh mục · Giá gốc · Mô tả · Nhãn · Nổi bật (`x`) ·
+Hết hàng (`x`) · Ảnh (link ảnh hoặc link Google Drive) · Minh họa (nến, ly, bình, túi, ốp, bông tai, sổ, thiệp — khi chưa có ảnh) ·
+Màu nền (cam/hồng/vàng) · Ẩn (`x` = tạm ẩn). Trình duyệt đọc lại Sheet mỗi lần mở cửa hàng; lúc build (`npm run build`)
+bản Sheet được tải sẵn vào `.sheet-cache/` để trang dựng sẵn đã có hàng.
+
 **Sửa profile:** sửa `content/members/<id>.json` (sửa ngay trên GitHub bằng nút ✏️ cũng được) → Commit.
 **Đổi ảnh:** upload đè `photos/<id>.jpg`. **Đổi thứ tự / ẩn một người:** sửa danh sách `members` trong `content/team.json`.
 

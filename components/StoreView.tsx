@@ -5,6 +5,7 @@ import type { MemberView, StoreView as Store } from "@/lib/content";
 import AppLink from "./AppLink";
 import ProductArt from "./ProductArt";
 import ThemeToggle from "./ThemeToggle";
+import { productsFromCsv, sheetCsvUrl } from "@/lib/sheet";
 
 type Product = Store["products"][number];
 type Cart = Record<string, number>; // id sản phẩm -> số lượng
@@ -12,19 +13,24 @@ type Cart = Record<string, number>; // id sản phẩm -> số lượng
 const vnd = (n: number) => new Intl.NumberFormat("vi-VN").format(n) + "₫";
 
 // Giỏ hàng chỉ lưu trên trình duyệt của người xem (tiện quay lại vẫn còn), không gửi đi đâu.
-function useCart(key: string, products: Product[]) {
+// `ready` = đã có danh sách sản phẩm mới nhất; chỉ khi đó mới bỏ các món đã hết hàng/không còn bán,
+// kẻo xoá nhầm món mới thêm trên Sheet mà bản dựng sẵn chưa có.
+function useCart(key: string, products: Product[], ready: boolean) {
   const [cart, setCart] = useState<Cart>({});
   const loaded = useRef(false);
   useEffect(() => {
     try {
-      const saved = JSON.parse(localStorage.getItem(key) || "{}") as Cart;
-      const valid = Object.fromEntries(
-        Object.entries(saved).filter(([id, q]) => q > 0 && products.some((p) => p.id === id && !p.soldOut))
-      );
-      setCart(valid);
+      setCart(JSON.parse(localStorage.getItem(key) || "{}") as Cart);
     } catch {}
     loaded.current = true;
-  }, [key, products]);
+  }, [key]);
+  useEffect(() => {
+    if (!ready) return;
+    setCart((c) => {
+      const valid = Object.entries(c).filter(([id, q]) => q > 0 && products.some((p) => p.id === id && !p.soldOut));
+      return valid.length === Object.keys(c).length ? c : Object.fromEntries(valid);
+    });
+  }, [ready, products]);
   useEffect(() => {
     if (!loaded.current) return;
     try {
@@ -41,16 +47,53 @@ function useCart(key: string, products: Product[]) {
   return { cart, add, remove };
 }
 
+// Cửa hàng có Google Sheet: đọc lại mỗi lần mở trang để thấy ngay sản phẩm mới sửa.
+type Live = { status: "static" | "loading" | "ok" | "error"; products: Product[]; categories: Store["categories"] };
+
+function useLiveProducts(store: Store): Live {
+  const [live, setLive] = useState<Live>({
+    status: store.sheet ? "loading" : "static",
+    products: store.products,
+    categories: store.categories,
+  });
+  useEffect(() => {
+    if (!store.sheet) return;
+    const ctrl = new AbortController();
+    fetch(sheetCsvUrl(store.sheet), { cache: "no-store", signal: ctrl.signal })
+      .then((r) => (r.ok ? r.text() : Promise.reject(new Error(`HTTP ${r.status}`))))
+      .then((text) => {
+        const { products, categories, skipped } = productsFromCsv(text);
+        if (skipped.length) console.warn("Sheet sản phẩm: bỏ qua", skipped);
+        setLive({ status: "ok", products, categories });
+      })
+      .catch((e) => {
+        if (ctrl.signal.aborted) return;
+        console.warn("Không đọc được Sheet sản phẩm, dùng bản dựng sẵn.", e);
+        setLive((l) => ({ ...l, status: "error" }));
+      });
+    return () => ctrl.abort();
+  }, [store.sheet]);
+  return live;
+}
+
 function scrollToId(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
+// Ảnh lỗi (link Drive hết quyền, gõ sai…) thì quay về hình minh họa.
 function Thumb({ p }: { p: Product }) {
+  const [broken, setBroken] = useState<string>();
+  const img = useRef<HTMLImageElement>(null);
+  // Ảnh có thể lỗi trước khi React kịp gắn onError (HTML dựng sẵn) → kiểm tra lại khi gắn.
+  useEffect(() => {
+    const el = img.current;
+    if (el?.complete && !el.naturalWidth) setBroken(p.imageSrc);
+  }, [p.imageSrc]);
   return (
     <span className="product-thumb" data-tint={p.tint || "peach"}>
-      {p.imageSrc ? (
+      {p.imageSrc && broken !== p.imageSrc ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={p.imageSrc} alt="" loading="lazy" />
+        <img ref={img} src={p.imageSrc} alt="" loading="lazy" onError={() => setBroken(p.imageSrc)} />
       ) : (
         <ProductArt art={p.art} />
       )}
@@ -60,16 +103,18 @@ function Thumb({ p }: { p: Product }) {
 
 // Trang cửa hàng của một thành viên (phong cách Solar Pop). Dữ liệu: content/stores/<id>.json.
 export default function StoreView({ store, member }: { store: Store; member: MemberView }) {
-  const { cart, add, remove } = useCart(`tales-cart-${member.id}`, store.products);
+  const { status, products, categories } = useLiveProducts(store);
+  const { cart, add, remove } = useCart(`tales-cart-${member.id}`, products, status === "static" || status === "ok");
   const [filter, setFilter] = useState<string>("all");
   const [open, setOpen] = useState(false);
   const [justAdded, setJustAdded] = useState<string | null>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
 
-  const catLabel = useMemo(() => Object.fromEntries(store.categories.map((c) => [c.id, c.label])), [store]);
-  const featured = store.products.filter((p) => p.featured);
-  const shown = filter === "all" ? store.products : store.products.filter((p) => p.category === filter);
-  const lines = store.products.filter((p) => cart[p.id] > 0).map((p) => ({ p, qty: cart[p.id] }));
+  const catLabel = useMemo(() => Object.fromEntries(categories.map((c) => [c.id, c.label])), [categories]);
+  const featured = products.filter((p) => p.featured);
+  const active = categories.some((c) => c.id === filter) ? filter : "all";
+  const shown = active === "all" ? products : products.filter((p) => p.category === active);
+  const lines = products.filter((p) => cart[p.id] > 0).map((p) => ({ p, qty: cart[p.id] }));
   const count = lines.reduce((s, l) => s + l.qty, 0);
   const total = lines.reduce((s, l) => s + l.qty * l.p.price, 0);
 
@@ -234,12 +279,12 @@ export default function StoreView({ store, member }: { store: Store; member: Mem
           <div className="store-catalog-head">
             <h2 id="tat-ca">Tất cả sản phẩm</h2>
             <div className="chips" role="group" aria-label="Lọc theo loại">
-              {[{ id: "all", label: "Tất cả" }, ...store.categories].map((c) => (
+              {[{ id: "all", label: "Tất cả" }, ...categories].map((c) => (
                 <button
                   type="button"
                   key={c.id}
                   className="chip"
-                  aria-pressed={filter === c.id}
+                  aria-pressed={active === c.id}
                   onClick={() => setFilter(c.id)}
                 >
                   {c.label}
@@ -247,6 +292,15 @@ export default function StoreView({ store, member }: { store: Store; member: Mem
               ))}
             </div>
           </div>
+          {products.length === 0 && (
+            <p className="store-empty" role="status">
+              {status === "loading"
+                ? "Đang tải sản phẩm…"
+                : status === "error"
+                  ? "Chưa tải được danh sách sản phẩm. Bạn thử tải lại trang nhé."
+                  : "Tủ đang được sắp xếp lại, ghé lại sau nhé!"}
+            </p>
+          )}
           <ul className="product-grid">
             {shown.map((p) => (
               <li className="product-card" key={p.id}>

@@ -4,7 +4,8 @@
   "title": "Cửa hàng của một thành viên",
   "description": "content/stores/<id>.json — trang /<id>/store/. Tên file trùng id thành viên.",
   "type": "object",
-  "required": ["member", "name", "headline", "categories", "products", "order"],
+  "required": ["member", "name", "headline", "order"],
+  "anyOf": [{ "required": ["sheet"] }, { "required": ["categories", "products"] }],
   "additionalProperties": false,
   "properties": {
     "$schema": { "type": "string" },
@@ -32,7 +33,18 @@
         "promises": { "description": "Danh sách cam kết ngắn bên phải.", "type": "array", "items": { "type": "string" }, "maxItems": 6 }
       }
     },
+    "sheet": {
+      "description": "Google Sheet chứa sản phẩm (chia sẻ \"Bất kỳ ai có đường liên kết đều xem được\"). Có sheet thì danh mục và sản phẩm lấy từ Sheet, products/categories bên dưới bỏ qua. Cột: Tên, Giá, Danh mục, Giá gốc, Mô tả, Nhãn, Nổi bật, Hết hàng, Ảnh, Minh họa, Màu nền, Ẩn (xem lib/sheet.ts).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id"],
+      "properties": {
+        "id": { "description": "Mã Sheet: phần giữa /d/ và /edit trong link.", "type": "string", "pattern": "^[A-Za-z0-9_-]{20,}$" },
+        "tab": { "description": "Tên trang tính (tab) chứa sản phẩm; bỏ trống = tab đầu tiên.", "type": "string" }
+      }
+    },
     "categories": {
+      "description": "Danh mục (khi không dùng sheet).",
       "type": "array",
       "minItems": 1,
       "items": {

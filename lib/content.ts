@@ -2,6 +2,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { asset, duration, placeholderPhoto } from "./format";
+import { productsFromCsv, type ProductView } from "./sheet";
 
 export type Stat = { value: string; label: string };
 export type Social = { platform: string; url: string; label?: string };
@@ -74,6 +75,9 @@ export type Product = {
   tint?: "peach" | "pink" | "sun";
   soldOut?: boolean;
 };
+export type StoreCategory = { id: string; label: string };
+// Google Sheet chứa sản phẩm (cột: Tên, Giá, Danh mục, … — xem lib/sheet.ts). Có sheet thì không cần products/categories.
+export type StoreSheet = { id: string; tab?: string };
 export type Store = {
   member: string;
   name: string;
@@ -83,8 +87,9 @@ export type Store = {
   intro?: string;
   badge?: string;
   about?: { title: string; text: string; signature?: string; promises?: string[] };
-  categories: { id: string; label: string }[];
-  products: Product[];
+  sheet?: StoreSheet;
+  categories?: StoreCategory[];
+  products?: Product[];
   perks?: { value: string; label: string }[];
   reviews?: { quote: string; name: string; note?: string }[];
   order: { email: string; note?: string; location?: string };
@@ -139,7 +144,7 @@ export function memberBackground(m: Member): string | null {
 // Dữ liệu gửi xuống trình duyệt: cả team (5 người, vài KB) nạp một lần,
 // để chuyển giữa trang chủ và trang từng người chỉ là đổi state, không tải gì thêm.
 export type JobView = Job & { tenure: string };
-export type StoreView = Omit<Store, "products"> & { products: (Product & { imageSrc?: string })[] };
+export type StoreView = Omit<Store, "products" | "categories"> & { products: ProductView[]; categories: StoreCategory[] };
 export type MemberView = Omit<Member, "experience"> & {
   photoSrc: string;
   bgSrc?: string;
@@ -148,10 +153,20 @@ export type MemberView = Omit<Member, "experience"> & {
 };
 export type TeamView = Omit<Team, "members"> & { members: MemberView[] };
 
+// Bản Sheet tải lúc build (tools/fetch_store_sheets.mjs, chạy trước `npm run build`), để HTML dựng sẵn đã có hàng.
+// Trình duyệt vẫn đọc lại Sheet mỗi lần mở cửa hàng (components/StoreView.tsx).
+const SHEET_CACHE = path.join(ROOT, ".sheet-cache");
+
 function storeView(id: string): StoreView | undefined {
   const store = getStore(id);
   if (!store) return undefined;
-  return { ...store, products: store.products.map((p) => (p.image ? { ...p, imageSrc: asset(p.image) } : p)) };
+  const { products = [], categories = [], ...rest } = store;
+  const cached = path.join(SHEET_CACHE, `${id}.csv`);
+  if (store.sheet && fs.existsSync(cached)) {
+    const sheet = productsFromCsv(fs.readFileSync(cached, "utf8"));
+    return { ...rest, products: sheet.products, categories: sheet.categories };
+  }
+  return { ...rest, categories, products: products.map((p) => (p.image ? { ...p, imageSrc: asset(p.image) } : p)) };
 }
 
 export function getTeamView(): TeamView {

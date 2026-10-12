@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node tools/fetch_store_sheets.mjs",
     "build": "next build",
     "start": "npx serve@latest out",
     "typecheck": "tsc --noEmit"

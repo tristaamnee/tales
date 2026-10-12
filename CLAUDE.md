@@ -13,6 +13,10 @@ nội dung giao diện bằng tiếng Việt.
   có file này thì trang cá nhân tự hiện khối "Vào cửa hàng". Sản phẩm chưa có ảnh dùng hình minh họa `art`
   (`components/ProductArt.tsx`). Giỏ hàng lưu trên trình duyệt (localStorage `tales-cart-<id>`), "Gửi đơn" mở email
   soạn sẵn tới `order.email` (không có máy chủ). `reviews` chỉ ghi nhận xét thật của khách.
+  Có `"sheet": {id, tab}` thì sản phẩm + danh mục lấy từ Google Sheet công khai (`lib/sheet.ts`: đọc CSV gviz, cột tiếng Việt
+  Tên/Giá/Danh mục/…, mẫu `content/stores/sheet-mau.csv`): trình duyệt đọc lại mỗi lần mở cửa hàng, `prebuild`
+  (`tools/fetch_store_sheets.mjs`) tải sẵn vào `.sheet-cache/` cho HTML dựng sẵn; lỗi mạng chỉ cảnh báo, không chặn build.
+  Giỏ hàng chỉ bỏ món không còn bán sau khi đã đọc xong Sheet.
 - `lib/content.ts` đọc JSON lúc build (kiểu TypeScript của dữ liệu nằm ở đây) · `lib/format.ts` định dạng ngày, `asset()`
 - Điều hướng là **đổi state theo slug**: `components/TalesApp.tsx` nhận dữ liệu cả team (`getTeamView()`, tính sẵn ảnh
   và thời gian làm việc lúc build) và chọn màn hình theo `usePathname()`; bấm link gọi `go(path)` →
