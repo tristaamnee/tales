@@ -107,9 +107,8 @@
     { "value": "2h", "label": "Giao nội thành" }
   ],
   "reviews": [],
-  "order": {
+  "contact": {
     "email": "nhungtthn283@gmail.com",
-    "note": "Bấm gửi đơn sẽ mở email đã điền sẵn món và tổng tiền. Nhung trả lời xác nhận và hướng dẫn thanh toán.",
     "location": "TP. Hồ Chí Minh"
   },
   "closing": {

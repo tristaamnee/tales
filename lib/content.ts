@@ -74,6 +74,7 @@ export type Product = {
   art?: ProductArt;
   tint?: "peach" | "pink" | "sun";
   soldOut?: boolean;
+  url?: string; // link mua (Shopee…), mở tab mới
 };
 export type StoreCategory = { id: string; label: string };
 // Google Sheet chứa sản phẩm (cột: Tên, Giá, Danh mục, … — xem lib/sheet.ts). Có sheet thì không cần products/categories.
@@ -92,7 +93,7 @@ export type Store = {
   products?: Product[];
   perks?: { value: string; label: string }[];
   reviews?: { quote: string; name: string; note?: string }[];
-  order: { email: string; note?: string; location?: string };
+  contact: { email: string; location?: string };
   closing?: { headline?: string; script?: string; title?: string; text?: string };
 };
 

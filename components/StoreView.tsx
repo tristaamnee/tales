@@ -8,49 +8,8 @@ import ThemeToggle from "./ThemeToggle";
 import { productsFromCsv, sheetCsvUrl } from "@/lib/sheet";
 
 type Product = Store["products"][number];
-type Cart = Record<string, number>; // id sản phẩm -> số lượng
 
 const vnd = (n: number) => new Intl.NumberFormat("vi-VN").format(n) + "₫";
-
-// Giỏ hàng chỉ lưu trên trình duyệt của người xem (tiện quay lại vẫn còn), không gửi đi đâu.
-// `ready` = đã có danh sách sản phẩm mới nhất; chỉ khi đó mới bỏ các món đã hết hàng/không còn bán,
-// kẻo xoá nhầm món mới thêm trên Sheet mà bản dựng sẵn chưa có.
-function useCart(key: string, products: Product[], ready: boolean) {
-  const [cart, setCart] = useState<Cart>({});
-  const loaded = useRef(false);
-  useEffect(() => {
-    try {
-      const saved: unknown = JSON.parse(localStorage.getItem(key) || "{}");
-      if (saved && typeof saved === "object") {
-        // Chỉ nhận { id: số nguyên dương }, phòng dữ liệu hỏng/bị sửa tay.
-        const ok = ([id, q]: [string, unknown]) => /^[a-z0-9-]+$/.test(id) && Number.isInteger(q) && (q as number) > 0;
-        setCart(Object.fromEntries(Object.entries(saved).filter(ok).map(([id, q]) => [id, Math.min(q as number, 99)])));
-      }
-    } catch {}
-    loaded.current = true;
-  }, [key]);
-  useEffect(() => {
-    if (!ready) return;
-    setCart((c) => {
-      const valid = Object.entries(c).filter(([id, q]) => q > 0 && products.some((p) => p.id === id && !p.soldOut));
-      return valid.length === Object.keys(c).length ? c : Object.fromEntries(valid);
-    });
-  }, [ready, products]);
-  useEffect(() => {
-    if (!loaded.current) return;
-    try {
-      localStorage.setItem(key, JSON.stringify(cart));
-    } catch {}
-  }, [key, cart]);
-  const add = (id: string, n = 1) => setCart((c) => ({ ...c, [id]: Math.min(99, Math.max(0, (c[id] || 0) + n)) }));
-  const remove = (id: string) =>
-    setCart((c) => {
-      const next = { ...c };
-      delete next[id];
-      return next;
-    });
-  return { cart, add, remove };
-}
 
 // Cửa hàng có Google Sheet: đọc lại mỗi lần mở trang để thấy ngay sản phẩm mới sửa.
 type Live = { status: "static" | "loading" | "ok" | "error"; products: Product[]; categories: Store["categories"] };
@@ -106,59 +65,44 @@ function Thumb({ p }: { p: Product }) {
   );
 }
 
+// Bấm vào món → mở trang bán (Shopee…) ở tab mới; web không tự bán hay thanh toán.
+// Chưa có link hoặc hết hàng thì thẻ không bấm được.
+function buyLabel(p: Product): string {
+  if (p.soldOut) return "Hết hàng";
+  if (!p.url) return "Sắp mở bán";
+  try {
+    return /(^|\.)shopee\./.test(new URL(p.url).hostname) ? "Mua trên Shopee" : "Xem nơi bán";
+  } catch {
+    return "Xem nơi bán";
+  }
+}
+
+function ProductLink({ p, children }: { p: Product; children: React.ReactNode }) {
+  return p.url && !p.soldOut ? (
+    <a className="product-link" href={p.url} target="_blank" rel="noopener noreferrer">
+      {children}
+    </a>
+  ) : (
+    <div className={`product-link is-off${p.soldOut ? " is-soldout" : ""}`}>{children}</div>
+  );
+}
+
 // Trang cửa hàng của một thành viên (phong cách Solar Pop). Dữ liệu: content/stores/<id>.json.
 export default function StoreView({ store, member }: { store: Store; member: MemberView }) {
   const { status, products, categories } = useLiveProducts(store);
-  const { cart, add, remove } = useCart(`tales-cart-${member.id}`, products, status === "static" || status === "ok");
   const [filter, setFilter] = useState<string>("all");
-  const [open, setOpen] = useState(false);
-  const [justAdded, setJustAdded] = useState<string | null>(null);
-  const drawerRef = useRef<HTMLDivElement>(null);
 
   const catLabel = useMemo(() => Object.fromEntries(categories.map((c) => [c.id, c.label])), [categories]);
   const featured = products.filter((p) => p.featured);
   const active = categories.some((c) => c.id === filter) ? filter : "all";
   const shown = active === "all" ? products : products.filter((p) => p.category === active);
-  const lines = products.filter((p) => cart[p.id] > 0).map((p) => ({ p, qty: cart[p.id] }));
-  const count = lines.reduce((s, l) => s + l.qty, 0);
-  const total = lines.reduce((s, l) => s + l.qty * l.p.price, 0);
 
-  const addToCart = (p: Product) => {
-    if (p.soldOut) return;
-    add(p.id);
-    setJustAdded(p.id);
-    window.setTimeout(() => setJustAdded((cur) => (cur === p.id ? null : cur)), 1400);
-  };
-
-  // Giỏ hàng mở: khoá cuộn trang, Esc để đóng, đưa focus vào giỏ.
+  // Bản cũ có giỏ hàng lưu trong trình duyệt; giờ mua qua Shopee nên dọn đi.
   useEffect(() => {
-    if (!open) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    drawerRef.current?.focus();
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
-    window.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = prev;
-      window.removeEventListener("keydown", onKey);
-    };
-  }, [open]);
-
-  const orderHref = useMemo(() => {
-    const body = [
-      `Chào ${store.name}, mình muốn đặt:`,
-      "",
-      ...lines.map((l) => `- ${l.p.name} × ${l.qty} = ${vnd(l.p.price * l.qty)}`),
-      "",
-      `Tạm tính: ${vnd(total)}`,
-      "",
-      "Họ tên:",
-      "Số điện thoại:",
-      "Địa chỉ nhận hàng:",
-      "Ghi chú:",
-    ].join("\n");
-    return `mailto:${store.order.email}?subject=${encodeURIComponent(`Đơn hàng ${store.name}`)}&body=${encodeURIComponent(body)}`;
-  }, [lines, total, store]);
+    try {
+      localStorage.removeItem(`tales-cart-${member.id}`);
+    } catch {}
+  }, [member.id]);
 
   const memberPath = `/${member.id}/`;
 
@@ -194,9 +138,6 @@ export default function StoreView({ store, member }: { store: Store; member: Mem
         </ul>
         <div className="store-tools">
           <ThemeToggle />
-          <button type="button" className="store-cart-btn" onClick={() => setOpen(true)} aria-haspopup="dialog">
-            <span className="store-cart-label">Giỏ hàng</span> <span className="store-cart-count">{count}</span>
-          </button>
         </div>
       </nav>
 
@@ -260,19 +201,20 @@ export default function StoreView({ store, member }: { store: Store; member: Mem
             <ul className="featured-list">
               {featured.map((p) => (
                 <li className="featured-card" key={p.id}>
-                  <p className="product-cat">{catLabel[p.category]}</p>
-                  <h3 className="featured-name">{p.name}</h3>
-                  <p className="featured-price">{vnd(p.price)}</p>
-                  <Thumb p={p} />
-                  <button
-                    type="button"
-                    className="round-add"
-                    onClick={() => addToCart(p)}
-                    disabled={p.soldOut}
-                    aria-label={`Thêm ${p.name} vào giỏ`}
-                  >
-                    {justAdded === p.id ? "✓" : "+"}
-                  </button>
+                  <ProductLink p={p}>
+                    <p className="product-cat">{catLabel[p.category]}</p>
+                    <h3 className="featured-name">{p.name}</h3>
+                    <p className="featured-price">
+                      {vnd(p.price)}
+                      {(p.soldOut || !p.url) && <span> · {buyLabel(p)}</span>}
+                    </p>
+                    <Thumb p={p} />
+                    {p.url && !p.soldOut && (
+                      <span className="round-go" aria-hidden="true">
+                        ↗
+                      </span>
+                    )}
+                  </ProductLink>
                 </li>
               ))}
             </ul>
@@ -309,24 +251,27 @@ export default function StoreView({ store, member }: { store: Store; member: Mem
           <ul className="product-grid">
             {shown.map((p) => (
               <li className="product-card" key={p.id}>
-                <Thumb p={p} />
-                {p.badge && <span className="product-badge">{p.badge}</span>}
-                <p className="product-cat">{catLabel[p.category]}</p>
-                <h3 className="product-name" title={p.name}>
-                  {p.name}
-                </h3>
-                {p.description && (
-                  <p className="product-desc" title={p.description}>
-                    {p.description}
+                <ProductLink p={p}>
+                  <Thumb p={p} />
+                  {p.badge && <span className="product-badge">{p.badge}</span>}
+                  <p className="product-cat">{catLabel[p.category]}</p>
+                  <h3 className="product-name" title={p.name}>
+                    {p.name}
+                  </h3>
+                  {p.description && (
+                    <p className="product-desc" title={p.description}>
+                      {p.description}
+                    </p>
+                  )}
+                  <p className="product-price">
+                    {vnd(p.price)}
+                    {p.compareAt && <s>{vnd(p.compareAt)}</s>}
                   </p>
-                )}
-                <p className="product-price">
-                  {vnd(p.price)}
-                  {p.compareAt && <s>{vnd(p.compareAt)}</s>}
-                </p>
-                <button type="button" className="add-btn" onClick={() => addToCart(p)} disabled={p.soldOut}>
-                  {p.soldOut ? "Hết hàng" : justAdded === p.id ? "Đã thêm ✓" : "Thêm vào giỏ"}
-                </button>
+                  <span className="add-btn">
+                    {buyLabel(p)}
+                    {p.url && !p.soldOut && <span aria-hidden="true"> ↗</span>}
+                  </span>
+                </ProductLink>
               </li>
             ))}
           </ul>
@@ -373,77 +318,21 @@ export default function StoreView({ store, member }: { store: Store; member: Mem
             </p>
             <ul className="store-contact">
               <li>
-                <a href={`mailto:${store.order.email}`}>{store.order.email}</a>
+                <a href={`mailto:${store.contact.email}`}>{store.contact.email}</a>
               </li>
-              {store.order.location && <li>{store.order.location}</li>}
+              {store.contact.location && <li>{store.contact.location}</li>}
             </ul>
           </div>
           <span className="store-sun" aria-hidden="true" />
           <div className="store-ask">
             <h2>{store.closing?.title || "Cần tư vấn?"}</h2>
             {store.closing?.text && <p>{store.closing.text}</p>}
-            <a className="pill pill-solid" href={`mailto:${store.order.email}`}>
+            <a className="pill pill-solid" href={`mailto:${store.contact.email}`}>
               Nhắn {member.name.split(" ").pop()} <span aria-hidden="true">→</span>
             </a>
           </div>
         </section>
       </main>
-
-      {/* ---- Giỏ hàng ---- */}
-      <div className={`cart-layer${open ? " is-open" : ""}`} aria-hidden={!open}>
-        <button type="button" className="cart-scrim" tabIndex={-1} aria-label="Đóng giỏ hàng" onClick={() => setOpen(false)} />
-        <div className="cart" role="dialog" aria-modal="true" aria-labelledby="cart-title" tabIndex={-1} ref={drawerRef}>
-          <div className="cart-head">
-            <h2 id="cart-title">Giỏ hàng</h2>
-            <button type="button" className="cart-close" onClick={() => setOpen(false)} aria-label="Đóng">
-              ×
-            </button>
-          </div>
-          {lines.length === 0 ? (
-            <p className="cart-empty">Giỏ đang trống. Chọn vài món xinh nhé!</p>
-          ) : (
-            <ul className="cart-lines">
-              {lines.map(({ p, qty }) => (
-                <li key={p.id}>
-                  <Thumb p={p} />
-                  <div>
-                    <p className="cart-name">{p.name}</p>
-                    <p className="cart-price">{vnd(p.price)}</p>
-                    <div className="qty">
-                      <button type="button" onClick={() => (qty > 1 ? add(p.id, -1) : remove(p.id))} aria-label="Bớt một">
-                        −
-                      </button>
-                      <span aria-live="polite">{qty}</span>
-                      <button type="button" onClick={() => add(p.id)} aria-label="Thêm một">
-                        +
-                      </button>
-                    </div>
-                  </div>
-                  <button type="button" className="cart-remove" onClick={() => remove(p.id)} aria-label={`Bỏ ${p.name}`}>
-                    Bỏ
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
-          <div className="cart-foot">
-            <p className="cart-total">
-              <span>Tạm tính</span>
-              <strong>{vnd(total)}</strong>
-            </p>
-            {store.order.note && <p className="cart-note">{store.order.note}</p>}
-            {lines.length > 0 ? (
-              <a className="pill pill-solid cart-send" href={orderHref}>
-                Gửi đơn qua email <span aria-hidden="true">→</span>
-              </a>
-            ) : (
-              <button type="button" className="pill pill-solid cart-send" disabled>
-                Gửi đơn qua email
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

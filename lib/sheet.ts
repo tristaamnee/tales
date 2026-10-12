@@ -63,6 +63,10 @@ const COLUMNS: Record<string, keyof Product | "hidden"> = {
   linkanh: "image",
   minhhoa: "art",
   maunen: "tint",
+  link: "url",
+  linkshopee: "url",
+  shopee: "url",
+  linkmua: "url",
   an: "hidden",
 };
 
@@ -139,6 +143,8 @@ export function productsFromCsv(text: string): SheetProducts {
     if (row.badge) p.badge = row.badge;
     if (row.featured && yes(row.featured)) p.featured = true;
     if (row.soldOut && yes(row.soldOut)) p.soldOut = true;
+    if (row.url && /^https:\/\/[^\s"'<>]+$/i.test(row.url)) p.url = row.url;
+    else if (row.url) skipped.push(`${line} (${row.name}): link mua phải bắt đầu bằng https://`);
     const image = row.image && imageUrl(row.image);
     if (image) p.imageSrc = image;
     else if (row.image) skipped.push(`${line} (${row.name}): link ảnh không hợp lệ, dùng hình minh họa`);
