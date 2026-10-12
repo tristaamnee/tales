@@ -72,7 +72,7 @@
       }
     },
     "perks": {
-      "description": "Các ô số/ưu đãi màu (vd 7 ngày – Đổi trả).",
+      "description": "Các ô số/ưu đãi màu (vd 0đ – Gói quà).",
       "type": "array",
       "maxItems": 4,
       "items": {

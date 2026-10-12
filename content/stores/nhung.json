@@ -1,17 +1,17 @@
 {
   "$schema": "../schema/store.schema.json",
   "member": "nhung",
-  "name": "Nhung Store",
-  "announcement": "Cửa hàng đang chạy thử — sản phẩm và giá dưới đây là mẫu",
+  "name": "Tủ đồ bé Nhung",
+  "announcement": "Tủ đồ đang chạy thử — sản phẩm và giá dưới đây là mẫu",
   "headline": ["Đồ xinh", "cho ngày"],
   "script": "rực rỡ",
   "intro": "Góc nhỏ của Nhung: đồ dùng trong nhà, phụ kiện và quà tặng được chọn kỹ từng món, màu tươi, dùng bền, giá dễ thương.",
   "badge": "Gói quà miễn phí",
   "about": {
     "title": "Xin chào, mình là Nhung.",
-    "text": "Ngày đi làm kế toán, tối về mình chọn từng món đồ xinh cho shop. Mỗi đơn đều được kiểm tra, gói cẩn thận và gửi kèm một tấm thiệp nhỏ.",
+    "text": "Ngày đi làm kế toán, tối về mình chọn từng món đồ xinh cho tủ đồ. Mỗi đơn đều được kiểm tra, gói cẩn thận và gửi kèm một tấm thiệp nhỏ.",
     "signature": "Nhung",
-    "promises": ["Chọn kỹ từng món", "Gói quà miễn phí", "Đổi trả trong 7 ngày", "Tư vấn tận tình"]
+    "promises": ["Chọn kỹ từng món", "Gói quà miễn phí", "Tư vấn tận tình"]
   },
   "categories": [
     { "id": "nha-cua", "label": "Nhà cửa" },
@@ -102,7 +102,6 @@
     }
   ],
   "perks": [
-    { "value": "7 ngày", "label": "Đổi trả" },
     { "value": "0đ", "label": "Gói quà" },
     { "value": "300K", "label": "Freeship từ" },
     { "value": "2h", "label": "Giao nội thành" }
@@ -114,7 +113,7 @@
     "location": "TP. Hồ Chí Minh"
   },
   "closing": {
-    "headline": "Ghé shop",
+    "headline": "Ghé tủ đồ",
     "script": "nhé bạn ơi!",
     "title": "Cần tư vấn chọn quà?",
     "text": "Nói Nhung biết dịp gì, tặng ai, ngân sách bao nhiêu, Nhung gợi ý giúp."
