@@ -3694,6 +3694,11 @@ img {
     padding: 18px 18px;
   }
 
+  /* số ô lẻ: ô cuối trải hết hàng */
+  .perk:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
   .featured-card {
     padding: 12px 12px 14px;
   }

@@ -128,8 +128,8 @@ export default function StoreView({ store, member }: { store: Store; member: Mem
           </li>
           {store.about && (
             <li>
-              <button type="button" onClick={() => scrollToId("ve-shop")}>
-                Về shop
+              <button type="button" onClick={() => scrollToId("gioi-thieu")}>
+                Giới thiệu
               </button>
             </li>
           )}
@@ -177,9 +177,9 @@ export default function StoreView({ store, member }: { store: Store; member: Mem
           </figure>
         </section>
 
-        {/* ---- Về shop ---- */}
+        {/* ---- Giới thiệu ---- */}
         {store.about && (
-          <section className="store-about" id="ve-shop">
+          <section className="store-about" id="gioi-thieu">
             <div className="store-about-art" aria-hidden="true">
               <ProductArt art="vase" />
             </div>
@@ -303,7 +303,7 @@ export default function StoreView({ store, member }: { store: Store; member: Mem
         <section className="store-closing" id="lien-he">
           <div className="store-closing-main">
             <p className="store-closing-head">
-              {store.closing?.headline || "Ghé shop"}
+              {store.closing?.headline || "Ghé chơi nhé"}
               {store.closing?.script && <span className="store-script">{store.closing.script}</span>}
             </p>
             <ul className="store-contact">
