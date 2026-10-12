@@ -3130,6 +3130,14 @@ img {
   color: var(--pop-on);
 }
 
+.store-empty {
+  margin: 0;
+  padding: 48px 0;
+  text-align: center;
+  font-size: 17px;
+  color: var(--pop-ink-2);
+}
+
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
