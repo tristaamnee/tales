@@ -118,6 +118,19 @@ export default function MemberView({ member: m, teamName }: { member: Member; te
           </div>
         </section>
 
+        {m.store && (
+          <section className="store-promo" aria-label="Cửa hàng">
+            <div>
+              <p className="store-promo-kicker">Cửa hàng</p>
+              <h2 className="store-promo-name">{m.store.name}</h2>
+              {m.store.intro && <p className="store-promo-text">{m.store.intro}</p>}
+            </div>
+            <AppLink className="store-promo-link" to={`/thanh-vien/${m.id}/cua-hang/`}>
+              Vào cửa hàng <span aria-hidden="true">→</span>
+            </AppLink>
+          </section>
+        )}
+
         {m.stats?.length ? (
           <section className="stats-band" aria-label="Số liệu chính">
             <dl className="stats">

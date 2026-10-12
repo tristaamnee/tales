@@ -6,12 +6,14 @@ import type { TeamView } from "@/lib/content";
 import HomeView from "./HomeView";
 import MemberView from "./MemberView";
 import { NavContext } from "./nav";
+import StoreView from "./StoreView";
 
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
-// "/thanh-vien/nhung/" -> "nhung"; trang chủ -> null
+// "/thanh-vien/nhung/" -> "nhung"; "/thanh-vien/nhung/cua-hang/" -> "nhung/cua-hang"; trang chủ -> null
 function slugOf(pathname: string): string | null {
-  return pathname.match(/^\/thanh-vien\/([a-z0-9-]+)\/?$/)?.[1] ?? null;
+  const m = pathname.match(/^\/thanh-vien\/([a-z0-9-]+)(\/cua-hang)?\/?$/);
+  return m ? m[1] + (m[2] ? "/cua-hang" : "") : null;
 }
 
 function shuffled<T>(list: T[]): T[] {
@@ -31,7 +33,9 @@ const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayout
 // không tải trang, không chờ hiệu ứng. Mở link trực tiếp / F5 vẫn có trang HTML dựng sẵn cho từng slug.
 export default function TalesApp({ team }: { team: TeamView }) {
   const slug = slugOf(usePathname());
-  const member = slug ? team.members.find((m) => m.id === slug) : undefined;
+  const [memberId, sub] = slug ? slug.split("/") : [];
+  const member = memberId ? team.members.find((m) => m.id === memberId) : undefined;
+  const store = sub === "cua-hang" ? member?.store : undefined;
 
   // Thứ tự trang chủ: xáo một lần cho cả phiên, quay lại trang chủ vẫn giữ nguyên.
   const [order, setOrder] = useState(() => team.members.map((m) => m.id));
@@ -85,8 +89,12 @@ export default function TalesApp({ team }: { team: TeamView }) {
   }, [team]);
 
   useEffect(() => {
-    document.title = member ? `${member.name} — ${team.name}` : `${team.name} — Our Team`;
-  }, [member, team.name]);
+    document.title = store
+      ? `${store.name} — ${team.name}`
+      : member
+        ? `${member.name} — ${team.name}`
+        : `${team.name} — Our Team`;
+  }, [member, store, team.name]);
 
   // Nhấn rồi kéo không làm gì: chặn kéo ảnh / link (globals.css đã tắt bôi đen chữ).
   useEffect(() => {
@@ -110,7 +118,9 @@ export default function TalesApp({ team }: { team: TeamView }) {
     <NavContext.Provider value={{ go, href }}>
       {/* key: đổi màn hình thì phần tử mới hiện dần lên rất nhanh (0,2 giây), không chờ màn cũ. */}
       <div className="view" key={slug ?? "home"}>
-        {member ? (
+        {store && member ? (
+          <StoreView store={store} member={member} />
+        ) : member ? (
           <MemberView member={member} teamName={team.name} />
         ) : (
           <HomeView team={team} members={members} ready={ready} intro={!introDone} />
