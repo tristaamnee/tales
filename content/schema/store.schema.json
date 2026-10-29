@@ -71,7 +71,7 @@
           "price": { "description": "Giá bán (đồng).", "type": "integer", "minimum": 0 },
           "compareAt": { "description": "Giá gốc trước giảm (đồng), hiện gạch ngang.", "type": "integer", "minimum": 0 },
           "description": { "type": "string" },
-          "badge": { "description": "Nhãn nhỏ: Bán chạy, Mới, -15%…", "type": "string", "maxLength": 16 },
+          "badge": { "description": "Nhãn nhỏ trên ảnh: Bán chạy, Mới, -15%, tên thương hiệu…", "type": "string", "maxLength": 32 },
           "featured": { "description": "true = hiện trong mục Sản phẩm nổi bật.", "type": "boolean" },
           "image": { "description": "Ảnh sản phẩm trong public/ (vd images/store/nen-thom.webp). Không có thì dùng hình minh họa art.", "type": "string" },
           "art": {

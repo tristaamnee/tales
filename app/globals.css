@@ -3141,6 +3141,10 @@ a.product-link:hover .round-go {
   position: absolute;
   top: 12px;
   left: 12px;
+  max-width: calc(100% - 24px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   padding: 4px 12px;
   border-radius: 999px;
   background: var(--pop-orange);
