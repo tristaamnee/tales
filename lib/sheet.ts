@@ -78,7 +78,7 @@ const ART_WORDS: [RegExp, ProductArt][] = [
   [/\b(tui|tote)\b/, "tote"],
   [/\bop\b/, "case"],
   [/\b(bong tai|khuyen tai|trang suc|vong|nhan bac)\b/, "earrings"],
-  [/\b(so|vo|but)\b/, "notebook"],
+  [/\b(so tay|vo|but)\b/, "notebook"],
   [/\b(thiep|qua)\b/, "card"],
 ];
 const TINTS: Record<string, Product["tint"]> = { cam: "peach", hong: "pink", vang: "sun" };
