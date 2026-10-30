@@ -135,7 +135,7 @@ export function productsFromCsv(text: string): SheetProducts {
       name: row.name,
       category,
       price,
-      art: ART_WORDS.find(([re]) => re.test(artText))?.[1] || "card",
+      art: ART_WORDS.find(([re]) => re.test(artText))?.[1] || "hanger",
       tint: TINTS[plain(row.tint || "")] || TINT_CYCLE[products.length % TINT_CYCLE.length],
     };
     if (compareAt && compareAt > price) p.compareAt = compareAt;

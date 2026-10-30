@@ -76,7 +76,7 @@
           "image": { "description": "Ảnh sản phẩm trong public/ (vd images/store/nen-thom.webp). Không có thì dùng hình minh họa art.", "type": "string" },
           "art": {
             "description": "Hình minh họa khi chưa có ảnh.",
-            "enum": ["candle", "mug", "vase", "tote", "case", "earrings", "notebook", "card"]
+            "enum": ["candle", "mug", "vase", "tote", "case", "earrings", "notebook", "card", "hanger"]
           },
           "tint": { "description": "Màu nền ô sản phẩm.", "enum": ["peach", "pink", "sun"] },
           "soldOut": { "description": "true = hết hàng, thẻ không bấm được.", "type": "boolean" },

@@ -70,11 +70,7 @@ function Thumb({ p }: { p: Product }) {
 function buyLabel(p: Product): string {
   if (p.soldOut) return "Hết hàng";
   if (!p.url) return "Sắp mở bán";
-  try {
-    return /(^|\.)shopee\./.test(new URL(p.url).hostname) ? "Mua trên Shopee" : "Xem nơi bán";
-  } catch {
-    return "Xem nơi bán";
-  }
+  return "Mua ngay";
 }
 
 function ProductLink({ p, children }: { p: Product; children: React.ReactNode }) {

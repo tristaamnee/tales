@@ -75,6 +75,16 @@ const SHAPES: Record<Art, React.ReactNode> = {
       <rect className="pa-3" x="128" y="38" width="10" height="44" />
     </>
   ),
+  // Móc treo đồ: hình mặc định khi chưa có ảnh (tủ đồ chủ yếu là quần áo).
+  hanger: (
+    <>
+      <path className="pa-line" d="M100 58v-6c0-6 10-6 10-14s-6-12-12-12-11 4-11 10" />
+      <path className="pa-line pa-thick" d="M100 58 46 88h108z" />
+      <path className="pa-2" d="M84 88c4 7 28 7 32 0l8 22-10 6 22 58H64l22-58-10-6z" />
+      <rect className="pa-1" x="80" y="114" width="40" height="9" rx="4.5" />
+      <circle className="pa-3" cx="100" cy="148" r="7" />
+    </>
+  ),
   card: (
     <>
       <path className="pa-4 pa-edge" d="M44 70h112v86H44z" />
@@ -84,7 +94,7 @@ const SHAPES: Record<Art, React.ReactNode> = {
   ),
 };
 
-export default function ProductArt({ art = "card" }: { art?: Art }) {
+export default function ProductArt({ art = "hanger" }: { art?: Art }) {
   return (
     <svg className="product-art" viewBox="0 0 200 200" aria-hidden="true">
       {SHAPES[art]}

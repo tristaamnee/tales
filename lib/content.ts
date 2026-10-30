@@ -60,7 +60,7 @@ export type Member = {
 };
 
 // Cửa hàng của một thành viên: content/stores/<id>.json (schema: content/schema/store.schema.json)
-export type ProductArt = "candle" | "mug" | "vase" | "tote" | "case" | "earrings" | "notebook" | "card";
+export type ProductArt = "candle" | "mug" | "vase" | "tote" | "case" | "earrings" | "notebook" | "card" | "hanger";
 export type Product = {
   id: string;
   name: string;
